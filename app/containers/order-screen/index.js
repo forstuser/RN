@@ -94,7 +94,7 @@ class OrderScreen extends React.Component {
   };
 
   componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    //BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
   }
 
   componentDidMount() {
@@ -142,7 +142,7 @@ class OrderScreen extends React.Component {
 
   componentWillUnmount() {
     // alert("index screen");
-    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+    //BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
     this.didFocusSubscription.remove();
 
     if (socketIo.socket) {
@@ -161,11 +161,10 @@ class OrderScreen extends React.Component {
       this.state.order.status_type == ORDER_STATUS_TYPES.EXPIRED
     ) {
       this.props.navigation.navigate(SCREENS.MY_ORDERS_SCREEN);
-      return true;
+      //return true;
     } else {
       // alert("back");
-      this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
-      return true;
+      this.props.navigation.goBack();
     }
   };
 
