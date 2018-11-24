@@ -17,7 +17,7 @@ if (!__DEV__) {
 }
 export { API_BASE_URL, CASHFREE_APP_ID };
 
-const APP_VERSION_FOR_API = 20105;
+const APP_VERSION_FOR_API = 20104;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
