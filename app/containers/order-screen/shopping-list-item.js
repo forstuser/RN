@@ -15,7 +15,8 @@ class ShoppingListItem extends React.Component {
       deleteItem,
       orderStatus,
       orderId,
-      sellerId
+      sellerId,
+      order
     } = this.props;
     let cashback = 0;
     if (item.sku_measurement && item.sku_measurement.cashback_percent) {
@@ -139,13 +140,18 @@ class ShoppingListItem extends React.Component {
                   : ``}
               </Text>
             </Text>
-            {item.selling_price ? (
+            {item.selling_price || item.current_selling_price ? (
               <Text
                 style={{
                   color: colors.secondaryText
                 }}
               >
-                Rs. {item.selling_price}
+                Rs.{" "}
+                {item.current_selling_price &&
+                order.status_type == 4 &&
+                order.is_modified
+                  ? item.current_selling_price
+                  : item.selling_price}
               </Text>
             ) : null}
           </View>
@@ -186,7 +192,13 @@ class ShoppingListItem extends React.Component {
                         : colors.mainText
                   }}
                 >
-                  (Rs. {item.unit_price} x {item.quantity})
+                  (Rs.{" "}
+                  {item.current_unit_price &&
+                  order.status_type == 4 &&
+                  order.is_modified
+                    ? item.current_unit_price
+                    : item.unit_price}{" "}
+                  x {item.quantity})
                 </Text>
               ) : (
                 <View />

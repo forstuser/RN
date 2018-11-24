@@ -788,6 +788,7 @@ class OrderScreen extends React.Component {
                     <ShoppingListItem
                       sellerId={order.seller_id}
                       orderId={order.id}
+                      order={order}
                       orderStatus={order.status_type}
                       item={item}
                       index={index}
