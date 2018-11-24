@@ -122,6 +122,14 @@ class ShoppingListScreen extends React.Component {
             collectAtStoreFlag: false
           },
           () => {
+            const collectAtStoreFlag = this.props.navigation.getParam(
+              "collectAtStoreFlag",
+              false
+            );
+            this.setState({ collectAtStoreFlag });
+            this.props.navigation.setParams({
+              collectAtStoreFlag: false
+            });
             this.modalShow();
             this.loadSkuWishList();
             // this.getMySellers();

@@ -60,7 +60,8 @@ class MyShoppingList extends React.Component {
     sellers: [],
     showPlusMinusDelete: false,
     isOrderOnline: false,
-    selectedSeller: null
+    selectedSeller: null,
+    showLoader: false
   };
 
   componentDidMount() {
@@ -152,7 +153,7 @@ class MyShoppingList extends React.Component {
     //alert('Whatsapp');
   };
 
-  proceedToAddressScreen = seller => {
+  proceedToAddressScreen = async seller => {
     const collectAtStoreFlag = this.props.navigation.getParam(
       "collectAtStoreFlag"
     );
@@ -160,11 +161,33 @@ class MyShoppingList extends React.Component {
       "collectAtStoreFlag in my shopping list___________",
       collectAtStoreFlag
     );
-    this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
-      sellerId: seller.id,
-      orderType: ORDER_TYPES.FMCG,
-      flag: collectAtStoreFlag
-    });
+    if (collectAtStoreFlag == false) {
+      this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
+        sellerId: seller.id,
+        orderType: ORDER_TYPES.FMCG,
+        flag: collectAtStoreFlag
+      });
+    } else {
+      this.setState({ showLoader: true });
+      try {
+        const res = await placeOrder({
+          sellerId: seller.id,
+          orderType: ORDER_TYPES.FMCG,
+          collect_at_store: collectAtStoreFlag
+        });
+        const orderId = res.result.id;
+        this.props.navigation.popToTop();
+        this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
+          orderId,
+          flag: true
+        });
+      } catch (e) {
+        console.log("error", e);
+        showSnackbar({ text: e.message });
+      } finally {
+        this.setState({ showLoader: false });
+      }
+    }
   };
 
   selectSellerForOrder = (seller, flag) => {

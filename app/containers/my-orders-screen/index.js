@@ -34,11 +34,11 @@ export default class OrdersList extends React.Component {
   // }
 
   componentWillMount() {
+    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
     this.loadOrders();
     this.props.navigation.setParams({
       onBackPress: this.handleBackPress
     });
-    BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
   }
 
   componentWillUnmount() {
@@ -47,6 +47,7 @@ export default class OrdersList extends React.Component {
 
   handleBackPress = () => {
     this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+    return true;
   };
 
   loadOrders = async () => {

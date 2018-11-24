@@ -94,12 +94,11 @@ class OrderScreen extends React.Component {
   };
 
   componentWillMount() {
-    // BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
   }
 
   componentDidMount() {
     this.getOrderDetails(this.props);
-    //BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
@@ -143,9 +142,8 @@ class OrderScreen extends React.Component {
 
   componentWillUnmount() {
     // alert("index screen");
-
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
     this.didFocusSubscription.remove();
-    // BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
 
     if (socketIo.socket) {
       socketIo.socket.off("order-status-change");
@@ -163,9 +161,11 @@ class OrderScreen extends React.Component {
       this.state.order.status_type == ORDER_STATUS_TYPES.EXPIRED
     ) {
       this.props.navigation.navigate(SCREENS.MY_ORDERS_SCREEN);
+      return true;
     } else {
       // alert("back");
-      this.props.navigation.goBack();
+      this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+      return true;
     }
   };
 
@@ -788,6 +788,7 @@ class OrderScreen extends React.Component {
                     <ShoppingListItem
                       sellerId={order.seller_id}
                       orderId={order.id}
+                      order={order}
                       orderStatus={order.status_type}
                       item={item}
                       index={index}
