@@ -43,7 +43,8 @@ import {
   SCREENS,
   ORDER_TYPES,
   SERVICE_PRICE_TYPES,
-  LOCATIONS
+  LOCATIONS,
+  PAYMENT_MODES
 } from "../../constants";
 
 import Status from "./status";
@@ -415,7 +416,7 @@ class OrderScreen extends React.Component {
       const res = await completeOrder({
         orderId: order.id,
         sellerId: order.seller_id,
-        payment_mode: 1
+        payment_mode: PAYMENT_MODES.OFFLINE
       });
       console.log("res for work is ", res);
       this.setState({ order: res.result.order }, () => {
@@ -447,7 +448,7 @@ class OrderScreen extends React.Component {
       const res = await completeOrder({
         orderId: order.id,
         sellerId: order.seller_id,
-        payment_mode: 5
+        payment_mode: PAYMENT_MODES.CREDIT
       });
 
       this.setState({ order: res.result.order }, () => {

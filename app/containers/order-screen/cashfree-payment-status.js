@@ -7,12 +7,13 @@ import PendingImage from "../../images/status_pending.png";
 
 import {
   API_BASE_URL,
-  CASHFREE_APP_ID,
   completeOrder,
   getGeneratedSignature,
-  getTransactionStatus
+  getTransactionStatus,
+  CASHFREE_APP_ID,
+  CASHFREE_URL
 } from "../../api";
-import { SCREENS } from "../../constants";
+import { SCREENS, PAYMENT_MODES, PAYMENT_STATUS_TYPES } from "../../constants";
 
 let webViewLoadCount = 1;
 
@@ -39,7 +40,10 @@ class CashFreePaymentStatusScreen extends Component {
     const order = this.props.navigation.getParam("order", null);
     const { orderIdWebView, transactionStatus } = this.state;
 
-    if (transactionStatus && transactionStatus.status_type != 16) {
+    if (
+      transactionStatus &&
+      transactionStatus.status_type != PAYMENT_STATUS_TYPES.SUCCESS
+    ) {
       const res = await getTransactionStatus(orderIdWebView);
       order["expense_id"] = res.expense_id || null;
       this.setState({
@@ -61,7 +65,7 @@ class CashFreePaymentStatusScreen extends Component {
       const res = await completeOrder({
         orderId: order.id,
         sellerId: order.seller_id,
-        payment_mode: 4
+        payment_mode: PAYMENT_MODES.ONLINE
       });
     } catch (e) {
       console.log(e.message);
@@ -86,8 +90,7 @@ class CashFreePaymentStatusScreen extends Component {
       }
 
       const postData = {
-        appId: "4266316b86143383be42108a6624",
-        //test -> 1844ecd62445987b8152c2304481, production -> 4266316b86143383be42108a6624
+        appId: CASHFREE_APP_ID,
         orderId: (order.id || "").toString(),
         orderAmount: (totalAmount || 0).toString(),
         orderCurrency: "INR",
@@ -194,10 +197,11 @@ class CashFreePaymentStatusScreen extends Component {
       //Production -> https://s3.ap-south-1.amazonaws.com/binbillpaymentgateway-prod/index.html
       <WebView
         originWhitelist={["*"]}
-        source={{
-          uri:
-            "https://s3.ap-south-1.amazonaws.com/binbillpaymentgateway-prod/index.html"
-        }}
+        // source={{
+        //   uri:
+        //     "https://s3.ap-south-1.amazonaws.com/binbillpaymentgateway-prod/index.html"
+        // }}
+        source={{ uri: CASHFREE_URL }}
         style={{
           width: "100%",
           height: "100%"
@@ -233,29 +237,40 @@ class CashFreePaymentStatusScreen extends Component {
     let imageSource = null;
     let paymentMessage = null;
     const { transactionStatus, showWebView, orderAmountWebView } = this.state;
-    if (transactionStatus && transactionStatus.status_type == 16) {
+    if (
+      transactionStatus &&
+      transactionStatus.status_type == PAYMENT_STATUS_TYPES.SUCCESS
+    ) {
       statusMessage = "Payment Received Successfully";
       imageSource = SuccessImage;
       paymentMessage =
         "Your payment of Rs. " + orderAmountWebView + " was successful";
     } else if (
-      (transactionStatus && transactionStatus.status_type == 18) ||
-      (transactionStatus && transactionStatus.status_type == 9)
+      (transactionStatus &&
+        transactionStatus.status_type == PAYMENT_STATUS_TYPES.FAILED) ||
+      (transactionStatus &&
+        transactionStatus.status_type == PAYMENT_STATUS_TYPES.VALIDATION_ERROR)
     ) {
       statusMessage = "Payment Failed";
       imageSource = FailedImage;
       paymentMessage =
         "Your transaction of Rs. " + orderAmountWebView + " was failed";
     } else if (
-      (transactionStatus && transactionStatus.status_type == 13) ||
-      (transactionStatus && transactionStatus.status_type == 8) ||
-      (transactionStatus && transactionStatus.status_type == 4)
+      (transactionStatus &&
+        transactionStatus.status_type == PAYMENT_STATUS_TYPES.PENDING) ||
+      (transactionStatus &&
+        transactionStatus.status_type == PAYMENT_STATUS_TYPES.FLAGGED) ||
+      (transactionStatus &&
+        transactionStatus.status_type == PAYMENT_STATUS_TYPES.STATUS_4)
     ) {
       statusMessage = "Payment Pending";
       imageSource = PendingImage;
       paymentMessage =
         "Your transaction of Rs. " + orderAmountWebView + " was pending";
-    } else if (transactionStatus && transactionStatus.status_type == 17) {
+    } else if (
+      transactionStatus &&
+      transactionStatus.status_type == PAYMENT_STATUS_TYPES.CANCELLED
+    ) {
       statusMessage = "Payment Cancelled";
       imageSource = PendingImage;
       paymentMessage =
@@ -317,7 +332,8 @@ class CashFreePaymentStatusScreen extends Component {
               >
                 {paymentMessage}
               </Text>
-              {transactionStatus && transactionStatus.status_type == 16 ? (
+              {transactionStatus &&
+              transactionStatus.status_type == PAYMENT_STATUS_TYPES.SUCCESS ? (
                 <View style={{ flexDirection: "row", marginTop: 35 }}>
                   <Button
                     onPress={() =>
@@ -341,12 +357,23 @@ class CashFreePaymentStatusScreen extends Component {
                   />
                 </View>
               ) : null}
-              {(transactionStatus && transactionStatus.status_type == 18) ||
-              (transactionStatus && transactionStatus.status_type == 9) ||
-              (transactionStatus && transactionStatus.status_type == 13) ||
-              (transactionStatus && transactionStatus.status_type == 4) ||
-              (transactionStatus && transactionStatus.status_type == 8) ||
-              (transactionStatus && transactionStatus.status_type == 17) ? (
+              {(transactionStatus &&
+                transactionStatus.status_type == PAYMENT_STATUS_TYPES.FAILED) ||
+              (transactionStatus &&
+                transactionStatus.status_type ==
+                  PAYMENT_STATUS_TYPES.VALIDATION_ERROR) ||
+              (transactionStatus &&
+                transactionStatus.status_type ==
+                  PAYMENT_STATUS_TYPES.PENDING) ||
+              (transactionStatus &&
+                transactionStatus.status_type ==
+                  PAYMENT_STATUS_TYPES.STATUS_4) ||
+              (transactionStatus &&
+                transactionStatus.status_type ==
+                  PAYMENT_STATUS_TYPES.FLAGGED) ||
+              (transactionStatus &&
+                transactionStatus.status_type ==
+                  PAYMENT_STATUS_TYPES.CANCELLED) ? (
                 <View style={{ flexDirection: "row", marginTop: 35 }}>
                   <Button
                     onPress={() =>
@@ -360,13 +387,19 @@ class CashFreePaymentStatusScreen extends Component {
                   />
                   <Button
                     onPress={
-                      transactionStatus.status_type == 18 ||
-                      transactionStatus.status_type == 9 ||
-                      transactionStatus.status_type == 17
+                      transactionStatus.status_type ==
+                        PAYMENT_STATUS_TYPES.FAILED ||
+                      transactionStatus.status_type ==
+                        PAYMENT_STATUS_TYPES.VALIDATION_ERROR ||
+                      transactionStatus.status_type ==
+                        PAYMENT_STATUS_TYPES.CANCELLED
                         ? this.retryPressFail
-                        : transactionStatus.status_type == 13 ||
-                          transactionStatus.status_type == 8 ||
-                          transactionStatus.status_type == 4
+                        : transactionStatus.status_type ==
+                            PAYMENT_STATUS_TYPES.PENDING ||
+                          transactionStatus.status_type ==
+                            PAYMENT_STATUS_TYPES.FLAGGED ||
+                          transactionStatus.status_type ==
+                            PAYMENT_STATUS_TYPES.STATUS_4
                         ? this.retryPressPending
                         : null
                     }
