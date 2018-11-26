@@ -11,11 +11,11 @@ import Analytics from "../analytics";
 
 let API_BASE_URL = "https://consumer-stage.binbill.com";
 if (!__DEV__) {
-  API_BASE_URL = "https://consumer.binbill.com";
+  API_BASE_URL = "https://consumer-stage.binbill.com";
 }
 // test -> let CASHFREE_APP_ID = "1844ecd62445987b8152c2304481";
 // test -> let CASHFREE_URL =
-("http://binbillpaymentgateway.s3-website.ap-south-1.amazonaws.com/");
+// ("http://binbillpaymentgateway.s3-website.ap-south-1.amazonaws.com/");
 
 let CASHFREE_APP_ID = "4266316b86143383be42108a6624";
 let CASHFREE_URL =
