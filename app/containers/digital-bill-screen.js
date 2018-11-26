@@ -53,6 +53,7 @@ class DigitalBillScreen extends Component {
     } else {
       this.props.navigation.goBack();
     }
+    return true;
   };
   getDigitalBill = async order => {
     console.log("order", order);

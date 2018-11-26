@@ -51,6 +51,7 @@ export default class ShoppingOrderReviewsScreen extends React.Component {
 
   onBackPress = () => {
     this.props.navigation.navigate(SCREENS.ORDER_SCREEN);
+    return true;
   };
   onSubmit = async () => {
     const { navigation } = this.props;
