@@ -293,7 +293,6 @@ class ShoppingListScreen extends React.Component {
         this.setSelectedSellers(seller ? [{ ...seller }] : []);
         AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
       }
-      console.log("sellerExist", sellerExist);
     }
     console.log("in redux selelr", defaultSeller);
   };
