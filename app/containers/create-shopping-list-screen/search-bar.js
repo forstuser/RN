@@ -306,6 +306,7 @@ export default class SearchBar extends React.Component {
         );
         filteredCategories =
           activeMainCategoryFromSellersMainCategories.categories;
+        console.log("get categories form parent is", sellerMainCategories);
         // filteredCategories = sellerCategoryIds;
         // activeMainCategoryFromSellersMainCategories.length > 0
         //   ? activeMainCategoryFromSellersMainCategories.categories.map(

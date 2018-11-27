@@ -250,7 +250,8 @@ class ShoppingListScreen extends React.Component {
           measurementTypes,
           activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
           // activeMainCategoryId: 0,
-          selectedCategoryIds: [],
+          selectedCategoryIds:
+            pastItems.length > 0 ? [] : [mainCategories[0].categories[0].id],
           // items: pastItems,
           brands: brandsList,
           sellers: res.seller_list
@@ -429,7 +430,7 @@ class ShoppingListScreen extends React.Component {
     const newState = { activeMainCategoryId, selectedBrands: [] };
 
     if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
-      newState.selectedCategoryIds = [];
+      newState.selectedCategoryIds = [mainCategory.categories[0].id];
       newState.brands = listBrands;
     } else {
       newState.items = this.state.pastItems;
@@ -635,10 +636,6 @@ class ShoppingListScreen extends React.Component {
       selectedBrands,
       selectedSeller
     } = this.state;
-    console.log(
-      "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      this.state.activeMainCategoryId
-    );
     try {
       const data = {
         mainCategoryId: activeMainCategoryId ? activeMainCategoryId : undefined,
