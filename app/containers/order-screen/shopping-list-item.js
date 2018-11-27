@@ -26,6 +26,9 @@ class ShoppingListItem extends React.Component {
         item.quantity
       ).toFixed(2);
     }
+    if (cashback > 10) {
+      cashback = 10;
+    }
 
     let updatedCashback = 0;
     if (
@@ -49,6 +52,10 @@ class ShoppingListItem extends React.Component {
       updatedCashback = updatedCashback.toFixed(2);
     }
 
+    if (updatedCashback > 10) {
+      updatedCashback = 10;
+    }
+
     let pack_no = "";
     let quant = "";
 
@@ -67,6 +74,7 @@ class ShoppingListItem extends React.Component {
     if (item.quantity && item.quantity > 1) {
       quant = " x " + item.quantity;
     }
+
     return (
       <View
         style={{
@@ -160,8 +168,28 @@ class ShoppingListItem extends React.Component {
               marginTop: 5
             }}
           >
+            {item.offer_discount > 0 ? (
+              <View>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: colors.success
+                  }}
+                >
+                  You saved ₹{" "}
+                  {item.current_unit_price * item.quantity -
+                    item.current_selling_price}{" "}
+                  <Text style={{ color: colors.mainBlue }}>
+                    ({item.offer_discount}% off)
+                  </Text>
+                </Text>
+              </View>
+            ) : (
+              <View />
+            )}
             <View style={{ flexDirection: "row" }}>
-              {cashback > 0 ? (
+              {cashback > 0 &&
+              (!item.offer_discount || item.offer_discount <= 0) ? (
                 <Text
                   weight="Medium"
                   style={{
@@ -173,7 +201,23 @@ class ShoppingListItem extends React.Component {
                         : colors.mainBlue
                   }}
                 >
-                  You get back ₹ {cashback}
+                  You get cashback ₹ {cashback}
+                </Text>
+              ) : cashback > 0 &&
+                item.offer_discount &&
+                item.offer_discount > 0 ? (
+                <Text
+                  weight="Medium"
+                  style={{
+                    fontSize: 10,
+                    color:
+                      (item.suggestion && orderStatus === 4) ||
+                      !item.item_availability
+                        ? colors.secondaryText
+                        : colors.mainBlue
+                  }}
+                >
+                  You get additional cashback of ₹ {cashback}
                 </Text>
               ) : (
                 <View />
@@ -195,8 +239,11 @@ class ShoppingListItem extends React.Component {
                   (Rs.{" "}
                   {item.current_unit_price &&
                   order.status_type == 4 &&
-                  order.is_modified
+                  order.is_modified &&
+                  (item.offer_discount && item.offer_discount <= 0)
                     ? item.current_unit_price
+                    : item.offer_discount && item.offer_discount > 0
+                    ? item.current_selling_price / item.quantity
                     : item.unit_price}{" "}
                   x {item.quantity})
                 </Text>

@@ -15,7 +15,7 @@ if (!__DEV__) {
 }
 // test -> let CASHFREE_APP_ID = "1844ecd62445987b8152c2304481";
 // test -> let CASHFREE_URL =
-("http://binbillpaymentgateway.s3-website.ap-south-1.amazonaws.com/");
+//("http://binbillpaymentgateway.s3-website.ap-south-1.amazonaws.com/");
 
 let CASHFREE_APP_ID = "4266316b86143383be42108a6624";
 let CASHFREE_URL =

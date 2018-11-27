@@ -48,6 +48,7 @@ export default class SkuItemOffer extends React.Component {
     } catch (error) {
       console.log(error);
     } finally {
+      this.props.getWishList();
       this.setState({ showBtn: false });
       //console.log("Item added");
     }
@@ -141,6 +142,16 @@ export default class SkuItemOffer extends React.Component {
               }}
             >
               {item.sku_title}
+            </Text>
+            <Text
+              style={{
+                marginLeft: 5,
+                fontSize: 12,
+                flex: 1
+              }}
+            >
+              ({item.measurement_value}
+              {""} {item.acronym})
             </Text>
             <Text
               weight="Bold"

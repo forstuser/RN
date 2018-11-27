@@ -8,13 +8,19 @@ import {
   TouchableOpacity,
   Image,
   Animated,
-  Dimensions
+  Dimensions,
+  AsyncStorage
 } from "react-native";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 import I18n from "../../i18n";
 import Tour from "../../components/app-tour";
-import { API_BASE_URL, getAccessoriesCategory } from "../../api";
+import {
+  API_BASE_URL,
+  getAccessoriesCategory,
+  getSkuWishList,
+  addSkuItemToWishList
+} from "../../api";
 import { actions as uiActions } from "../../modules/ui";
 import { Text, Button, ScreenContainer } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -26,7 +32,7 @@ import TabsScreenContainer from "../../components/tabs-screen-container";
 import OffersTab from "./offers-tabs";
 import AccessoriesTab from "./accessories-tab";
 import AccessoryCategoriesFilterModal from "./accessory-categories-filter-modal";
-
+import { showSnackbar } from "../../utils/snackbar";
 const offersIcon = require("../../images/deals.png");
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -45,14 +51,44 @@ class DealsScreen extends Component {
       accessoryCategories: [],
       selectedAccessoryCategoryIds: [],
       selectedOfferCategory: null,
-      showFilter: true
+      showFilter: true,
+      wishList: [],
+      selectedSeller: [],
+      skuItemIdsCurrentlyModifying: []
     };
   }
   componentDidMount() {
     // Analytics.logEvent(Analytics.EVENTS.CLICK_DEALS);
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.fetchWishlist();
+      }
+    );
     this.handleDeeplink(this.props);
   }
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
+  }
+
+  fetchWishlist = async () => {
+    const defaultSeller = JSON.parse(
+      await AsyncStorage.getItem("defaultSeller")
+    );
+    this.setState({ selectedSeller: defaultSeller });
+    try {
+      const res = await getSkuWishList();
+      this.setState({ wishList: res.result.wishlist_items });
+    } catch (wishListError) {
+      console.log("wishListError: ", wishListError);
+      //this.setState({ wishListError });
+    } finally {
+      this.setState({
+        wishList: res.result.wishlist_items
+      });
+    }
+  };
+
   componentWillReceiveProps(newProps) {
     this.handleDeeplink(newProps);
   }
@@ -116,15 +152,67 @@ class DealsScreen extends Component {
     });
   };
 
+  changeIndexQuantity = async (index, quantity, callBack = () => null) => {
+    const wishList = [...this.state.wishList];
+
+    const skuItemIdsCurrentlyModifying = [
+      ...this.state.skuItemIdsCurrentlyModifying
+    ];
+
+    const item = { ...wishList[index] };
+
+    if (
+      item.sku_measurement &&
+      !skuItemIdsCurrentlyModifying.includes(item.sku_measurement.id)
+    ) {
+      skuItemIdsCurrentlyModifying.push(item.sku_measurement.id);
+    }
+    if (quantity <= 0) {
+      item.quantity = 0;
+    } else {
+      item.quantity = quantity;
+    }
+    this.setState({ skuItemIdsCurrentlyModifying });
+    callBack({ wishList, skuItemIdsCurrentlyModifying });
+    try {
+      await addSkuItemToWishList(item);
+      if (quantity <= 0) {
+        wishList.splice(index, 1);
+      } else {
+        wishList[index].quantity = quantity;
+      }
+      this.setState({ wishList });
+      callBack({ wishList, skuItemIdsCurrentlyModifying });
+    } catch (e) {
+      console.log("wishlist error: ", e);
+      showSnackbar({ text: e.message });
+    } finally {
+      if (item.sku_measurement) {
+        const idx = skuItemIdsCurrentlyModifying.findIndex(
+          id => id == item.sku_measurement.id
+        );
+        skuItemIdsCurrentlyModifying.splice(idx, 1);
+        this.setState({ skuItemIdsCurrentlyModifying });
+        callBack({ wishList, skuItemIdsCurrentlyModifying });
+      }
+    }
+  };
+
   render() {
     const {
       activeTabIndex,
       selectedAccessoryCategoryIds,
       accessoryCategories,
       selectedOfferCategory,
-      showFilter
+      showFilter,
+      wishList,
+      selectedSeller
     } = this.state;
-
+    const collectAtStoreFlag = this.props.navigation.getParam(
+      "collectAtStoreFlag",
+      false
+    );
+    console.log("Seller in Offers_________", selectedSeller);
     return (
       <TabsScreenContainer
         navigation={this.props.navigation}
@@ -135,46 +223,102 @@ class DealsScreen extends Component {
         title="Offers"
         onTabChange={this.onTabChange}
         headerRight={
-          <View style={{ flexDirection: "row" }}>
-            {activeTabIndex == 1 ? (
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate(SCREENS.ORDER_HISTORY_SCREEN);
-                }}
-              >
-                <Image
-                  resizeMode="contain"
-                  style={{ width: 25, height: 25, tintColor: "#fff" }}
-                  source={require("../../images/accessory_orders_icon.png")}
-                />
-              </TouchableOpacity>
-            ) : (
-              <View />
-            )}
-            {(activeTabIndex == 0 && selectedOfferCategory) ||
-            (activeTabIndex == 1 &&
-              accessoryCategories &&
-              accessoryCategories.length > 0 &&
-              showFilter) ? (
-              <TouchableOpacity
-                ref={node => (this.filterIconRef = node)}
-                onLayout={this.showDealsTour}
-                style={{ marginLeft: 15, paddingHorizontal: 2 }}
-                onPress={() =>
-                  activeTabIndex == 0
-                    ? this.offersFilterModalRef.show()
-                    : this.accessoryCategoriesFilterModal.show(
-                        selectedAccessoryCategoryIds
-                      )
-                }
-              >
-                <Icon name="md-options" color="#fff" size={30} />
-              </TouchableOpacity>
-            ) : (
-              <View />
-            )}
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 7
+            }}
+          >
+            <TouchableOpacity
+              style={{ paddingHorizontal: 5, marginHorizontal: 5 }}
+              onPress={() => {
+                Analytics.logEvent(Analytics.EVENTS.OPEN_CART_SHOPPING_LIST);
+                this.props.navigation.push(
+                  SCREENS.SHOPPING_LIST_OFFERS_SCREEN,
+                  {
+                    wishList,
+                    selectedSeller,
+                    collectAtStoreFlag: collectAtStoreFlag,
+                    changeIndexQuantity: this.changeIndexQuantity
+                  }
+                );
+              }}
+            >
+              <Image
+                tintColor="#fff"
+                style={{ width: 25, height: 25 }}
+                source={require("../../images/blank_shopping_list.png")}
+              />
+              {wishList.length > 0 ? (
+                <View
+                  style={{
+                    position: "absolute",
+                    backgroundColor: "#fff",
+                    top: 0,
+                    right: 0,
+                    width: 15,
+                    height: 15,
+                    borderRadius: 8,
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  <Text
+                    weight="Medium"
+                    style={{ fontSize: 9, color: colors.pinkishOrange }}
+                  >
+                    {wishList.length}
+                  </Text>
+                </View>
+              ) : (
+                <View />
+              )}
+            </TouchableOpacity>
           </View>
         }
+        // headerRight={
+        //   <View style={{ flexDirection: "row" }}>
+        //     {activeTabIndex == 1 ? (
+        //       <TouchableOpacity
+        //         onPress={() => {
+        //           this.props.navigation.navigate(SCREENS.ORDER_HISTORY_SCREEN);
+        //         }}
+        //       >
+        //         <Image
+        //           resizeMode="contain"
+        //           style={{ width: 25, height: 25, tintColor: "#fff" }}
+        //           source={require("../../images/accessory_orders_icon.png")}
+        //         />
+        //       </TouchableOpacity>
+        //     ) : (
+        //       <View />
+        //     )}
+        //     {(activeTabIndex == 0 && selectedOfferCategory) ||
+        //     (activeTabIndex == 1 &&
+        //       accessoryCategories &&
+        //       accessoryCategories.length > 0 &&
+        //       showFilter) ? (
+        //       <TouchableOpacity
+        //         ref={node => (this.filterIconRef = node)}
+        //         onLayout={this.showDealsTour}
+        //         style={{ marginLeft: 15, paddingHorizontal: 2 }}
+        //         onPress={() =>
+        //           activeTabIndex == 0
+        //             ? this.offersFilterModalRef.show()
+        //             : this.accessoryCategoriesFilterModal.show(
+        //                 selectedAccessoryCategoryIds
+        //               )
+        //         }
+        //       >
+        //         <Icon name="md-options" color="#fff" size={30} />
+        //       </TouchableOpacity>
+        //     ) : (
+        //       <View />
+        //     )}
+        //   </View>
+        // }
         showNoTabs={true}
         tabs={[
           <OffersTab
@@ -186,6 +330,8 @@ class DealsScreen extends Component {
               this.setState({ selectedOfferCategory });
             }}
             navigation={this.props.navigation}
+            wishList={wishList}
+            getWishList={this.fetchWishlist}
           />
           // <AccessoriesTab
           //   accessoriesTabRef={ref => {

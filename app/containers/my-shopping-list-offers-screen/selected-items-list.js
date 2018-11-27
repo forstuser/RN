@@ -17,17 +17,19 @@ import QuantityPlusMinus from "../../components/quantity-plus-minus";
 export default class SelectedItemsList extends React.Component {
   render() {
     const {
-      measurementTypes,
+      //measurementTypes,
       selectedItems,
       changeIndexQuantity,
       skuItemIdsCurrentlyModifying
     } = this.props;
-    console.log("items", selectedItems);
+
+    console.log("Items in My Shopping List_______________:", selectedItems);
     return (
       <FlatList
         contentContainerStyle={{
           borderBottomWidth: 1,
-          borderBottomColor: "#eee"
+          borderBottomColor: "#eee",
+          backgroundColor: "#fff"
         }}
         data={selectedItems}
         extraData={skuItemIdsCurrentlyModifying}
@@ -74,6 +76,17 @@ export default class SelectedItemsList extends React.Component {
           } else {
             isLoading = false;
           }
+          let offerPrice = 0;
+          if (item.offer_discount > 0) {
+            offerPrice = parseFloat(
+              parseFloat(item.sku_measurement.mrp) *
+                parseFloat(1 - parseFloat(item.offer_discount) / 100)
+            ).toFixed(2);
+          }
+
+          let savedPrice = 0;
+          if (item.offer_discount && item.offer_discount > 0)
+            savedPrice = parseFloat(item.sku_measurement.mrp) - offerPrice;
 
           return (
             <View
@@ -94,7 +107,11 @@ export default class SelectedItemsList extends React.Component {
                     }}
                     resizeMode="contain"
                     source={{
-                      uri: API_BASE_URL + `/skus/${item.id}/images`
+                      uri:
+                        API_BASE_URL +
+                        `/skus/${item.id}/measurements/${
+                          item.sku_measurement.id
+                        }/images`
                     }}
                     //source={require("../../images/binbill_logo.png")}
                   />
@@ -119,11 +136,16 @@ export default class SelectedItemsList extends React.Component {
                         marginRight: 20
                       }}
                     >
-                      {item.sku_measurement
+                      {/* {item.sku_measurement
                         ? ` (${item.sku_measurement.measurement_value +
                             measurementTypes[
                               item.sku_measurement.measurement_type
                             ].acronym +
+                            pack_no})`
+                        : ``} */}
+                      {item.sku_measurement
+                        ? ` (${item.sku_measurement.measurement_value +
+                            item.sku_measurement.measurement_acronym +
                             pack_no})`
                         : ``}
                     </Text>
@@ -140,23 +162,81 @@ export default class SelectedItemsList extends React.Component {
                     }}
                   />
                 </View>
+                <View>
+                  <Text>
+                    Price: ₹{" "}
+                    {item.offer_discount > 0
+                      ? offerPrice
+                      : item.sku_measurement.mrp}{" "}
+                    {item.offer_discount > 0 ? (
+                      <Text style={{ color: colors.mainBlue }}>
+                        ({item.offer_discount}% off)
+                      </Text>
+                    ) : null}
+                  </Text>
+                </View>
+                {item.offer_discount > 0 ? (
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        marginTop: 4,
+                        textDecorationLine: "line-through",
+                        textDecorationColor: "#000"
+                      }}
+                    >
+                      MRP: ₹ {item.sku_measurement.mrp}
+                    </Text>
+                  </View>
+                ) : (
+                  <View />
+                )}
+                {item.offer_discount > 0 ? (
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        marginTop: 8,
+                        color: colors.success
+                      }}
+                    >
+                      You save ₹ {savedPrice}
+                    </Text>
+                  </View>
+                ) : (
+                  <View />
+                )}
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    marginTop: 5
+                    marginTop: 0
                   }}
                 >
                   <View style={{ flex: 1 }}>
-                    {cashback ? (
+                    {cashback &&
+                    (!item.offer_discount || item.offer_discount <= 0) ? (
                       <Text
                         weight="Medium"
                         style={{
-                          fontSize: 10,
+                          fontSize: 12,
                           color: colors.mainBlue
                         }}
                       >
-                        Cashback Up to ₹ {cashback.toFixed(2)}
+                        You get cashback ₹ {cashback.toFixed(2)}
+                      </Text>
+                    ) : cashback &&
+                      item.offer_discount &&
+                      item.offer_discount > 0 ? (
+                      <Text
+                        weight="Medium"
+                        style={{
+                          fontSize: 12,
+                          color: colors.mainBlue,
+                          marginTop: 8
+                        }}
+                      >
+                        You get additional cashback of ₹ {cashback.toFixed(2)}
                       </Text>
                     ) : (
                       <View />
@@ -170,7 +250,7 @@ export default class SelectedItemsList extends React.Component {
                       style={{
                         alignItems: "center",
                         justifyContent: "center",
-                        marginTop: 1,
+                        marginTop: item.offer_discount > 0 ? -25 : 1,
                         marginRight: 5
                       }}
                     >
