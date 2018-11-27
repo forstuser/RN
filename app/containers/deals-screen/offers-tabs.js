@@ -33,6 +33,7 @@ import Analytics from "../../analytics";
 import SkuItemOffer from "./single-sku-offer";
 import SingleNormalOffer from "./single-normal-offer";
 const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const ITEM_SELECTOR_HEIGHT = 120;
@@ -251,11 +252,14 @@ export default class OffersTab extends React.Component {
           <View
             style={[
               {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                height: ITEM_SELECTOR_HEIGHT
+                // position: "absolute",
+                // top: 0,
+                // left: 0,
+                // right: 0,
+                height: windowHeight,
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center"
               }
               // {
               //   transform: [
@@ -266,16 +270,22 @@ export default class OffersTab extends React.Component {
               // }
             ]}
           >
+            <Image
+              style={{ width: 150, height: 150 }}
+              source={require("../../images/empty_offers.png")}
+              resizeMode="contain"
+            />
             <Text
+              weight="Medium"
               style={{
                 padding: 20,
                 fontSize: 16,
                 textAlign: "center",
-                marginTop: 20,
-                color: colors.secondaryText
+                marginTop: 5,
+                color: colors.mainText
               }}
             >
-              No offers available as of now from any of your sellers currently
+              No offers available as of now from any of your Sellers currently
             </Text>
           </View>
         )}
