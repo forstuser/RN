@@ -187,7 +187,13 @@ class ShoppingListItem extends React.Component {
             ) : (
               <View />
             )}
-            <View style={{ flexDirection: "row" }}>
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop:
+                  item.offer_discount && item.offer_discount > 0 ? 5 : 0
+              }}
+            >
               {cashback > 0 &&
               (!item.offer_discount || item.offer_discount <= 0) ? (
                 <Text
