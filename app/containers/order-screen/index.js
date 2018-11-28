@@ -65,10 +65,6 @@ let deviceWidth = Dimensions.get("window").width;
 //let webViewLoadCount = 1;
 
 class OrderScreen extends React.Component {
-  // static navigationOptions = {
-  //   title: "Order Details"
-  // };
-
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
 
@@ -429,7 +425,11 @@ class OrderScreen extends React.Component {
         // } else {
         //   this.openReviewsScreen();
         // }
-        this.openDigitalBill();
+        if (order.order_type == ORDER_TYPES.FMCG) {
+          this.openDigitalBill();
+        } else {
+          this.openReviewsScreen();
+        }
       });
 
       showSnackbar({ text: "Order completed!" });
@@ -452,7 +452,12 @@ class OrderScreen extends React.Component {
       });
 
       this.setState({ order: res.result.order }, () => {
-        this.openDigitalBill();
+        if (order.order_type == ORDER_TYPES.FMCG) {
+          this.openDigitalBill();
+        } else {
+          this.openReviewsScreen();
+        }
+        // this.openDigitalBill();
       });
 
       showSnackbar({ text: "Order completed!" });

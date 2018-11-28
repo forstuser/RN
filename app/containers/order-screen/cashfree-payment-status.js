@@ -231,6 +231,17 @@ class CashFreePaymentStatusScreen extends Component {
     // }
   };
 
+  postOrder = () => {
+    if (order.order_type == ORDER_TYPES.FMCG) {
+      this.props.navigation.navigate(SCREENS.DIGITAL_BILL_SCREEN, {
+        order: this.state.order,
+        fromOrderFlowScreen: true
+      });
+    } else {
+      this.props.openReviewsScreen();
+    }
+  };
+
   render() {
     const order = this.props.navigation.getParam("order", null);
     let statusMessage = null;
@@ -336,17 +347,15 @@ class CashFreePaymentStatusScreen extends Component {
               transactionStatus.status_type == PAYMENT_STATUS_TYPES.SUCCESS ? (
                 <View style={{ flexDirection: "row", marginTop: 35 }}>
                   <Button
-                    onPress={() =>
-                      // this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
-                      //   orderId: order.id
-                      // })
-                      this.props.navigation.navigate(
-                        SCREENS.DIGITAL_BILL_SCREEN,
-                        {
-                          order: this.state.order,
-                          fromOrderFlowScreen: true
-                        }
-                      )
+                    onPress={
+                      () => this.postOrder()
+                      // this.props.navigation.navigate(
+                      //   SCREENS.DIGITAL_BILL_SCREEN,
+                      //   {
+                      //     order: this.state.order,
+                      //     fromOrderFlowScreen: true
+                      //   }
+                      // )
                     }
                     text="Back"
                     color="secondary"
