@@ -2090,15 +2090,17 @@ export const getSellers = async ({
   });
 };
 
-export const inviteSeller = async ({ phoneNumber }) => {
-  return await apiRequest({
-    method: "post",
-    url: `/sellers/invite`,
-    data: {
-      contact_no: phoneNumber
-    }
-  });
-};
+// export const inviteSeller = async ({ phoneNumber,sellerName, }) => {
+//   return await apiRequest({
+//     method: "post",
+//     url: `/sellers/invite/details`,
+//     data: {
+//       seller_name:sellerName,
+//       contact_no: phoneNumber,
+
+//     }
+//   });
+// };
 
 export const getSellerDetails = async sellerId => {
   return await apiRequest({
@@ -2342,7 +2344,7 @@ export const deleteSeller = async sellerId => {
 
 export const inviteSellerByName = async ({
   shopName,
-  shopPhoneNumber,
+  phoneNumber,
   address
 }) => {
   return await apiRequest({
@@ -2350,7 +2352,7 @@ export const inviteSellerByName = async ({
     url: `/sellers/invite/details`,
     data: {
       seller_name: shopName,
-      contact_no: shopPhoneNumber,
+      contact_no: phoneNumber,
       address: address
     }
   });
