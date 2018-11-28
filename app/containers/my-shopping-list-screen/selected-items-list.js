@@ -28,7 +28,8 @@ export default class SelectedItemsList extends React.Component {
       <FlatList
         contentContainerStyle={{
           borderBottomWidth: 1,
-          borderBottomColor: "#eee"
+          borderBottomColor: "#eee",
+          backgroundColor: "#fff"
         }}
         data={selectedItems}
         extraData={skuItemIdsCurrentlyModifying}
@@ -45,6 +46,9 @@ export default class SelectedItemsList extends React.Component {
                 item.sku_measurement.cashback_percent) /
                 100) *
               item.quantity;
+          }
+          if (cashback > 10) {
+            cashback = 10;
           }
 
           let pack_no = "";
@@ -79,6 +83,10 @@ export default class SelectedItemsList extends React.Component {
                 parseFloat(1 - parseFloat(item.offer_discount) / 100)
             ).toFixed(2);
           }
+
+          let savedPrice = 0;
+          if (item.offer_discount && item.offer_discount > 0)
+            savedPrice = parseFloat(item.sku_measurement.mrp) - offerPrice;
 
           return (
             <View
@@ -151,7 +159,7 @@ export default class SelectedItemsList extends React.Component {
                 </View>
                 <View>
                   <Text>
-                    Price: Rs.
+                    Price: ₹{" "}
                     {item.offer_discount > 0
                       ? offerPrice
                       : item.sku_measurement.mrp}{" "}
@@ -164,8 +172,15 @@ export default class SelectedItemsList extends React.Component {
                 </View>
                 {item.offer_discount > 0 ? (
                   <View>
-                    <Text style={{ fontSize: 12, marginTop: 4 }}>
-                      MRP: Rs.{item.sku_measurement.mrp}
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        marginTop: 4,
+                        textDecorationLine: "line-through",
+                        textDecorationColor: "#000"
+                      }}
+                    >
+                      MRP: ₹ {item.sku_measurement.mrp}
                     </Text>
                   </View>
                 ) : (
@@ -180,7 +195,7 @@ export default class SelectedItemsList extends React.Component {
                         color: colors.success
                       }}
                     >
-                      Offer Applied
+                      You save ₹ {savedPrice}
                     </Text>
                   </View>
                 ) : (
@@ -194,7 +209,8 @@ export default class SelectedItemsList extends React.Component {
                   }}
                 >
                   <View style={{ flex: 1 }}>
-                    {cashback ? (
+                    {cashback &&
+                    (!item.offer_discount || item.offer_discount <= 0) ? (
                       <Text
                         weight="Medium"
                         style={{
@@ -202,7 +218,20 @@ export default class SelectedItemsList extends React.Component {
                           color: colors.mainBlue
                         }}
                       >
-                        You get back ₹ {cashback.toFixed(2)}
+                        You get cashback ₹ {cashback.toFixed(2)}
+                      </Text>
+                    ) : cashback &&
+                      item.offer_discount &&
+                      item.offer_discount > 0 ? (
+                      <Text
+                        weight="Medium"
+                        style={{
+                          fontSize: 12,
+                          color: colors.mainBlue,
+                          marginTop: 8
+                        }}
+                      >
+                        You get additional cashback of ₹ {cashback.toFixed(2)}
                       </Text>
                     ) : (
                       <View />

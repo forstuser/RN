@@ -34,6 +34,10 @@ class SingleOrder extends Component {
       statusType = (
         <Text style={{ fontSize: 11, color: colors.danger }}>CANCELLED</Text>
       );
+    else if (item.status_type === ORDER_STATUS_TYPES.EXPIRED)
+      statusType = (
+        <Text style={{ fontSize: 11, color: colors.danger }}>EXPIRED</Text>
+      );
     else if (item.status_type === ORDER_STATUS_TYPES.REJECTED)
       statusType = (
         <Text style={{ fontSize: 11, color: colors.danger }}>REJECTED</Text>
