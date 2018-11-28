@@ -21,7 +21,7 @@ class AppImage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
+      isLoading: false,
       error: false
     };
   }

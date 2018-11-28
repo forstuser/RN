@@ -83,7 +83,15 @@ class ShoppingListItem extends React.Component {
           marginHorizontal: 10
         }}
       >
-        <View style={{ marginRight: 5 }}>
+        <View
+          style={{
+            marginRight: 5,
+            opacity:
+              (item.suggestion && orderStatus === 4) || !item.item_availability
+                ? 0.5
+                : 0
+          }}
+        >
           <TouchableOpacity
             style={{
               // width: 55,
@@ -91,10 +99,7 @@ class ShoppingListItem extends React.Component {
               //borderRadius: 8,
               // alignItems: "center",
               //justifyContent: "center",
-              backgroundColor:
-                item.suggestion && orderStatus === 4
-                  ? colors.secondaryText
-                  : "#fff"
+              backgroundColor: "#fff"
             }}
           >
             <Image
@@ -107,7 +112,11 @@ class ShoppingListItem extends React.Component {
               }}
               resizeMode="contain"
               source={{
-                uri: API_BASE_URL + `/skus/${item.id}/images`
+                uri:
+                  API_BASE_URL +
+                  `/skus/${item.id}/measurements/${
+                    item.sku_measurement.id
+                  }/images`
               }}
               //source={require("../../images/binbill_logo.png")}
             />

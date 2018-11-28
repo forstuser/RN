@@ -183,6 +183,10 @@ class OrderScreen extends React.Component {
     } catch (error) {
       this.setState({ error });
     } finally {
+      if (this.state.error != null) {
+        const res = await getOrderDetails({ orderId });
+        this.setState({ order: res.result });
+      }
       this.setState({ isLoading: false });
     }
   };

@@ -16,7 +16,8 @@ class ActiveOrdersScreen extends Component {
     activeAssistedServicesRequest: [],
     error: null,
     isFetchingData: false,
-    sellerExist: false
+    sellerExist: false,
+    emptyMessage: null
   };
 
   componentDidMount() {
@@ -39,7 +40,8 @@ class ActiveOrdersScreen extends Component {
       this.setState({
         isFetchingData: false,
         activeDeliveryOrders: activeOrders.result,
-        sellerExist: activeOrders.seller_exist
+        sellerExist: activeOrders.seller_exist,
+        emptyMessage: activeOrders.message
       });
     } catch (error) {
       console.log("order error: ", error);
@@ -105,7 +107,8 @@ class ActiveOrdersScreen extends Component {
     const {
       activeDeliveryOrders,
       activeAssistedServicesRequest,
-      sellerExist
+      sellerExist,
+      emptyMessage
     } = this.state;
     let activeOrders = null;
     let deliveryOrders = null;
@@ -200,7 +203,7 @@ class ActiveOrdersScreen extends Component {
                   padding: 15
                 }}
               >
-                You have not placed any recent orders
+                {emptyMessage}
               </Text>
               <Button
                 style={{ height: 40, width: 275, marginTop: 30 }}
