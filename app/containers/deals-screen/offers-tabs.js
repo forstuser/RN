@@ -51,7 +51,8 @@ export default class OffersTab extends React.Component {
     error: null,
     normalOffers: [],
     skuOffers: [],
-    wishList: []
+    wishList: [],
+    emptyMessage: null
   };
 
   componentDidMount() {
@@ -134,6 +135,7 @@ export default class OffersTab extends React.Component {
 
       this.setState({
         categories,
+        emptyMessage: result1.message,
         selectedCategory: result1.result[0],
         normalOffers: result1.result[0].offers.filter(
           offer => offer.on_sku != true
@@ -191,7 +193,8 @@ export default class OffersTab extends React.Component {
       isLoading,
       error,
       normalOffers,
-      skuOffers
+      skuOffers,
+      emptyMessage
     } = this.state;
     // console.log("Category: ", selectedCategory);
     if (error) {
@@ -285,7 +288,7 @@ export default class OffersTab extends React.Component {
                 color: colors.mainText
               }}
             >
-              No offers available as of now from any of your Sellers currently
+              {emptyMessage}
             </Text>
           </View>
         )}

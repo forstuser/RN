@@ -130,7 +130,7 @@ export default class SkuItemOffer extends React.Component {
               }}
             />
           </View>
-          <View style={{ marginLeft: 10 }}>
+          <View style={{ flex: 1, marginLeft: 10, paddingRight: 10 }}>
             <Text
               weight="Medium"
               style={{
