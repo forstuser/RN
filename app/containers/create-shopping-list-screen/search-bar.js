@@ -647,13 +647,15 @@ export default class SearchBar extends React.Component {
                 if (items.length == 0 && isSearchDone) {
                   return (
                     <View style={{ padding: 20, alignItems: "center" }}>
-                      <Text style={{ textAlign: "center" }}>
-                        Sorry we couldn't find any items
-                        {searchTerm ? ` for "${searchTerm}"` : ""}
-                        {/* {!hideAddManually
+                      {searchTerm ? (
+                        <Text style={{ textAlign: "center" }}>
+                          Sorry we couldn't find any items
+                          {searchTerm ? ` for "${searchTerm}"` : ""}
+                          {/* {!hideAddManually
                           ? ", please use '+' to add manually."
                           : ""} */}
-                      </Text>
+                        </Text>
+                      ) : null}
                       {/* {searchTerm && !hideAddManually ? (
                         <Button
                           onPress={openAddManualItemModal}

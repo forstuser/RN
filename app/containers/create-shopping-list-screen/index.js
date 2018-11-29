@@ -413,9 +413,9 @@ class ShoppingListScreen extends React.Component {
 
   updateStateMainCategoryId = activeMainCategoryId => {
     if (activeMainCategoryId === 194) {
-      this.setState({ hideBrands: true });
+      this.setState({ hideBrands: true, isSearchDone: true });
     } else {
-      this.setState({ hideBrands: false });
+      this.setState({ hideBrands: false, isSearchDone: true });
     }
     const { mainCategories } = this.state;
     const mainCategory = mainCategories.find(
@@ -638,8 +638,8 @@ class ShoppingListScreen extends React.Component {
   loadItems = async (offset = 0) => {
     const { items } = this.state;
     this.setState({
-      isSearching: true,
-      isSearchDone: false,
+      // isSearching: true,
+      // isSearchDone: false,
       searchError: null
     });
     const {
@@ -665,8 +665,8 @@ class ShoppingListScreen extends React.Component {
         this.setState({ endhasReachedFlag: true });
       }
       const newState = {
-        isSearching: false,
-        isSearchDone: true,
+        // isSearching: false,
+        // isSearchDone: true,
         items: [...items, ...res.result.sku_items],
         //brands: res.result.brands,
         sellers: res.seller_list,
