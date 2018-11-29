@@ -696,8 +696,9 @@ class MyShoppingList extends React.Component {
             />
           ) : (
             <Text style={styles.noSellerText}>
-              Please invite and add or simply add your nearby retailers to start
-              placing order and avail multiple benefits
+              Please invite or add a nearby Seller in ‘My Seller’ section to
+              Place Order or simply use this List to aid you in your next
+              Shopping trip.
             </Text>
           )
         ) : null}

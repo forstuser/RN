@@ -329,7 +329,7 @@ export default class MySellersScreen extends React.Component {
                           marginTop: 15
                         }}
                       >
-                        Already added
+                        Added Successfully
                       </Text>
                     )}
                     <View style={{ position: "absolute", top: 20, right: 10 }}>
@@ -366,8 +366,8 @@ export default class MySellersScreen extends React.Component {
                     {isSearchDone
                       ? `This seller is not in our network. Invite your Seller to avail additional Offers, faster Home Delivery, Credit Loyalty, Home Services, & Online Order convenience`
                       : !isLoadingMySellers
-                        ? `Search your seller by name or mobile number`
-                        : null}
+                      ? `Search your seller by name or mobile number`
+                      : null}
                   </Text>
                   {isSearchDone ? (
                     <Button

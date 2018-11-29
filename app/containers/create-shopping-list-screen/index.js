@@ -922,7 +922,7 @@ class ShoppingListScreen extends React.Component {
           isVisible={isVisibleCashbackModal}
           title="Shop & Earn Paytm Cashback"
           style={{
-            height: 375,
+            height: 400,
             ...defaultStyles.card
           }}
           onClosePress={this.closeCashbackModal}
@@ -984,10 +984,13 @@ class ShoppingListScreen extends React.Component {
               </Text>
 
               <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (i) Order Online on BinBill Store
+                (i) Add Seller/Store in My Seller section
               </Text>
               <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (ii) Pay for your Order & Get Cashback
+                (ii) Order Online from any added BinBill Store
+              </Text>
+              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
+                (iii) Pay for your Order & Earn Cashback
               </Text>
             </View>
             <TouchableOpacity

@@ -61,7 +61,11 @@ export default class SkuItemOffer extends React.Component {
       await AsyncStorage.getItem("defaultSeller")
     );
     if (defaultSeller && defaultSeller.id != selectedCategory.id) {
-      this.setState({ isClearItems: true });
+      if (wishList.length > 0) this.setState({ isClearItems: true });
+      else {
+        AsyncStorage.setItem("defaultSeller", JSON.stringify(selectedCategory));
+        this.addItem(item);
+      }
     } else this.addItem(item);
   };
 
@@ -208,7 +212,7 @@ export default class SkuItemOffer extends React.Component {
                   marginLeft: 6
                 }}
               >
-                Already added to Your Shopping List
+                Added to Your Shopping List
               </Text>
             )}
           </View>
