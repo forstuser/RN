@@ -205,7 +205,7 @@ export default class SearchBar extends React.Component {
     console.log("selectedCategoryIds 2", selectedCategoryIds);
     //console.log("active main category id 2", activeMainCategoryId);
     // console.log("measurementTypes 2", measurementTypes);
-    //console.log("Brands___________", brands);
+    console.log("Brands___________", brands);
     const activeMainCategory = activeMainCategoryId
       ? mainCategories.find(
           mainCategory => mainCategory.id == activeMainCategoryId

@@ -421,17 +421,18 @@ class ShoppingListScreen extends React.Component {
     const mainCategory = mainCategories.find(
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
-    const brands =
-      mainCategory.categories &&
-      mainCategory.categories.map(category => category.brands);
-    let listBrands = [];
-    brands && brands.forEach(brand => listBrands.push(...brand));
-    listBrands = _.uniqBy(listBrands, "brand_id");
+    // const brands =
+    //   mainCategory.categories &&
+    //   mainCategory.categories.map(category => category.brands);
+    // let listBrands = [];
+    // brands && brands.forEach(brand => listBrands.push(...brand));
+    // listBrands = _.uniqBy(listBrands, "brand_id");
+    console.log("main category is ", mainCategory);
     const newState = { activeMainCategoryId, selectedBrands: [] };
 
     if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
       newState.selectedCategoryIds = [mainCategory.categories[0].id];
-      newState.brands = listBrands;
+      newState.brands = mainCategory.categories[0].brands;
     } else {
       newState.items = this.state.pastItems;
       newState.selectedBrands = [];
@@ -451,10 +452,22 @@ class ShoppingListScreen extends React.Component {
     } else {
       selectedCategoryIds = [categoryId];
     }
-
-    this.setState({ selectedCategoryIds, selectedBrands: [] }, () => {
-      this.loadItemsFirstPage();
-    });
+    const mainCategory = this.state.mainCategories.filter(
+      mainCategoryItem => mainCategoryItem.id == this.state.activeMainCategoryId
+    );
+    const filteredBrands = mainCategory[0].categories.filter(
+      item => item.id == categoryId
+    );
+    this.setState(
+      {
+        selectedCategoryIds,
+        selectedBrands: [],
+        brands: filteredBrands[0].brands
+      },
+      () => {
+        this.loadItemsFirstPage();
+      }
+    );
   };
 
   updateItem = (index, data) => {
@@ -636,12 +649,13 @@ class ShoppingListScreen extends React.Component {
       selectedBrands,
       selectedSeller
     } = this.state;
+    console.log("pap", selectedBrands);
     try {
       const data = {
         mainCategoryId: activeMainCategoryId ? activeMainCategoryId : undefined,
         categoryIds: !searchTerm ? selectedCategoryIds : undefined,
         searchTerm: searchTerm.replace(/ /g, "%") || undefined,
-        brandIds: selectedBrands.map(brand => brand.id),
+        brandIds: selectedBrands.map(brand => brand.brand_id),
         sellerId: selectedSeller ? selectedSeller.id : undefined,
         offset: items.length
       };
@@ -667,6 +681,7 @@ class ShoppingListScreen extends React.Component {
   };
 
   setSelectedBrands = (selectedBrands, stopItemLoad = false) => {
+    console.log("xxxxxxxxxxxxxxxxxxxsssssssssssss", selectedBrands);
     this.setState({ selectedBrands }, () => {
       if (!stopItemLoad) {
         this.loadItemsFirstPage();
