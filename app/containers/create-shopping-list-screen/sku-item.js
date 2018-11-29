@@ -124,7 +124,7 @@ export default class SkuItem extends React.Component {
         skuMeasurement => skuMeasurement.id == item.activeSkuMeasurementId
       );
       measurementIdImage = skuMeasurement.id;
-      mrp = skuMeasurement.mrp;
+      mrp = skuMeasurement.mrp.toFixed(2);
       if (skuMeasurement && skuMeasurement.cashback_percent) {
         cashback = (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
       }
