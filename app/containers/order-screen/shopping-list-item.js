@@ -76,12 +76,6 @@ class ShoppingListItem extends React.Component {
       quant = " x " + item.quantity;
     }
 
-    console.log(
-      "SKU URL: ",
-      API_BASE_URL +
-        `/skus/${item.id}/measurements/${item.sku_measurement.id}/images`
-    );
-
     return (
       <View
         style={{
@@ -99,38 +93,63 @@ class ShoppingListItem extends React.Component {
                 : 1
           }}
         >
-          <TouchableOpacity
-            style={
-              {
-                // width: 55,
-                // height: 60,
-                //borderRadius: 8,
-                // alignItems: "center",
-                //justifyContent: "center",
-                //backgroundColor: "#fff"
+          {item.sku_measurement ? (
+            <TouchableOpacity
+              style={
+                {
+                  // width: 55,
+                  // height: 60,
+                  //borderRadius: 8,
+                  // alignItems: "center",
+                  //justifyContent: "center",
+                  //backgroundColor: "#fff"
+                }
               }
-            }
-          >
-            <Image
-              style={{
-                width: 80,
-                height: 80,
-                justifyContent: "flex-start",
-                alignSelf: "flex-start",
-                alignContent: "flex-start"
-              }}
-              resizeMode="contain"
-              source={{
-                uri:
-                  API_BASE_URL +
-                  `/skus/${item.id}/measurements/${
-                    item.sku_measurement.id
-                  }/images`
-              }}
-              //source={require("../../images/binbill_logo.png")}
-            />
-            {/* <Icon name="md-checkmark" size={12} color="#fff" /> */}
-          </TouchableOpacity>
+            >
+              <Image
+                style={{
+                  width: 80,
+                  height: 80,
+                  justifyContent: "flex-start",
+                  alignSelf: "flex-start",
+                  alignContent: "flex-start"
+                }}
+                resizeMode="contain"
+                source={{
+                  uri:
+                    API_BASE_URL +
+                    `/skus/${item.id}/measurements/${
+                      item.sku_measurement.id
+                    }/images`
+                }}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={
+                {
+                  // width: 55,
+                  // height: 60,
+                  //borderRadius: 8,
+                  // alignItems: "center",
+                  //justifyContent: "center",
+                  //backgroundColor: "#fff"
+                }
+              }
+            >
+              <Image
+                style={{
+                  width: 80,
+                  height: 80,
+                  justifyContent: "flex-start",
+                  alignSelf: "flex-start",
+                  alignContent: "flex-start"
+                }}
+                resizeMode="contain"
+                source={require("../../images/blackBinbill.png")}
+              />
+            </TouchableOpacity>
+          )}
         </View>
         <View
           style={{
@@ -225,7 +244,7 @@ class ShoppingListItem extends React.Component {
                         : colors.mainBlue
                   }}
                 >
-                  You get cashback 2 ₹ {cashback}
+                  You get cashback ₹ {cashback}
                 </Text>
               ) : cashback > 0 &&
                 item.offer_discount &&
@@ -353,9 +372,7 @@ class ShoppingListItem extends React.Component {
                       source={{
                         uri: API_BASE_URL + `/skus/${item.suggestion.id}/images`
                       }}
-                      //source={require("../../images/binbill_logo.png")}
                     />
-                    {/* <Icon name="md-checkmark" size={12} color="#fff" /> */}
                   </TouchableOpacity>
                   <Text
                     weight="Medium"
