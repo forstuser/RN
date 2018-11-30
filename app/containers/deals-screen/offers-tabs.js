@@ -132,10 +132,9 @@ export default class OffersTab extends React.Component {
         name: seller.name,
         imageUrl: `/consumer/sellers/${seller.id}/upload/1/images/0`
       }));
-
+      this.setState({ emptyMessage: result1.message });
       this.setState({
         categories,
-        emptyMessage: result1.message,
         selectedCategory: result1.result[0],
         normalOffers: result1.result[0].offers.filter(
           offer => offer.on_sku != true
