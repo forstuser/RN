@@ -960,15 +960,48 @@ class ShoppingListScreen extends React.Component {
               >
                 Route A:
               </Text>
-              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (i) Create Shopping List
-              </Text>
-              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (ii) Shop with your List anywhere
-              </Text>
-              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (iii) Upload valid Bill & Get Cashback
-              </Text>
+              <View style={{ padding: 5, flexDirection: "row" }}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../../images/check_icon.png")}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
+                  Create Shopping List
+                </Text>
+              </View>
+              <View style={{ padding: 5, flexDirection: "row" }}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../../images/check_icon.png")}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
+                  Shop with your List anywhere
+                </Text>
+              </View>
+              <View style={{ padding: 5, flexDirection: "row" }}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../../images/check_icon.png")}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
+                  Upload valid Bill & Get Cashback
+                </Text>
+              </View>
             </View>
             <View style={{ padding: 10 }}>
               <Text
@@ -982,16 +1015,48 @@ class ShoppingListScreen extends React.Component {
               >
                 Route B:
               </Text>
-
-              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (i) Add Seller/Store in My Seller section
-              </Text>
-              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (ii) Order Online from any added BinBill Store
-              </Text>
-              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (iii) Pay for your Order & Earn Cashback
-              </Text>
+              <View style={{ padding: 5, flexDirection: "row" }}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../../images/check_icon.png")}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
+                  Add Seller/Store in My Seller section
+                </Text>
+              </View>
+              <View style={{ padding: 5, flexDirection: "row" }}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../../images/check_icon.png")}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
+                  Order Online from any added BinBill Store
+                </Text>
+              </View>
+              <View style={{ padding: 5, flexDirection: "row" }}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../../images/check_icon.png")}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
+                  Pay for your Order & Earn Cashback
+                </Text>
+              </View>
             </View>
             <TouchableOpacity
               onPress={this.toggleNeverShowCashbackModal}
