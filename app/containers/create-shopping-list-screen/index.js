@@ -344,7 +344,7 @@ class ShoppingListScreen extends React.Component {
                 activeMainCategoryId: 0
               },
               () => {
-                this.loadItemsFirstPage();
+                // this.loadItemsFirstPage();
                 this.updateStateMainCategoryId(0);
               }
             );
