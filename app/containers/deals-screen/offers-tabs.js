@@ -5,7 +5,8 @@ import {
   FlatList,
   Animated,
   Image,
-  Dimensions
+  Dimensions,
+  AsyncStorage
 } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 import Snackbar from "../../utils/snackbar";
@@ -123,23 +124,34 @@ export default class OffersTab extends React.Component {
       offers: []
     });
     try {
+      const defaultSeller = JSON.parse(
+        await AsyncStorage.getItem("defaultSeller")
+      );
       const result1 = await getSellerOffers();
       console.log("Seller Offers: ", result1);
+      console.log("Default Seller: ", defaultSeller);
       let resCategories = result1.result;
-      console.log("selleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", resCategories);
+      //console.log("selleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", resCategories);
       const categories = resCategories.map(seller => ({
         ...seller,
         name: seller.name,
         imageUrl: `/consumer/sellers/${seller.id}/upload/1/images/0`
       }));
       this.setState({ emptyMessage: result1.message });
+      let sellerIndex = 0;
+      if (defaultSeller) {
+        sellerIndex = categories.findIndex(
+          category => category.id == defaultSeller.id
+        );
+        console.log("seller index: ", sellerIndex);
+      }
       this.setState({
         categories,
-        selectedCategory: result1.result[0],
-        normalOffers: result1.result[0].offers.filter(
+        selectedCategory: result1.result[sellerIndex] || result1.result[0],
+        normalOffers: result1.result[sellerIndex].offers.filter(
           offer => offer.on_sku != true
         ),
-        skuOffers: result1.result[0].offers.filter(
+        skuOffers: result1.result[sellerIndex].offers.filter(
           offer => offer.on_sku == true
         )
       });
