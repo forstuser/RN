@@ -43,9 +43,6 @@ export default class SearchBar extends React.Component {
     });
     this.searchInput.blur();
   };
-  componentDidMount() {
-    console.log("fc");
-  }
   toggleSellersPopup = () => {
     let { selectedSeller } = this.props;
     if (selectedSeller == null) {
