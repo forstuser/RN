@@ -164,7 +164,7 @@ export default class SelectedItemsList extends React.Component {
                       ? offerPrice
                       : item.sku_measurement.mrp}{" "}
                     {item.offer_discount > 0 ? (
-                      <Text style={{ color: colors.mainBlue }}>
+                      <Text style={{ color: colors.success }}>
                         ({item.offer_discount}% off)
                       </Text>
                     ) : null}
@@ -189,6 +189,7 @@ export default class SelectedItemsList extends React.Component {
                 {item.offer_discount > 0 ? (
                   <View>
                     <Text
+                      //weight="Medium"
                       style={{
                         fontSize: 12,
                         marginTop: 8,
@@ -212,7 +213,7 @@ export default class SelectedItemsList extends React.Component {
                     {cashback &&
                     (!item.offer_discount || item.offer_discount <= 0) ? (
                       <Text
-                        weight="Medium"
+                        //weight="Medium"
                         style={{
                           fontSize: 12,
                           color: colors.mainBlue
@@ -224,7 +225,7 @@ export default class SelectedItemsList extends React.Component {
                       item.offer_discount &&
                       item.offer_discount > 0 ? (
                       <Text
-                        weight="Medium"
+                        //weight="Medium"
                         style={{
                           fontSize: 12,
                           color: colors.mainBlue,

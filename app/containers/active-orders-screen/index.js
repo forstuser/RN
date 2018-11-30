@@ -245,7 +245,7 @@ class ActiveOrdersScreen extends Component {
     return (
       <View style={{ flex: 1 }}>
         {activeOrders}
-        <LoadingOverlay visible={this.state.isFetchingData} />
+        {/* <LoadingOverlay visible={this.state.isFetchingData} /> */}
       </View>
     );
   }
