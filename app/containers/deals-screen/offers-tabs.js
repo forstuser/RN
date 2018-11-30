@@ -290,13 +290,13 @@ export default class OffersTab extends React.Component {
               resizeMode="contain"
             />
             <Text
-              weight="Medium"
+              //weight="Medium"
               style={{
                 padding: 20,
                 fontSize: 16,
                 textAlign: "center",
                 marginTop: 5,
-                color: colors.mainText
+                color: colors.secondaryText
               }}
             >
               {emptyMessage}

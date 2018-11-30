@@ -76,6 +76,12 @@ class ShoppingListItem extends React.Component {
       quant = " x " + item.quantity;
     }
 
+    console.log(
+      "SKU URL: ",
+      API_BASE_URL +
+        `/skus/${item.id}/measurements/${item.sku_measurement.id}/images`
+    );
+
     return (
       <View
         style={{
@@ -90,18 +96,20 @@ class ShoppingListItem extends React.Component {
             opacity:
               (item.suggestion && orderStatus === 4) || !item.item_availability
                 ? 0.5
-                : 0
+                : 1
           }}
         >
           <TouchableOpacity
-            style={{
-              // width: 55,
-              // height: 60,
-              //borderRadius: 8,
-              // alignItems: "center",
-              //justifyContent: "center",
-              backgroundColor: "#fff"
-            }}
+            style={
+              {
+                // width: 55,
+                // height: 60,
+                //borderRadius: 8,
+                // alignItems: "center",
+                //justifyContent: "center",
+                //backgroundColor: "#fff"
+              }
+            }
           >
             <Image
               style={{
