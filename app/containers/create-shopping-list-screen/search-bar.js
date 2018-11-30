@@ -47,7 +47,6 @@ export default class SearchBar extends React.Component {
     console.log("fc");
   }
   toggleSellersPopup = () => {
-    console.log("selected seller:-----------------", this.props.selectedSeller);
     let { selectedSeller } = this.props;
     if (selectedSeller == null) {
       selectedSeller = "";
@@ -62,7 +61,9 @@ export default class SearchBar extends React.Component {
 
   toggleBrandSelection = brand => {
     const checkedBrands = [...this.state.checkedBrands];
-    const idx = checkedBrands.findIndex(brandItem => brandItem.id == brand.id);
+    const idx = checkedBrands.findIndex(
+      brandItem => brandItem.brand_id == brand.brand_id
+    );
     if (idx == -1) {
       checkedBrands.push(brand);
     } else {
@@ -294,19 +295,19 @@ export default class SearchBar extends React.Component {
       if (sellerMainCategories.length == 0) {
         filteredCategories = activeMainCategory.categories;
       } else {
-        console.log("sellerMainCategories in search bar", sellerMainCategories);
-        console.log("activeMainCategory in search bar", activeMainCategory);
+        // console.log("sellerMainCategories in search bar", sellerMainCategories);
+        // console.log("activeMainCategory in search bar", activeMainCategory);
         const activeMainCategoryFromSellersMainCategories =
           sellerMainCategories.find(
             mainCategory => mainCategory.id == activeMainCategory.id
           ) || [];
-        console.log(
-          "activeMainCategoryFromSellersMainCategories in Search Bar",
-          activeMainCategoryFromSellersMainCategories
-        );
+        // console.log(
+        //   "activeMainCategoryFromSellersMainCategories in Search Bar",
+        //   activeMainCategoryFromSellersMainCategories
+        // );
         filteredCategories =
           activeMainCategoryFromSellersMainCategories.categories;
-        console.log("get categories form parent is", sellerMainCategories);
+        // console.log("get categories form parent is", sellerMainCategories);
         // filteredCategories = sellerCategoryIds;
         // activeMainCategoryFromSellersMainCategories.length > 0
         //   ? activeMainCategoryFromSellersMainCategories.categories.map(
