@@ -13,7 +13,12 @@ import {
   CASHFREE_APP_ID,
   CASHFREE_URL
 } from "../../api";
-import { SCREENS, PAYMENT_MODES, PAYMENT_STATUS_TYPES } from "../../constants";
+import {
+  SCREENS,
+  PAYMENT_MODES,
+  PAYMENT_STATUS_TYPES,
+  ORDER_TYPES
+} from "../../constants";
 
 let webViewLoadCount = 1;
 
@@ -33,7 +38,6 @@ class CashFreePaymentStatusScreen extends Component {
     BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
   }
   componentWillUnmount() {
-    // alert("cashfree screen");
     BackHandler.removeEventListener("hardwareBackPress", this.handleBackPress);
   }
   handleBackPress = async () => {
@@ -166,25 +170,6 @@ class CashFreePaymentStatusScreen extends Component {
         showWebView: false,
         order: order
       });
-      // },2000)
-
-      // if (res && res.status_type) {
-      //   //console.log("RESPONSE____________", res.status);
-      //   if (res.status_type == 16) {
-      //     // this.payOnline();
-      //     this.setState({ showWebView: false });
-      //   } else if (
-      //     res.status_type == 18 ||
-      //     res.status_type == 13 ||
-      //     res.status_type == 17 ||
-      //     res.status_type == 8 ||
-      //     res.status_type == 9
-      //   ) {
-      //     this.setState({ showWebView: false });
-      //   } else {
-      //     console.log("Status 4");
-      //   }
-      // }
     }
   };
 
@@ -193,14 +178,8 @@ class CashFreePaymentStatusScreen extends Component {
     console.log("Render Web View");
     webViewLoadCount = 1;
     return (
-      //Testing -> http://binbillpaymentgateway.s3-website.ap-south-1.amazonaws.com/
-      //Production -> https://s3.ap-south-1.amazonaws.com/binbillpaymentgateway-prod/index.html
       <WebView
         originWhitelist={["*"]}
-        // source={{
-        //   uri:
-        //     "https://s3.ap-south-1.amazonaws.com/binbillpaymentgateway-prod/index.html"
-        // }}
         source={{ uri: CASHFREE_URL }}
         style={{
           width: "100%",
@@ -232,16 +211,54 @@ class CashFreePaymentStatusScreen extends Component {
   };
 
   postOrder = () => {
+    let order = this.props.navigation.getParam("order", null);
+    console.log("order------------- ", order);
     if (order.order_type == ORDER_TYPES.FMCG) {
       this.props.navigation.navigate(SCREENS.DIGITAL_BILL_SCREEN, {
         order: this.state.order,
         fromOrderFlowScreen: true
       });
     } else {
-      this.props.openReviewsScreen();
+      this.openReviewsScreen();
     }
   };
+  openReviewsScreen = () => {
+    let order = this.props.navigation.getParam("order", null);
 
+    let sellerRatings = 0;
+    let sellerReviewText = "";
+    let serviceRatings = 0;
+    let serviceReviewText = "";
+
+    if (order && order.seller_review) {
+      sellerRatings = order.seller_review.review_ratings;
+      sellerReviewText = order.seller_review.review_feedback;
+    }
+
+    if (
+      order &&
+      order.delivery_user &&
+      order.delivery_user.reviews &&
+      order.delivery_user.reviews.length > 0
+    ) {
+      const serviceReview = order.delivery_user.reviews.find(
+        userReview => userReview.order_id == order.id
+      );
+
+      if (serviceReview) {
+        serviceRatings = serviceReview.ratings;
+        serviceReviewText = serviceReview.feedback;
+      }
+    }
+
+    this.props.navigation.navigate(SCREENS.ORDER_REVIEWS_SCREEN, {
+      order: order,
+      sellerRatings,
+      sellerReviewText,
+      serviceRatings,
+      serviceReviewText
+    });
+  };
   render() {
     const order = this.props.navigation.getParam("order", null);
     let statusMessage = null;
