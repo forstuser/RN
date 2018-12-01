@@ -159,6 +159,7 @@ class DigitalBillScreen extends Component {
                   <View style={styles.billDate}>
                     <Text style={{ fontSize: 12 }}>Chalan No. :</Text>
                     <Text style={{ fontSize: 12 }}>
+                      BinBill{""}
                       {digitalBillData.order_id}
                     </Text>
                   </View>
