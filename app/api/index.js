@@ -9,7 +9,7 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer.binbill.com";
+let API_BASE_URL = "https://consumer-stage.binbill.com";
 if (!__DEV__) {
   API_BASE_URL = "https://consumer.binbill.com";
 }
@@ -2396,5 +2396,12 @@ export const addSkuFromOffersToWishlist = async (
       seller_id: sellerId,
       sku_measurement_id: skuMeasurementId
     }
+  });
+};
+
+export const getHomeDeliveryStatus = async sellerId => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers/${sellerId}/home/delivery/status`
   });
 };

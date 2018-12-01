@@ -18,7 +18,12 @@ import Share from "react-native-share";
 
 import { loginToApplozic, openChatWithSeller } from "../../applozic";
 
-import { API_BASE_URL, getMySellers, placeOrder } from "../../api";
+import {
+  API_BASE_URL,
+  getMySellers,
+  placeOrder,
+  getHomeDeliveryStatus
+} from "../../api";
 import StarRating from "react-native-star-rating";
 
 import { Text, Button } from "../../elements";
@@ -81,14 +86,28 @@ class MyShoppingList extends React.Component {
     );
   }
 
-  onSharePress = () => {
-    //Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_PLACE_ORDER);
+  onSharePress = async () => {
+    Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_PLACE_ORDER);
     const selectedSeller = this.props.navigation.getParam("selectedSeller", []);
-    //console.log('selectedSellers ', selectedSellers);
+    let sellerId = selectedSeller.id || 0;
+    console.log("seller Id ", sellerId);
+
+    let res;
+    try {
+      res = await getHomeDeliveryStatus(sellerId);
+      console.log("Home Delivery Status: ", res);
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      console.log("finally");
+    }
+
     if (!selectedSeller) {
       this.setState({ isMySellersModalVisible: true });
     } else {
-      this.proceedToAddressScreen(selectedSeller);
+      if (res.home_delivery == true)
+        this.proceedToAddressScreen(selectedSeller);
+      else this.setState({ isOrderOnline: true });
     }
     //this.getMySellers();
   };
@@ -210,14 +229,33 @@ class MyShoppingList extends React.Component {
       this.setState({ isOrderOnline: true });
     }
   };
-  orderNow = () => {
-    const { selectedSeller } = this.state;
-    this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
-      sellerId: selectedSeller.id,
-      orderType: ORDER_TYPES.FMCG,
-      flag: true
-    });
+  orderNow = async () => {
+    const selectedSeller = this.props.navigation.getParam("selectedSeller", []);
+
+    // this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
+    //   sellerId: selectedSeller.id,
+    //   orderType: ORDER_TYPES.FMCG,
+    //   flag: true
+    // });
     this.setState({ isOrderOnline: false, isMySellersModalVisible: false });
+    try {
+      const res = await placeOrder({
+        sellerId: selectedSeller.id,
+        orderType: ORDER_TYPES.FMCG,
+        collect_at_store: true
+      });
+      const orderId = res.result.id;
+      this.props.navigation.popToTop();
+      this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
+        orderId,
+        flag: true
+      });
+    } catch (e) {
+      console.log("error", e.message);
+      return showSnackbar({ text: e.message });
+    } finally {
+      this.setState({ showLoader: false });
+    }
   };
 
   orderLater = () => {
