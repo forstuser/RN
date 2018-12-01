@@ -157,7 +157,7 @@ class DigitalBillScreen extends Component {
                 <View style={styles.line} />
                 <View style={{ marginTop: 7 }}>
                   <View style={styles.billDate}>
-                    <Text style={{ fontSize: 12 }}>Bill No. :</Text>
+                    <Text style={{ fontSize: 12 }}>Chalan No. :</Text>
                     <Text style={{ fontSize: 12 }}>
                       {digitalBillData.order_id}
                     </Text>
@@ -193,9 +193,9 @@ class DigitalBillScreen extends Component {
                   <Text weight="Medium" style={styles.headerTitle}>
                     Rate
                   </Text>
-                  <Text weight="Medium" style={styles.headerTitle}>
+                  {/* <Text weight="Medium" style={styles.headerTitle}>
                     GST
-                  </Text>
+                  </Text> */}
                   <Text weight="Medium" style={styles.headerTitle}>
                     Total Amt.
                   </Text>
@@ -226,9 +226,9 @@ class DigitalBillScreen extends Component {
                   <Text weight="Medium" style={styles.headerTitle}>
                     ₹ {_.round(item.non_tax_value, 2)}
                   </Text>
-                  <Text weight="Medium" style={styles.headerTitle}>
+                  {/* <Text weight="Medium" style={styles.headerTitle}>
                     {item.tax} %
-                  </Text>
+                  </Text> */}
                   <Text weight="Medium" style={styles.headerTitle}>
                     ₹ {item.selling_price}
                   </Text>
@@ -279,7 +279,7 @@ class DigitalBillScreen extends Component {
                     Total Quantity : {digitalBillData.total_quantity}
                   </Text>
 
-                  <View style={styles.taxView}>
+                  {/* <View style={styles.taxView}>
                     <View style={styles.taxInsideView}>
                       <Text style={{ fontSize: 10 }}>CGST = </Text>
                       {digitalBillData.expense_detail.map(item => {
@@ -316,7 +316,7 @@ class DigitalBillScreen extends Component {
                         2
                       )}
                     </Text>
-                  </View>
+                  </View> */}
                   <View
                     style={{
                       flex: 1,
@@ -325,7 +325,7 @@ class DigitalBillScreen extends Component {
                     }}
                   >
                     <Text style={styles.footerText}>
-                      *** This is a computer generated invoice and signature is
+                      *** This is a computer generated chalan and signature is
                       not required
                     </Text>
                     <Text style={styles.footerText}>
