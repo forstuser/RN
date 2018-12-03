@@ -429,7 +429,7 @@ class SellerProfileTab extends React.Component {
           >
             <KeyValue
               keyText="Connected Since"
-              valueText={moment(seller.state.created_at).format("MMM YYYY")}
+              valueText={moment(seller.created_at).format("MMM YYYY")}
             />
             <KeyValue
               keyText="Store Contact No"

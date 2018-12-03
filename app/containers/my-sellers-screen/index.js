@@ -12,7 +12,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
 import call from "react-native-phone-call";
 import { connect } from "react-redux";
-
+import getDirections from "react-native-google-maps-directions";
 import { ActionSheetCustom as ActionSheet } from "react-native-actionsheet";
 
 import { loginToApplozic, openChatWithSeller } from "../../applozic";
@@ -230,6 +230,20 @@ class MySellersScreen extends React.Component {
 
   closeModal = () => {
     this.setState({ isOrderOnline: false });
+  };
+
+  onMapPress = item => {
+    console.log("SELLER IN MAP", item);
+    const data = {
+      params: [
+        {
+          key: "daddr",
+          value: item.address
+        }
+      ]
+    };
+
+    getDirections(data);
   };
 
   render() {
@@ -478,6 +492,22 @@ class MySellersScreen extends React.Component {
                     borderColor: "#d3d3d3"
                   }}
                 >
+                  <View style={{ position: "absolute", top: 10, right: 10 }}>
+                    <TouchableOpacity
+                      style={{ zIndex: 2 }}
+                      onPress={() => this.onMapPress(item)}
+                    >
+                      <Image
+                        style={{ height: 35, width: 35 }}
+                        resizeMode="contain"
+                        source={require("../../images/map_icon.png")}
+                      />
+                    </TouchableOpacity>
+
+                    <Text style={{ fontSize: 10, marginTop: 2 }}>
+                      {item.distance} {item.distanceMetrics}
+                    </Text>
+                  </View>
                   <View
                     style={{
                       flexDirection: "row"
