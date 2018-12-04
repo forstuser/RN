@@ -21,10 +21,13 @@ class ShoppingListItem extends React.Component {
     let cashback = 0;
     console.log("item", item);
     if (item.sku_measurement && item.sku_measurement.cashback_percent) {
-      cashback = (
-        ((item.unit_price * item.sku_measurement.cashback_percent) / 100) *
-        item.quantity
-      ).toFixed(2);
+      cashback = parseFloat(
+        ((parseFloat(item.unit_price) *
+          parseFloat(item.sku_measurement.cashback_percent)) /
+          100) *
+          parseFloat(item.quantity)
+      );
+      cashback = cashback.toFixed(2);
     }
     console.log("final cashback after calculation", cashback);
     if (cashback > 10) {

@@ -7,7 +7,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import RNGooglePlaces from "react-native-google-places";
 import Modal from "../../components/modal";
 import { SCREENS } from "../../constants";
-import { showSnackbar } from "../../utils/snackbar";
+import snackbar, { showSnackbar } from "../../utils/snackbar";
 import LoadingOverlay from "./../../components/loading-overlay";
 import Analytics from "../../analytics";
 // import HeaderBackButton from "./../../components/header-nav-back-btn";
@@ -112,6 +112,9 @@ class AddressScreen extends Component {
   };
 
   saveAddress = async () => {
+    if (this.state.address1 == "") {
+      return showSnackbar({ text: "Please enter House/Flat no." });
+    }
     this.hide();
     this.setState({ showLoader: true });
     try {
@@ -314,7 +317,7 @@ class AddressScreen extends Component {
         >
           <View style={{ width: 320 }}>
             <TextInput
-              placeholder="House/Flat No"
+              placeholder="House/Flat No*"
               value={address1}
               style={{ borderRadius: 5, paddingHorizontal: 10 }}
               onChangeText={address1 => this.setState({ address1 })}

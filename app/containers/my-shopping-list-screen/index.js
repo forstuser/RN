@@ -91,7 +91,9 @@ class MyShoppingList extends React.Component {
     const selectedSeller = this.props.navigation.getParam("selectedSeller", []);
     let sellerId = selectedSeller.id || 0;
     console.log("seller Id ", sellerId);
-
+    const collectAtStoreFlag = this.props.navigation.getParam(
+      "collectAtStoreFlag"
+    );
     let res;
     try {
       res = await getHomeDeliveryStatus(sellerId);
@@ -105,7 +107,7 @@ class MyShoppingList extends React.Component {
     if (!selectedSeller) {
       this.setState({ isMySellersModalVisible: true });
     } else {
-      if (res.home_delivery == true)
+      if (res.home_delivery == true || collectAtStoreFlag == true)
         this.proceedToAddressScreen(selectedSeller);
       else this.setState({ isOrderOnline: true });
     }

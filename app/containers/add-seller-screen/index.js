@@ -14,7 +14,12 @@ import ScrollableTabView, {
   ScrollableTabBar
 } from "react-native-scrollable-tab-view";
 
-import { getSellers, getMySellers, linkSeller } from "../../api";
+import {
+  getSellers,
+  getMySellers,
+  linkSeller,
+  getProfileDetail
+} from "../../api";
 
 import { Text, Image, Button } from "../../elements";
 import DrawerScreenContainer from "../../components/drawer-screen-container";
@@ -63,6 +68,43 @@ export default class MySellersScreen extends React.Component {
         this.getSellersFromDropDown()
       );
     }
+  }
+
+  componentDidMount() {
+    this.didFocusSubscription = this.props.navigation.addListener(
+      "didFocus",
+      () => {
+        this.getUserDetails();
+      }
+    );
+  }
+
+  getUserDetails = async () => {
+    this.setState({
+      error: null
+    });
+    try {
+      const res = await getProfileDetail();
+      this.setState({ userDetails: res.userProfile });
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      this.setState({ userDetails: res.userProfile }, () => {
+        if (
+          userDetails &&
+          userDetails.addresses &&
+          userDetails.addresses.length > 0
+        ) {
+          this.setState({ selectedAddress: userDetails.addresses[0] }, () =>
+            this.getSellersFromDropDown()
+          );
+        }
+      });
+    }
+  };
+
+  componentWillUnmount() {
+    this.didFocusSubscription.remove();
   }
 
   getSellers = async () => {
@@ -225,11 +267,15 @@ export default class MySellersScreen extends React.Component {
                       //backgroundColor: "#fff",
                       color: colors.pinkishOrange
                     }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      this.setState({ selectedAddress: itemValue }, () =>
-                        this.getSellersFromDropDown()
-                      )
-                    }
+                    onValueChange={(itemValue, itemIndex) => {
+                      if (itemValue != "Add new address") {
+                        this.setState({ selectedAddress: itemValue }, () =>
+                          this.getSellersFromDropDown()
+                        );
+                      } else {
+                        this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN);
+                      }
+                    }}
                   >
                     {userDetails.addresses.map(address => (
                       <Picker.Item
@@ -243,6 +289,10 @@ export default class MySellersScreen extends React.Component {
                         value={address}
                       />
                     ))}
+                    <Picker.Item
+                      label="Add new address"
+                      value="Add new address"
+                    />
                   </Picker>
                 </View>
               </View>
