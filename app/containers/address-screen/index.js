@@ -1,6 +1,12 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, ScrollView, BackHandler } from "react-native";
-import { Text, TextInput, Button } from "../../elements";
+import {
+  View,
+  TouchableOpacity,
+  ScrollView,
+  BackHandler,
+  ImageBackground
+} from "react-native";
+import { Text, TextInput, Button, Image } from "../../elements";
 import AddressView from "./address-view";
 import { colors, defaultStyles } from "../../theme";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -255,152 +261,158 @@ class AddressScreen extends Component {
     } = this.state;
     const flag = this.props.navigation.getParam("flag", false);
     return (
-      <View style={styles.constainer}>
-        <ScrollView style={{ flex: 1 }}>
-          <View style={{ flex: 1 }}>
-            {addresses.map((item, index) => {
-              return (
-                <AddressView
-                  selectedIndex={selectedIndex}
-                  index={index}
-                  address={item}
-                  selectAddress={this.selectAddress}
-                  updateAddress={this.updateAddress}
-                  setDefault={this.setDefault}
-                  deleteAddressModel={this.deleteAddressModel}
-                  sellerId={this.props.navigation.getParam("sellerId")}
-                />
-              );
-            })}
-            {addresses.length > 0 ? (
-              <View
-                style={{
-                  top: 10,
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}
-              >
-                <Text>---- </Text>
-                <View style={styles.or}>
-                  <Text style={styles.orText}>OR</Text>
+      <ImageBackground
+        style={{ flex: 1, width: null, height: null }}
+        source={require("../../images/back_image_address.png")}
+        resizeMode="cover"
+      >
+        <View style={styles.constainer}>
+          <ScrollView style={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
+              {addresses.map((item, index) => {
+                return (
+                  <AddressView
+                    selectedIndex={selectedIndex}
+                    index={index}
+                    address={item}
+                    selectAddress={this.selectAddress}
+                    updateAddress={this.updateAddress}
+                    setDefault={this.setDefault}
+                    deleteAddressModel={this.deleteAddressModel}
+                    sellerId={this.props.navigation.getParam("sellerId")}
+                  />
+                );
+              })}
+              {addresses.length > 0 ? (
+                <View
+                  style={{
+                    top: 10,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}
+                >
+                  <Text>---- </Text>
+                  <View style={styles.or}>
+                    <Text style={styles.orText}>OR</Text>
+                  </View>
+                  <Text> ----</Text>
                 </View>
-                <Text> ----</Text>
-              </View>
-            ) : null}
-          </View>
-          <TouchableOpacity
-            onPress={() => {
-              this.openLocationModal();
-            }}
-            style={styles.search}
-          >
-            <Text style={styles.searchText}>
-              {flag ? "Select Location" : "Add New Address"}
-            </Text>
-            <Text>
-              <Icon
-                name="ios-pin-outline"
-                size={20}
-                color={colors.pinkishOrange}
-              />
-            </Text>
-          </TouchableOpacity>
-        </ScrollView>
-        <Modal
-          isVisible={isVisible}
-          title={headerTitle}
-          onClosePress={this.hide}
-          onBackButtonPress={this.hide}
-          onBackdropPress={this.hide}
-          style={{ height: 300, backgroundColor: "#fff" }}
-        >
-          <View style={{ width: 320 }}>
-            <TextInput
-              placeholder="House/Flat No*"
-              value={address1}
-              style={{ borderRadius: 5, paddingHorizontal: 10 }}
-              onChangeText={address1 => this.setState({ address1 })}
-            />
-            <TextInput
-              placeholder="Address"
-              value={address2}
-              style={{ borderRadius: 5, paddingHorizontal: 10 }}
-              onChangeText={address2 => this.setState({ address2 })}
-            />
-            <TextInput
-              keyboardType="numeric"
-              placeholder="Pin"
-              value={pin}
-              style={{ borderRadius: 5, paddingHorizontal: 10 }}
-              onChangeText={pin => this.setState({ pin })}
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              width: 300,
-              justifyContent: "space-between",
-              alignSelf: "center"
-            }}
-          >
-            <Button
-              text="Cancel"
-              onPress={this.hide}
-              color="grey"
-              style={styles.btn}
-            />
-            <Button
-              text={btnTXT}
-              onPress={this.saveAddress}
-              color="secondary"
-              style={styles.btn}
-            />
-          </View>
-        </Modal>
-        <Modal
-          isVisible={deleteModalShow}
-          title={"Delete Address"}
-          onClosePress={this.hideDeleteModal}
-          onBackButtonPress={this.hideDeleteModal}
-          onBackdropPress={this.hideDeleteModal}
-          style={{ height: 200, backgroundColor: "#fff" }}
-        >
-          <View style={{ height: 150, backgroundColor: "#fff" }}>
-            <View style={{ width: 260, alignSelf: "center", top: 25 }}>
-              <Text
-                weight="Regular"
-                style={{ textAlign: "center", fontSize: 16 }}
-              >
-                Are you sure you want to delete this address?
+              ) : null}
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                this.openLocationModal();
+              }}
+              style={styles.search}
+            >
+              <Text style={styles.searchText}>
+                {flag ? "Select Location" : "Add New Address"}
               </Text>
+              <Text>
+                <Icon
+                  name="ios-pin-outline"
+                  size={20}
+                  color={colors.pinkishOrange}
+                />
+              </Text>
+            </TouchableOpacity>
+          </ScrollView>
+          <Modal
+            isVisible={isVisible}
+            title={headerTitle}
+            onClosePress={this.hide}
+            onBackButtonPress={this.hide}
+            onBackdropPress={this.hide}
+            style={{ height: 300, backgroundColor: "#fff" }}
+          >
+            <View style={{ width: 320 }}>
+              <TextInput
+                placeholder="House/Flat No*"
+                value={address1}
+                style={{ borderRadius: 5, paddingHorizontal: 10 }}
+                onChangeText={address1 => this.setState({ address1 })}
+              />
+              <TextInput
+                placeholder="Address"
+                value={address2}
+                style={{ borderRadius: 5, paddingHorizontal: 10 }}
+                onChangeText={address2 => this.setState({ address2 })}
+              />
+              <TextInput
+                keyboardType="numeric"
+                placeholder="Pin"
+                value={pin}
+                style={{ borderRadius: 5, paddingHorizontal: 10 }}
+                onChangeText={pin => this.setState({ pin })}
+              />
             </View>
             <View
               style={{
-                top: 40,
                 flexDirection: "row",
-                width: 260,
+                width: 300,
                 justifyContent: "space-between",
                 alignSelf: "center"
               }}
             >
               <Button
-                text="No"
-                onPress={this.hideDeleteModal}
+                text="Cancel"
+                onPress={this.hide}
                 color="grey"
                 style={styles.btn}
               />
               <Button
-                text="Yes"
-                onPress={this.deleteAddress}
+                text={btnTXT}
+                onPress={this.saveAddress}
                 color="secondary"
                 style={styles.btn}
               />
             </View>
-          </View>
-        </Modal>
-        <LoadingOverlay visible={showLoader} />
-      </View>
+          </Modal>
+          <Modal
+            isVisible={deleteModalShow}
+            title={"Delete Address"}
+            onClosePress={this.hideDeleteModal}
+            onBackButtonPress={this.hideDeleteModal}
+            onBackdropPress={this.hideDeleteModal}
+            style={{ height: 200, backgroundColor: "#fff" }}
+          >
+            <View style={{ height: 150, backgroundColor: "#fff" }}>
+              <View style={{ width: 260, alignSelf: "center", top: 25 }}>
+                <Text
+                  weight="Regular"
+                  style={{ textAlign: "center", fontSize: 16 }}
+                >
+                  Are you sure you want to delete this address?
+                </Text>
+              </View>
+              <View
+                style={{
+                  top: 40,
+                  flexDirection: "row",
+                  width: 260,
+                  justifyContent: "space-between",
+                  alignSelf: "center"
+                }}
+              >
+                <Button
+                  text="No"
+                  onPress={this.hideDeleteModal}
+                  color="grey"
+                  style={styles.btn}
+                />
+                <Button
+                  text="Yes"
+                  onPress={this.deleteAddress}
+                  color="secondary"
+                  style={styles.btn}
+                />
+              </View>
+            </View>
+          </Modal>
+          <LoadingOverlay visible={showLoader} />
+        </View>
+      </ImageBackground>
     );
   }
 }

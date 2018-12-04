@@ -4,7 +4,8 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  Image
+  Image,
+  Dimensions
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import StarRating from "react-native-star-rating";
@@ -26,7 +27,7 @@ import { showSnackbar } from "../../utils/snackbar";
 import ReviewModal from "./review-modal";
 
 import Reviews from "../../components/reviews";
-
+const windowWidth = Dimensions.get("window").width;
 const KeyValue = ({ keyText, valueText, ValueComponent }) => (
   <View style={{ flexDirection: "row", marginVertical: 3 }}>
     <View
@@ -140,7 +141,7 @@ class SellerProfileTab extends React.Component {
             width: 110,
             height: 120,
             position: "absolute",
-            top: 30,
+            top: 50,
             left: 20,
             borderRadius: 20,
             borderWidth: 1
@@ -151,8 +152,8 @@ class SellerProfileTab extends React.Component {
         />
         <View
           style={{
-            width: "100%",
-            height: 130,
+            width: windowWidth,
+            height: 150,
             backgroundColor: "#1a2036",
             borderBottomColor: "#eee",
             borderBottomWidth: 1
@@ -223,9 +224,17 @@ class SellerProfileTab extends React.Component {
                 ({seller.ratings.toFixed(2)})
               </Text>
             </View>
-            <Text style={{ fontSize: 13, marginTop: 5, color: "#fff" }}>
-              {seller.address}
-            </Text>
+            <View style={{ width: "80%" }}>
+              <Text
+                style={{
+                  fontSize: 13,
+                  marginTop: 5,
+                  color: "#fff"
+                }}
+              >
+                {seller.address}
+              </Text>
+            </View>
           </View>
         </View>
 
