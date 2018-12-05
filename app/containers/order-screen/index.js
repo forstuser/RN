@@ -220,13 +220,23 @@ class OrderScreen extends React.Component {
       }
     }
 
-    this.props.navigation.navigate(SCREENS.ORDER_REVIEWS_SCREEN, {
-      order: order,
-      sellerRatings,
-      sellerReviewText,
-      serviceRatings,
-      serviceReviewText
-    });
+    if (order.delivery_user_id) {
+      this.props.navigation.navigate(SCREENS.ORDER_REVIEWS_SCREEN, {
+        order: order,
+        sellerRatings,
+        sellerReviewText,
+        serviceRatings,
+        serviceReviewText
+      });
+    } else {
+      this.props.navigation.navigate(SCREENS.SELLER_REVIEW_SCREEN, {
+        order: order,
+        sellerRatings,
+        sellerReviewText,
+        serviceRatings,
+        serviceReviewText
+      });
+    }
   };
 
   cancelOrderPopup = () => {

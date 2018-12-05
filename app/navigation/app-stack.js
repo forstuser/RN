@@ -84,7 +84,8 @@ import CashbackQueryReasonsScreen from "../containers/cashback-query-screen/cash
 import CashbackQueryAdditionalInfoScreen from "../containers/cashback-query-screen/cashback-query-additional-info";
 // import ShoppingListOrderScreen from "../containers/shopping-list-order-screen";
 import OrderScreen from "../containers/order-screen";
-import OrderReviewsScreen from "../containers/order-screen/reviews-screen";
+import OrderReviewsScreen from "../containers/order-screen/review-delivery";
+import OrderReviewsSellerScreen from "../containers/order-screen/review-seller";
 import RedeemViaPaytmScreen from "../containers/BBCashWalletScreen/redeem-via-paytm-screen";
 import ActiveOrdersScreen from "../containers/active-orders-screen";
 import AddressScreen from "../containers/address-screen";
@@ -194,6 +195,7 @@ const StackNavigator = createStackNavigator(
       screen: DrawerNavigator,
       navigationOptions: { header: null }
     },
+    [SCREENS.SELLER_REVIEW_SCREEN]: OrderReviewsSellerScreen,
     [SCREENS.SHOPPING_LIST_OFFERS_SCREEN]: ShoppingListOffersScreen,
     [SCREENS.PENDING_PAYMENT_STATUS_SCREEN]: PendingPaymentStatusScreen,
     [SCREENS.LOADER_SCREEN_SHOP_EARN]: LoaderScreen,
