@@ -110,6 +110,9 @@ export default class SkuItem extends React.Component {
         cashback = (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
       }
     }
+    if (cashback > 10) {
+      cashback = 10;
+    }
     let isLoading = false;
 
     if (item.sku_measurements) {
@@ -122,8 +125,14 @@ export default class SkuItem extends React.Component {
       );
       measurementIdImage = skuMeasurement.id;
       mrp = skuMeasurement.mrp;
+      if (mrp > 0) {
+        mrp = mrp.toFixed(2);
+      }
       if (skuMeasurement && skuMeasurement.cashback_percent) {
         cashback = (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
+      }
+      if (cashback > 10) {
+        cashback = 10;
       }
 
       if (skuItemIdsCurrentlyModifying.includes(item.activeSkuMeasurementId)) {

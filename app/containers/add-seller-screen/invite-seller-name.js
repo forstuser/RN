@@ -22,7 +22,7 @@ export default class InviteSellerModal extends React.Component {
     isVisible: false,
     isLoading: false,
     shopName: "",
-    shopPhoneNumber: "",
+    phoneNumber: "",
     city: "Gurgaon",
     locality: "",
     isInviteSent: false
@@ -39,25 +39,19 @@ export default class InviteSellerModal extends React.Component {
   };
 
   invite = async () => {
-    const {
-      shopName,
-      shopPhoneNumber,
-      city,
-      locality,
-      isInviteSent
-    } = this.state;
+    const { shopName, phoneNumber, city, locality, isInviteSent } = this.state;
 
     if (isInviteSent) {
       return this.closeModal();
     }
 
-    let s1 = locality;
+    let s1 = locality.concat(" ");
     let s2 = city;
     let address = s1.concat(s2);
 
     try {
       this.setState({ isLoading: true });
-      await inviteSellerByName({ shopName, shopPhoneNumber, address });
+      await inviteSellerByName({ shopName, phoneNumber, address });
       this.setState({ isInviteSent: true });
     } catch (e) {
       showSnackbar({ text: e.message });
@@ -71,7 +65,7 @@ export default class InviteSellerModal extends React.Component {
       isVisible,
       isLoading,
       shopName,
-      shopPhoneNumber,
+      phoneNumber,
       city,
       locality,
       isInviteSent
@@ -118,10 +112,8 @@ export default class InviteSellerModal extends React.Component {
                 />
                 <TextInput
                   placeholder="Shop Phone number"
-                  value={shopPhoneNumber}
-                  onChangeText={shopPhoneNumber =>
-                    this.setState({ shopPhoneNumber })
-                  }
+                  value={phoneNumber}
+                  onChangeText={phoneNumber => this.setState({ phoneNumber })}
                   underlineColorAndroid="transparent"
                   style={{
                     borderColor: "#dadada",

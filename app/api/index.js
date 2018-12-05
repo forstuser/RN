@@ -10,14 +10,20 @@ import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
 let API_BASE_URL = "https://consumer.binbill.com";
-let CASHFREE_APP_ID = "1844ecd62445987b8152c2304481";
 if (!__DEV__) {
   API_BASE_URL = "https://consumer.binbill.com";
-  CASHFREE_APP_ID = "4266316b86143383be42108a6624";
 }
-export { API_BASE_URL, CASHFREE_APP_ID };
+// test -> let CASHFREE_APP_ID = "1844ecd62445987b8152c2304481";
+// test -> let CASHFREE_URL =
+// ("http://binbillpaymentgateway.s3-website.ap-south-1.amazonaws.com/");
 
-const APP_VERSION_FOR_API = 20104;
+let CASHFREE_APP_ID = "4266316b86143383be42108a6624";
+let CASHFREE_URL =
+  "https://s3.ap-south-1.amazonaws.com/binbillpaymentgateway-prod/index.html";
+
+export { API_BASE_URL, CASHFREE_APP_ID, CASHFREE_URL };
+
+const APP_VERSION_FOR_API = 20105;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
@@ -2084,15 +2090,17 @@ export const getSellers = async ({
   });
 };
 
-export const inviteSeller = async ({ phoneNumber }) => {
-  return await apiRequest({
-    method: "post",
-    url: `/sellers/invite`,
-    data: {
-      contact_no: phoneNumber
-    }
-  });
-};
+// export const inviteSeller = async ({ phoneNumber,sellerName, }) => {
+//   return await apiRequest({
+//     method: "post",
+//     url: `/sellers/invite/details`,
+//     data: {
+//       seller_name:sellerName,
+//       contact_no: phoneNumber,
+
+//     }
+//   });
+// };
 
 export const getSellerDetails = async sellerId => {
   return await apiRequest({
@@ -2336,7 +2344,7 @@ export const deleteSeller = async sellerId => {
 
 export const inviteSellerByName = async ({
   shopName,
-  shopPhoneNumber,
+  phoneNumber,
   address
 }) => {
   return await apiRequest({
@@ -2344,7 +2352,7 @@ export const inviteSellerByName = async ({
     url: `/sellers/invite/details`,
     data: {
       seller_name: shopName,
-      contact_no: shopPhoneNumber,
+      contact_no: phoneNumber,
       address: address
     }
   });

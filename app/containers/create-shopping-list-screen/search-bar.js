@@ -43,11 +43,7 @@ export default class SearchBar extends React.Component {
     });
     this.searchInput.blur();
   };
-  componentDidMount() {
-    console.log("fc");
-  }
   toggleSellersPopup = () => {
-    console.log("selected seller:-----------------", this.props.selectedSeller);
     let { selectedSeller } = this.props;
     if (selectedSeller == null) {
       selectedSeller = "";
@@ -62,7 +58,9 @@ export default class SearchBar extends React.Component {
 
   toggleBrandSelection = brand => {
     const checkedBrands = [...this.state.checkedBrands];
-    const idx = checkedBrands.findIndex(brandItem => brandItem.id == brand.id);
+    const idx = checkedBrands.findIndex(
+      brandItem => brandItem.brand_id == brand.brand_id
+    );
     if (idx == -1) {
       checkedBrands.push(brand);
     } else {
@@ -120,11 +118,12 @@ export default class SearchBar extends React.Component {
         isBrandsPopupVisible: false,
         checkedBrands: []
         // checkedSellers: []
+      },
+      () => {
+        this.applyBrandsFilter();
       }
-      // () => {
-      //   this.toggleSellerSelection();
-      // }
     );
+
     this.filterModal.hide();
   };
 
@@ -205,7 +204,7 @@ export default class SearchBar extends React.Component {
     console.log("selectedCategoryIds 2", selectedCategoryIds);
     //console.log("active main category id 2", activeMainCategoryId);
     // console.log("measurementTypes 2", measurementTypes);
-    //console.log("Brands___________", brands);
+    console.log("Brands___________", brands);
     const activeMainCategory = activeMainCategoryId
       ? mainCategories.find(
           mainCategory => mainCategory.id == activeMainCategoryId
@@ -294,18 +293,19 @@ export default class SearchBar extends React.Component {
       if (sellerMainCategories.length == 0) {
         filteredCategories = activeMainCategory.categories;
       } else {
-        console.log("sellerMainCategories in search bar", sellerMainCategories);
-        console.log("activeMainCategory in search bar", activeMainCategory);
+        // console.log("sellerMainCategories in search bar", sellerMainCategories);
+        // console.log("activeMainCategory in search bar", activeMainCategory);
         const activeMainCategoryFromSellersMainCategories =
           sellerMainCategories.find(
             mainCategory => mainCategory.id == activeMainCategory.id
           ) || [];
-        console.log(
-          "activeMainCategoryFromSellersMainCategories in Search Bar",
-          activeMainCategoryFromSellersMainCategories
-        );
+        // console.log(
+        //   "activeMainCategoryFromSellersMainCategories in Search Bar",
+        //   activeMainCategoryFromSellersMainCategories
+        // );
         filteredCategories =
           activeMainCategoryFromSellersMainCategories.categories;
+        // console.log("get categories form parent is", sellerMainCategories);
         // filteredCategories = sellerCategoryIds;
         // activeMainCategoryFromSellersMainCategories.length > 0
         //   ? activeMainCategoryFromSellersMainCategories.categories.map(
@@ -646,13 +646,15 @@ export default class SearchBar extends React.Component {
                 if (items.length == 0 && isSearchDone) {
                   return (
                     <View style={{ padding: 20, alignItems: "center" }}>
-                      <Text style={{ textAlign: "center" }}>
-                        Sorry we couldn't find any items
-                        {searchTerm ? ` for "${searchTerm}"` : ""}
-                        {/* {!hideAddManually
+                      {searchTerm ? (
+                        <Text style={{ textAlign: "center" }}>
+                          Sorry we couldn't find any items
+                          {searchTerm ? ` for "${searchTerm}"` : ""}
+                          {/* {!hideAddManually
                           ? ", please use '+' to add manually."
                           : ""} */}
-                      </Text>
+                        </Text>
+                      ) : null}
                       {/* {searchTerm && !hideAddManually ? (
                         <Button
                           onPress={openAddManualItemModal}

@@ -250,7 +250,8 @@ class ShoppingListScreen extends React.Component {
           measurementTypes,
           activeMainCategoryId: pastItems.length > 0 ? 0 : mainCategories[0].id,
           // activeMainCategoryId: 0,
-          selectedCategoryIds: [],
+          selectedCategoryIds:
+            pastItems.length > 0 ? [] : [mainCategories[0].categories[0].id],
           // items: pastItems,
           brands: brandsList,
           sellers: res.seller_list
@@ -293,7 +294,6 @@ class ShoppingListScreen extends React.Component {
         this.setSelectedSellers(seller ? [{ ...seller }] : []);
         AsyncStorage.setItem("defaultSeller", JSON.stringify(seller));
       }
-      console.log("sellerExist", sellerExist);
     }
     console.log("in redux selelr", defaultSeller);
   };
@@ -344,7 +344,7 @@ class ShoppingListScreen extends React.Component {
                 activeMainCategoryId: 0
               },
               () => {
-                this.loadItemsFirstPage();
+                // this.loadItemsFirstPage();
                 this.updateStateMainCategoryId(0);
               }
             );
@@ -413,25 +413,26 @@ class ShoppingListScreen extends React.Component {
 
   updateStateMainCategoryId = activeMainCategoryId => {
     if (activeMainCategoryId === 194) {
-      this.setState({ hideBrands: true });
+      this.setState({ hideBrands: true, isSearchDone: true });
     } else {
-      this.setState({ hideBrands: false });
+      this.setState({ hideBrands: false, isSearchDone: true });
     }
     const { mainCategories } = this.state;
     const mainCategory = mainCategories.find(
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
-    const brands =
-      mainCategory.categories &&
-      mainCategory.categories.map(category => category.brands);
-    let listBrands = [];
-    brands && brands.forEach(brand => listBrands.push(...brand));
-    listBrands = _.uniqBy(listBrands, "brand_id");
+    // const brands =
+    //   mainCategory.categories &&
+    //   mainCategory.categories.map(category => category.brands);
+    // let listBrands = [];
+    // brands && brands.forEach(brand => listBrands.push(...brand));
+    // listBrands = _.uniqBy(listBrands, "brand_id");
+    console.log("main category is ", mainCategory);
     const newState = { activeMainCategoryId, selectedBrands: [] };
 
     if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
-      newState.selectedCategoryIds = [];
-      newState.brands = listBrands;
+      newState.selectedCategoryIds = [mainCategory.categories[0].id];
+      newState.brands = mainCategory.categories[0].brands;
     } else {
       newState.items = this.state.pastItems;
       newState.selectedBrands = [];
@@ -451,10 +452,22 @@ class ShoppingListScreen extends React.Component {
     } else {
       selectedCategoryIds = [categoryId];
     }
-
-    this.setState({ selectedCategoryIds, selectedBrands: [] }, () => {
-      this.loadItemsFirstPage();
-    });
+    const mainCategory = this.state.mainCategories.filter(
+      mainCategoryItem => mainCategoryItem.id == this.state.activeMainCategoryId
+    );
+    const filteredBrands = mainCategory[0].categories.filter(
+      item => item.id == categoryId
+    );
+    this.setState(
+      {
+        selectedCategoryIds,
+        selectedBrands: [],
+        brands: filteredBrands[0].brands
+      },
+      () => {
+        this.loadItemsFirstPage();
+      }
+    );
   };
 
   updateItem = (index, data) => {
@@ -625,8 +638,8 @@ class ShoppingListScreen extends React.Component {
   loadItems = async (offset = 0) => {
     const { items } = this.state;
     this.setState({
-      isSearching: true,
-      isSearchDone: false,
+      // isSearching: true,
+      // isSearchDone: false,
       searchError: null
     });
     const {
@@ -636,16 +649,13 @@ class ShoppingListScreen extends React.Component {
       selectedBrands,
       selectedSeller
     } = this.state;
-    console.log(
-      "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      this.state.activeMainCategoryId
-    );
+    console.log("pap", selectedBrands);
     try {
       const data = {
         mainCategoryId: activeMainCategoryId ? activeMainCategoryId : undefined,
         categoryIds: !searchTerm ? selectedCategoryIds : undefined,
         searchTerm: searchTerm.replace(/ /g, "%") || undefined,
-        brandIds: selectedBrands.map(brand => brand.id),
+        brandIds: selectedBrands.map(brand => brand.brand_id),
         sellerId: selectedSeller ? selectedSeller.id : undefined,
         offset: items.length
       };
@@ -655,8 +665,8 @@ class ShoppingListScreen extends React.Component {
         this.setState({ endhasReachedFlag: true });
       }
       const newState = {
-        isSearching: false,
-        isSearchDone: true,
+        // isSearching: false,
+        // isSearchDone: true,
         items: [...items, ...res.result.sku_items],
         //brands: res.result.brands,
         sellers: res.seller_list,
@@ -671,6 +681,7 @@ class ShoppingListScreen extends React.Component {
   };
 
   setSelectedBrands = (selectedBrands, stopItemLoad = false) => {
+    console.log("xxxxxxxxxxxxxxxxxxxsssssssssssss", selectedBrands);
     this.setState({ selectedBrands }, () => {
       if (!stopItemLoad) {
         this.loadItemsFirstPage();
@@ -922,7 +933,7 @@ class ShoppingListScreen extends React.Component {
           isVisible={isVisibleCashbackModal}
           title="Shop & Earn Paytm Cashback"
           style={{
-            height: 375,
+            height: 400,
             ...defaultStyles.card
           }}
           onClosePress={this.closeCashbackModal}
@@ -960,15 +971,48 @@ class ShoppingListScreen extends React.Component {
               >
                 Route A:
               </Text>
-              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (i) Create Shopping List
-              </Text>
-              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (ii) Shop with your List anywhere
-              </Text>
-              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (iii) Upload valid Bill & Get Cashback
-              </Text>
+              <View style={{ padding: 5, flexDirection: "row" }}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../../images/check_icon.png")}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
+                  Create Shopping List
+                </Text>
+              </View>
+              <View style={{ padding: 5, flexDirection: "row" }}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../../images/check_icon.png")}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
+                  Shop with your List anywhere
+                </Text>
+              </View>
+              <View style={{ padding: 5, flexDirection: "row" }}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../../images/check_icon.png")}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
+                  Upload valid Bill & Get Cashback
+                </Text>
+              </View>
             </View>
             <View style={{ padding: 10 }}>
               <Text
@@ -982,13 +1026,48 @@ class ShoppingListScreen extends React.Component {
               >
                 Route B:
               </Text>
-
-              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (i) Order Online on BinBill Store
-              </Text>
-              <Text weight="Light" style={{ padding: 5, fontSize: 14 }}>
-                (ii) Pay for your Order & Get Cashback
-              </Text>
+              <View style={{ padding: 5, flexDirection: "row" }}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../../images/check_icon.png")}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
+                  Add Seller/Store in My Seller section
+                </Text>
+              </View>
+              <View style={{ padding: 5, flexDirection: "row" }}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../../images/check_icon.png")}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
+                  Order Online from any added BinBill Store
+                </Text>
+              </View>
+              <View style={{ padding: 5, flexDirection: "row" }}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Image
+                    style={{ width: 20, height: 20 }}
+                    source={require("../../images/check_icon.png")}
+                    resizeMode="contain"
+                  />
+                </View>
+                <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
+                  Pay for your Order & Earn Cashback
+                </Text>
+              </View>
             </View>
             <TouchableOpacity
               onPress={this.toggleNeverShowCashbackModal}

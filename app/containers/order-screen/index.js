@@ -43,7 +43,8 @@ import {
   SCREENS,
   ORDER_TYPES,
   SERVICE_PRICE_TYPES,
-  LOCATIONS
+  LOCATIONS,
+  PAYMENT_MODES
 } from "../../constants";
 
 import Status from "./status";
@@ -64,10 +65,6 @@ let deviceWidth = Dimensions.get("window").width;
 //let webViewLoadCount = 1;
 
 class OrderScreen extends React.Component {
-  // static navigationOptions = {
-  //   title: "Order Details"
-  // };
-
   static navigationOptions = ({ navigation }) => {
     const params = navigation.state.params || {};
 
@@ -186,6 +183,10 @@ class OrderScreen extends React.Component {
     } catch (error) {
       this.setState({ error });
     } finally {
+      if (this.state.error != null) {
+        const res = await getOrderDetails({ orderId });
+        this.setState({ order: res.result });
+      }
       this.setState({ isLoading: false });
     }
   };
@@ -395,9 +396,24 @@ class OrderScreen extends React.Component {
 
   completeOrder = async () => {
     Analytics.logEvent(Analytics.EVENTS.MARK_PAID);
-
-    //Open the action sheet for the payment options
-    this.paymentOptions.show();
+    const { order } = this.state;
+    const { user } = this.props;
+    console.log("order state", order);
+    if (
+      order.payment_ref_id &&
+      order.payment_mode_id &&
+      order.payment_status &&
+      order.payment_mode_id == 4 &&
+      (order.payment_status == 13 || order.payment_status == 4)
+    ) {
+      this.props.navigation.navigate(SCREENS.PENDING_PAYMENT_STATUS_SCREEN, {
+        transactionStatus: 13,
+        orderId: order.payment_ref_id,
+        orderAmount: order.total_amount,
+        order: order,
+        user: user
+      });
+    } else this.paymentOptions.show();
   };
 
   openDigitalBill = () => {
@@ -415,7 +431,7 @@ class OrderScreen extends React.Component {
       const res = await completeOrder({
         orderId: order.id,
         sellerId: order.seller_id,
-        payment_mode: 1
+        payment_mode: PAYMENT_MODES.OFFLINE
       });
       console.log("res for work is ", res);
       this.setState({ order: res.result.order }, () => {
@@ -428,7 +444,11 @@ class OrderScreen extends React.Component {
         // } else {
         //   this.openReviewsScreen();
         // }
-        this.openDigitalBill();
+        if (order.order_type == ORDER_TYPES.FMCG) {
+          this.openDigitalBill();
+        } else {
+          this.openReviewsScreen();
+        }
       });
 
       showSnackbar({ text: "Order completed!" });
@@ -447,11 +467,16 @@ class OrderScreen extends React.Component {
       const res = await completeOrder({
         orderId: order.id,
         sellerId: order.seller_id,
-        payment_mode: 5
+        payment_mode: PAYMENT_MODES.CREDIT
       });
 
       this.setState({ order: res.result.order }, () => {
-        this.openDigitalBill();
+        if (order.order_type == ORDER_TYPES.FMCG) {
+          this.openDigitalBill();
+        } else {
+          this.openReviewsScreen();
+        }
+        // this.openDigitalBill();
       });
 
       showSnackbar({ text: "Order completed!" });
@@ -957,16 +982,8 @@ class OrderScreen extends React.Component {
                 (order.status_type == ORDER_STATUS_TYPES.END_TIME &&
                   order.order_type == ORDER_TYPES.ASSISTED_SERVICE) ? (
                   <Button
-                    onPress={
-                      order.payment_status && order.payment_status == 13
-                        ? this.checkPaymentStatus
-                        : this.completeOrder
-                    }
-                    text={
-                      order.payment_status && order.payment_status == 13
-                        ? "Check Payment Status"
-                        : "Pay Now"
-                    }
+                    onPress={this.completeOrder}
+                    text="Pay Now"
                     color="secondary"
                     borderRadius={0}
                   />

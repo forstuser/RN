@@ -10,7 +10,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import { showSnackbar } from "../../utils/snackbar";
 
-import { inviteSeller } from "../../api";
+import { inviteSellerByName } from "../../api";
 
 import Modal from "../../components/modal";
 import LoadingOverlay from "../../components/loading-overlay";
@@ -43,12 +43,16 @@ export default class InviteSellerModal extends React.Component {
     if (isInviteSent) {
       return this.closeModal();
     }
+    let s1 = locality.concat(" ");
+    let s2 = city;
+    let address = s1.concat(s2);
+
     if (phoneNumber.length != 10) {
       return showSnackbar({ text: "Please enter 10 digit mobile number" });
     }
     try {
       this.setState({ isLoading: true });
-      await inviteSeller({ phoneNumber });
+      await inviteSellerByName({ shopName, phoneNumber, address });
       this.setState({ isInviteSent: true });
     } catch (e) {
       showSnackbar({ text: e.message });

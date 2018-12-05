@@ -17,7 +17,7 @@ import QuantityPlusMinus from "../../components/quantity-plus-minus";
 export default class SelectedItemsList extends React.Component {
   render() {
     const {
-      measurementTypes,
+      //measurementTypes,
       selectedItems,
       changeIndexQuantity,
       skuItemIdsCurrentlyModifying
@@ -136,11 +136,16 @@ export default class SelectedItemsList extends React.Component {
                         marginRight: 20
                       }}
                     >
-                      {item.sku_measurement
+                      {/* {item.sku_measurement
                         ? ` (${item.sku_measurement.measurement_value +
                             measurementTypes[
                               item.sku_measurement.measurement_type
                             ].acronym +
+                            pack_no})`
+                        : ``} */}
+                      {item.sku_measurement
+                        ? ` (${item.sku_measurement.measurement_value +
+                            item.sku_measurement.measurement_acronym +
                             pack_no})`
                         : ``}
                     </Text>
@@ -206,7 +211,7 @@ export default class SelectedItemsList extends React.Component {
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    marginTop: 0
+                    marginTop: item.offer_discount > 0 ? -3 : 0
                   }}
                 >
                   <View style={{ flex: 1 }}>

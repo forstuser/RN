@@ -5,7 +5,8 @@ import {
   FlatList,
   Animated,
   Image,
-  Dimensions
+  Dimensions,
+  AsyncStorage
 } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 import Snackbar from "../../utils/snackbar";
@@ -33,6 +34,7 @@ import Analytics from "../../analytics";
 import SkuItemOffer from "./single-sku-offer";
 import SingleNormalOffer from "./single-normal-offer";
 const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const ITEM_SELECTOR_HEIGHT = 120;
@@ -50,7 +52,8 @@ export default class OffersTab extends React.Component {
     error: null,
     normalOffers: [],
     skuOffers: [],
-    wishList: []
+    wishList: [],
+    emptyMessage: null
   };
 
   componentDidMount() {
@@ -58,7 +61,7 @@ export default class OffersTab extends React.Component {
       "didFocus",
       () => {
         this.fetchCategories();
-        this.fetchWishlist();
+        //this.fetchWishlist();
       }
     );
     //this.listScrollPosition.addListener(this.onListScroll);
@@ -101,17 +104,17 @@ export default class OffersTab extends React.Component {
     }
   };
 
-  fetchWishlist = async () => {
-    try {
-      const res = await getSkuWishList();
-      this.setState({ wishList: res.result.wishlist_items });
-    } catch (wishListError) {
-      console.log("wishListError: ", wishListError);
-      //this.setState({ wishListError });
-    } finally {
-      this.setState({ wishList: res.result.wishlist_items });
-    }
-  };
+  // fetchWishlist = async () => {
+  //   try {
+  //     const res = await getSkuWishList();
+  //     this.setState({ wishList: res.result.wishlist_items });
+  //   } catch (wishListError) {
+  //     console.log("wishListError: ", wishListError);
+  //     //this.setState({ wishListError });
+  //   } finally {
+  //     this.setState({ wishList: res.result.wishlist_items });
+  //   }
+  // };
 
   fetchCategories = async () => {
     this.setState({
@@ -121,23 +124,34 @@ export default class OffersTab extends React.Component {
       offers: []
     });
     try {
+      const defaultSeller = JSON.parse(
+        await AsyncStorage.getItem("defaultSeller")
+      );
       const result1 = await getSellerOffers();
       console.log("Seller Offers: ", result1);
+      console.log("Default Seller: ", defaultSeller);
       let resCategories = result1.result;
-      console.log("selleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", resCategories);
+      //console.log("selleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", resCategories);
       const categories = resCategories.map(seller => ({
         ...seller,
         name: seller.name,
         imageUrl: `/consumer/sellers/${seller.id}/upload/1/images/0`
       }));
-
+      this.setState({ emptyMessage: result1.message });
+      let sellerIndex = 0;
+      if (defaultSeller) {
+        sellerIndex = categories.findIndex(
+          category => category.id == defaultSeller.id
+        );
+        console.log("seller index: ", sellerIndex);
+      }
       this.setState({
         categories,
-        selectedCategory: result1.result[0],
-        normalOffers: result1.result[0].offers.filter(
+        selectedCategory: result1.result[sellerIndex] || result1.result[0],
+        normalOffers: result1.result[sellerIndex].offers.filter(
           offer => offer.on_sku != true
         ),
-        skuOffers: result1.result[0].offers.filter(
+        skuOffers: result1.result[sellerIndex].offers.filter(
           offer => offer.on_sku == true
         )
       });
@@ -150,7 +164,7 @@ export default class OffersTab extends React.Component {
   };
 
   onCategorySelect = category => {
-    this.fetchWishlist();
+    this.props.getWishList();
     this.setState({
       selectedCategory: category,
       normalOffers: category.offers.filter(offer => offer.on_sku != true),
@@ -159,13 +173,15 @@ export default class OffersTab extends React.Component {
   };
 
   renderSkuOffers = ({ item, index }) => {
-    const { wishList, selectedCategory } = this.state;
+    const { selectedCategory } = this.state;
+    const { wishList, getWishList } = this.props;
     return (
       <SkuItemOffer
         key={index}
         item={item}
         wishList={wishList}
         selectedCategory={selectedCategory}
+        getWishList={getWishList}
       />
     );
   };
@@ -188,7 +204,8 @@ export default class OffersTab extends React.Component {
       isLoading,
       error,
       normalOffers,
-      skuOffers
+      skuOffers,
+      emptyMessage
     } = this.state;
     // console.log("Category: ", selectedCategory);
     if (error) {
@@ -224,7 +241,7 @@ export default class OffersTab extends React.Component {
                 top: 0,
                 left: 0,
                 right: 0,
-                height: ITEM_SELECTOR_HEIGHT - 25,
+                height: ITEM_SELECTOR_HEIGHT + 20,
                 marginTop: -15
               }
               // {
@@ -249,11 +266,14 @@ export default class OffersTab extends React.Component {
           <View
             style={[
               {
-                position: "absolute",
-                top: 0,
-                left: 0,
-                right: 0,
-                height: ITEM_SELECTOR_HEIGHT
+                // position: "absolute",
+                // top: 0,
+                // left: 0,
+                // right: 0,
+                height: windowHeight,
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center"
               }
               // {
               //   transform: [
@@ -264,16 +284,22 @@ export default class OffersTab extends React.Component {
               // }
             ]}
           >
+            <Image
+              style={{ width: 150, height: 150 }}
+              source={require("../../images/empty_offers.png")}
+              resizeMode="contain"
+            />
             <Text
+              //weight="Medium"
               style={{
                 padding: 20,
                 fontSize: 16,
                 textAlign: "center",
-                marginTop: 20,
+                marginTop: 5,
                 color: colors.secondaryText
               }}
             >
-              No offers available as of now from any of your sellers currently
+              {emptyMessage}
             </Text>
           </View>
         )}
@@ -356,7 +382,7 @@ export default class OffersTab extends React.Component {
             contentContainerStyle={{
               // paddingTop:
               //   normalOffers.length == 0 ? ITEM_SELECTOR_HEIGHT - 40 : 0
-              paddingTop: ITEM_SELECTOR_HEIGHT - 40
+              paddingTop: ITEM_SELECTOR_HEIGHT - 0
             }}
             style={{
               //marginTop: normalOffers.length == 0 ? 10 : 5,

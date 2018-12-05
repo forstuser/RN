@@ -338,6 +338,7 @@ class MySellersScreen extends React.Component {
               let flag = false;
               let flagDay = false;
               let flagTime = false;
+              let flagLoggedOut = false;
               let currrentTime = moment();
               let day = currrentTime.day();
               let opening_days =
@@ -383,6 +384,9 @@ class MySellersScreen extends React.Component {
                   item.is_logged_out === true
                 ) {
                   flagTime = true;
+                }
+                if (item.is_logged_out == true) {
+                  flagLoggedOut = true;
                 }
               }
 
@@ -445,7 +449,7 @@ class MySellersScreen extends React.Component {
                       alignItems: "center"
                     }}
                   >
-                    {flagTime ? (
+                    {flagTime && !flagLoggedOut ? (
                       <Text>
                         Open Hours -{" "}
                         {item.seller_details.basic_details.start_time} -{" "}

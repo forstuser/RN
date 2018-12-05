@@ -19,12 +19,16 @@ class ShoppingListItem extends React.Component {
       order
     } = this.props;
     let cashback = 0;
+    console.log("item", item);
     if (item.sku_measurement && item.sku_measurement.cashback_percent) {
       cashback = (
-        ((item.sku_measurement.mrp * item.sku_measurement.cashback_percent) /
-          100) *
+        ((item.unit_price * item.sku_measurement.cashback_percent) / 100) *
         item.quantity
       ).toFixed(2);
+    }
+    console.log("final cashback after calculation", cashback);
+    if (cashback > 10) {
+      cashback = 10;
     }
 
     let updatedCashback = 0;
@@ -49,6 +53,10 @@ class ShoppingListItem extends React.Component {
       updatedCashback = updatedCashback.toFixed(2);
     }
 
+    if (updatedCashback > 10) {
+      updatedCashback = 10;
+    }
+
     let pack_no = "";
     let quant = "";
 
@@ -67,6 +75,7 @@ class ShoppingListItem extends React.Component {
     if (item.quantity && item.quantity > 1) {
       quant = " x " + item.quantity;
     }
+
     return (
       <View
         style={{
@@ -75,36 +84,72 @@ class ShoppingListItem extends React.Component {
           marginHorizontal: 10
         }}
       >
-        <View style={{ marginRight: 5 }}>
-          <TouchableOpacity
-            style={{
-              // width: 55,
-              // height: 60,
-              //borderRadius: 8,
-              // alignItems: "center",
-              //justifyContent: "center",
-              backgroundColor:
-                item.suggestion && orderStatus === 4
-                  ? colors.secondaryText
-                  : "#fff"
-            }}
-          >
-            <Image
-              style={{
-                width: 80,
-                height: 80,
-                justifyContent: "flex-start",
-                alignSelf: "flex-start",
-                alignContent: "flex-start"
-              }}
-              resizeMode="contain"
-              source={{
-                uri: API_BASE_URL + `/skus/${item.id}/images`
-              }}
-              //source={require("../../images/binbill_logo.png")}
-            />
-            {/* <Icon name="md-checkmark" size={12} color="#fff" /> */}
-          </TouchableOpacity>
+        <View
+          style={{
+            marginRight: 5,
+            opacity:
+              (item.suggestion && orderStatus === 4) || !item.item_availability
+                ? 0.5
+                : 1
+          }}
+        >
+          {item.sku_measurement ? (
+            <TouchableOpacity
+              style={
+                {
+                  // width: 55,
+                  // height: 60,
+                  //borderRadius: 8,
+                  // alignItems: "center",
+                  //justifyContent: "center",
+                  //backgroundColor: "#fff"
+                }
+              }
+            >
+              <Image
+                style={{
+                  width: 80,
+                  height: 80,
+                  justifyContent: "flex-start",
+                  alignSelf: "flex-start",
+                  alignContent: "flex-start"
+                }}
+                resizeMode="contain"
+                source={{
+                  uri:
+                    API_BASE_URL +
+                    `/skus/${item.id}/measurements/${
+                      item.sku_measurement.id
+                    }/images`
+                }}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={
+                {
+                  // width: 55,
+                  // height: 60,
+                  //borderRadius: 8,
+                  // alignItems: "center",
+                  //justifyContent: "center",
+                  //backgroundColor: "#fff"
+                }
+              }
+            >
+              <Image
+                style={{
+                  width: 80,
+                  height: 80,
+                  justifyContent: "flex-start",
+                  alignSelf: "flex-start",
+                  alignContent: "flex-start"
+                }}
+                resizeMode="contain"
+                source={require("../../images/blackBinbill.png")}
+              />
+            </TouchableOpacity>
+          )}
         </View>
         <View
           style={{
@@ -160,8 +205,34 @@ class ShoppingListItem extends React.Component {
               marginTop: 5
             }}
           >
-            <View style={{ flexDirection: "row" }}>
-              {cashback > 0 ? (
+            {item.offer_discount > 0 ? (
+              <View>
+                <Text
+                  style={{
+                    fontSize: 12,
+                    color: colors.success
+                  }}
+                >
+                  You saved ₹{" "}
+                  {item.current_unit_price * item.quantity -
+                    item.current_selling_price}{" "}
+                  <Text style={{ color: colors.mainBlue }}>
+                    ({item.offer_discount}% off)
+                  </Text>
+                </Text>
+              </View>
+            ) : (
+              <View />
+            )}
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop:
+                  item.offer_discount && item.offer_discount > 0 ? 5 : 0
+              }}
+            >
+              {cashback > 0 &&
+              (!item.offer_discount || item.offer_discount <= 0) ? (
                 <Text
                   weight="Medium"
                   style={{
@@ -173,7 +244,23 @@ class ShoppingListItem extends React.Component {
                         : colors.mainBlue
                   }}
                 >
-                  You get back ₹ {cashback}
+                  You get cashback ₹ {cashback}
+                </Text>
+              ) : cashback > 0 &&
+                item.offer_discount &&
+                item.offer_discount > 0 ? (
+                <Text
+                  weight="Medium"
+                  style={{
+                    fontSize: 10,
+                    color:
+                      (item.suggestion && orderStatus === 4) ||
+                      !item.item_availability
+                        ? colors.secondaryText
+                        : colors.mainBlue
+                  }}
+                >
+                  You get additional cashback of ₹ {cashback}
                 </Text>
               ) : (
                 <View />
@@ -195,8 +282,11 @@ class ShoppingListItem extends React.Component {
                   (Rs.{" "}
                   {item.current_unit_price &&
                   order.status_type == 4 &&
-                  order.is_modified
+                  order.is_modified &&
+                  (item.offer_discount && item.offer_discount <= 0)
                     ? item.current_unit_price
+                    : item.offer_discount && item.offer_discount > 0
+                    ? item.current_selling_price / item.quantity
                     : item.unit_price}{" "}
                   x {item.quantity})
                 </Text>
@@ -282,9 +372,7 @@ class ShoppingListItem extends React.Component {
                       source={{
                         uri: API_BASE_URL + `/skus/${item.suggestion.id}/images`
                       }}
-                      //source={require("../../images/binbill_logo.png")}
                     />
-                    {/* <Icon name="md-checkmark" size={12} color="#fff" /> */}
                   </TouchableOpacity>
                   <Text
                     weight="Medium"

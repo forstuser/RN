@@ -118,6 +118,7 @@ class FilterModalScreen extends Component {
     // }
     if (this.state.selectedMainCategory === "Filter by Brands") {
       source = this.props.brands;
+      console.log("final brands", source);
     }
 
     //console.log("Brands in Filter", this.props.brands);

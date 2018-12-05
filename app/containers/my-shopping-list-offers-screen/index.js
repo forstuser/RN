@@ -82,7 +82,7 @@ class MyShoppingList extends React.Component {
   }
 
   onSharePress = () => {
-    Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_PLACE_ORDER);
+    //Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_PLACE_ORDER);
     const selectedSeller = this.props.navigation.getParam("selectedSeller", []);
     //console.log('selectedSellers ', selectedSellers);
     if (!selectedSeller) {
@@ -250,7 +250,7 @@ class MyShoppingList extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const measurementTypes = navigation.getParam("measurementTypes", []);
+    //const measurementTypes = navigation.getParam("measurementTypes", []);
 
     const {
       isShareModalVisible,
@@ -303,7 +303,7 @@ class MyShoppingList extends React.Component {
           >
             <SelectedItemsList
               show={this.state.showPlusMinusDelete}
-              measurementTypes={measurementTypes}
+              //measurementTypes={measurementTypes}
               selectedItems={wishList}
               skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
               changeIndexQuantity={this.changeIndexQuantity}

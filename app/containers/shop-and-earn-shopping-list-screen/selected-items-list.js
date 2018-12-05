@@ -45,6 +45,9 @@ export default class SelectedItemsList extends React.Component {
                 100) *
               item.quantity;
           }
+          if (cashback > 10) {
+            cashback = 10;
+          }
 
           let pack_no = "";
           if (

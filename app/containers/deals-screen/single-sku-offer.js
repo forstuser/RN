@@ -29,7 +29,12 @@ export default class SkuItemOffer extends React.Component {
 
   componentWillMount() {
     const { wishList, item } = this.props;
-    if (wishList.filter(wishlist => wishlist.id == item.sku_id).length > 0) {
+    if (
+      wishList.filter(
+        wishlist =>
+          wishlist.id == item.sku_id && wishlist.seller_id == item.seller_id
+      ).length > 0
+    ) {
       this.setState({ showBtn: false });
     }
   }
@@ -48,6 +53,7 @@ export default class SkuItemOffer extends React.Component {
     } catch (error) {
       console.log(error);
     } finally {
+      this.props.getWishList();
       this.setState({ showBtn: false });
       //console.log("Item added");
     }
@@ -60,7 +66,11 @@ export default class SkuItemOffer extends React.Component {
       await AsyncStorage.getItem("defaultSeller")
     );
     if (defaultSeller && defaultSeller.id != selectedCategory.id) {
-      this.setState({ isClearItems: true });
+      if (wishList.length > 0) this.setState({ isClearItems: true });
+      else {
+        AsyncStorage.setItem("defaultSeller", JSON.stringify(selectedCategory));
+        this.addItem(item);
+      }
     } else this.addItem(item);
   };
 
@@ -129,7 +139,7 @@ export default class SkuItemOffer extends React.Component {
               }}
             />
           </View>
-          <View style={{ marginLeft: 10 }}>
+          <View style={{ flex: 1, marginLeft: 10, paddingRight: 10 }}>
             <Text
               weight="Medium"
               style={{
@@ -143,7 +153,16 @@ export default class SkuItemOffer extends React.Component {
               {item.sku_title}
             </Text>
             <Text
-              weight="Bold"
+              style={{
+                marginLeft: 5,
+                fontSize: 12,
+                flex: 1
+              }}
+            >
+              ({item.measurement_value}
+              {""} {item.acronym})
+            </Text>
+            <Text
               style={{
                 marginLeft: 5,
                 fontSize: 16,
@@ -153,7 +172,7 @@ export default class SkuItemOffer extends React.Component {
               }}
             >
               Price: ₹ {price}{" "}
-              <Text style={{ color: colors.mainBlue }}>
+              <Text style={{ color: colors.success }}>
                 ({item.offer_discount}% off)
               </Text>
             </Text>
@@ -162,7 +181,9 @@ export default class SkuItemOffer extends React.Component {
                 marginLeft: 5,
                 fontSize: 14,
                 flex: 1,
-                marginRight: 10
+                marginRight: 10,
+                textDecorationLine: "line-through",
+                textDecorationColor: "#000"
               }}
             >
               MRP: ₹ {item.mrp}
@@ -170,7 +191,7 @@ export default class SkuItemOffer extends React.Component {
             <Text
               weight="Light"
               style={{
-                fontStyle: "italic",
+                //fontStyle: "italic",
                 marginLeft: 5,
                 fontSize: 10,
                 flex: 1,
@@ -178,26 +199,26 @@ export default class SkuItemOffer extends React.Component {
                 marginTop: 5
               }}
             >
-              Offer valid till stocks last
+              *Offer valid till stocks last
             </Text>
             {showBtn ? (
               <Button
                 textStyle={{ fontSize: 14 }}
-                style={{ height: 35, width: 180, marginTop: 8 }}
+                style={{ height: 35, width: 75, marginTop: 8 }}
                 onPress={() => this.addItemToShoppingList(item)}
-                text="Add to Shopping List"
+                text="Add"
                 color="secondary"
               />
             ) : (
               <Text
                 style={{
                   fontSize: 10,
-                  color: colors.success,
+                  color: "#33c600",
                   marginTop: 8,
                   marginLeft: 6
                 }}
               >
-                Already added to Your Shopping List
+                Added to Your Shopping List
               </Text>
             )}
           </View>

@@ -16,7 +16,8 @@ class ActiveOrdersScreen extends Component {
     activeAssistedServicesRequest: [],
     error: null,
     isFetchingData: false,
-    sellerExist: false
+    sellerExist: false,
+    emptyMessage: null
   };
 
   componentDidMount() {
@@ -39,7 +40,8 @@ class ActiveOrdersScreen extends Component {
       this.setState({
         isFetchingData: false,
         activeDeliveryOrders: activeOrders.result,
-        sellerExist: activeOrders.seller_exist
+        sellerExist: activeOrders.seller_exist,
+        emptyMessage: activeOrders.message
       });
     } catch (error) {
       console.log("order error: ", error);
@@ -105,7 +107,8 @@ class ActiveOrdersScreen extends Component {
     const {
       activeDeliveryOrders,
       activeAssistedServicesRequest,
-      sellerExist
+      sellerExist,
+      emptyMessage
     } = this.state;
     let activeOrders = null;
     let deliveryOrders = null;
@@ -200,7 +203,7 @@ class ActiveOrdersScreen extends Component {
                   padding: 15
                 }}
               >
-                You have not placed any recent orders
+                {emptyMessage}
               </Text>
               <Button
                 style={{ height: 40, width: 275, marginTop: 30 }}
@@ -224,9 +227,9 @@ class ActiveOrdersScreen extends Component {
                 padding: 15
               }}
             >
-              You have not placed any recent orders. Please invite or simply add
-              your nearby Sellers to start placing orders and to avail
-              additional benefits.
+              You have not placed any Order. Please invite your neighbourhood
+              Seller Or simply Add from the list of your nearby Sellers in ‘My
+              seller’ section to place an Order & avail exciting Offers.
             </Text>
           )}
         </View>
@@ -242,7 +245,7 @@ class ActiveOrdersScreen extends Component {
     return (
       <View style={{ flex: 1 }}>
         {activeOrders}
-        <LoadingOverlay visible={this.state.isFetchingData} />
+        {/* <LoadingOverlay visible={this.state.isFetchingData} /> */}
       </View>
     );
   }
