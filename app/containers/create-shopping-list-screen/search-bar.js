@@ -118,11 +118,12 @@ export default class SearchBar extends React.Component {
         isBrandsPopupVisible: false,
         checkedBrands: []
         // checkedSellers: []
+      },
+      () => {
+        this.applyBrandsFilter();
       }
-      // () => {
-      //   this.toggleSellerSelection();
-      // }
     );
+
     this.filterModal.hide();
   };
 
