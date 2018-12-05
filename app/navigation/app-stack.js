@@ -95,6 +95,7 @@ import CashbackBillGuidelines from "../containers/cashback-bill-guidelines-scree
 import ShopAndEarnShoppingList from "../containers/shop-and-earn-shopping-list-screen";
 import CashFreePaymentStatusScreen from "../containers/order-screen/cashfree-payment-status";
 import LoaderScreen from "../containers/create-shopping-list-screen/loader";
+import PendingPaymentStatusScreen from "../containers/order-screen/pending-status-screen";
 import ShoppingListOffersScreen from "../containers/my-shopping-list-offers-screen";
 
 const BottomTabStack = createBottomTabNavigator(
@@ -194,6 +195,7 @@ const StackNavigator = createStackNavigator(
       navigationOptions: { header: null }
     },
     [SCREENS.SHOPPING_LIST_OFFERS_SCREEN]: ShoppingListOffersScreen,
+    [SCREENS.PENDING_PAYMENT_STATUS_SCREEN]: PendingPaymentStatusScreen,
     [SCREENS.LOADER_SCREEN_SHOP_EARN]: LoaderScreen,
     [SCREENS.ASC_SCREEN]: AscScreen,
     [SCREENS.PRODUCT_DETAILS_SCREEN]: ProductDetailsScreen,

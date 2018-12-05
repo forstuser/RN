@@ -396,9 +396,24 @@ class OrderScreen extends React.Component {
 
   completeOrder = async () => {
     Analytics.logEvent(Analytics.EVENTS.MARK_PAID);
-
-    //Open the action sheet for the payment options
-    this.paymentOptions.show();
+    const { order } = this.state;
+    const { user } = this.props;
+    console.log("order state", order);
+    if (
+      order.payment_ref_id &&
+      order.payment_mode_id &&
+      order.payment_status &&
+      order.payment_mode_id == 4 &&
+      (order.payment_status == 13 || order.payment_status == 4)
+    ) {
+      this.props.navigation.navigate(SCREENS.PENDING_PAYMENT_STATUS_SCREEN, {
+        transactionStatus: 13,
+        orderId: order.payment_ref_id,
+        orderAmount: order.total_amount,
+        order: order,
+        user: user
+      });
+    } else this.paymentOptions.show();
   };
 
   openDigitalBill = () => {
@@ -967,16 +982,8 @@ class OrderScreen extends React.Component {
                 (order.status_type == ORDER_STATUS_TYPES.END_TIME &&
                   order.order_type == ORDER_TYPES.ASSISTED_SERVICE) ? (
                   <Button
-                    onPress={
-                      order.payment_status && order.payment_status == 13
-                        ? this.checkPaymentStatus
-                        : this.completeOrder
-                    }
-                    text={
-                      order.payment_status && order.payment_status == 13
-                        ? "Check Payment Status"
-                        : "Pay Now"
-                    }
+                    onPress={this.completeOrder}
+                    text="Pay Now"
                     color="secondary"
                     borderRadius={0}
                   />
