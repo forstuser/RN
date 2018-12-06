@@ -4,7 +4,6 @@ import { Text, Button, Image } from "../../elements";
 import SuccessImage from "../../images/status_success.png";
 import FailedImage from "../../images/status_cancel.png";
 import PendingImage from "../../images/status_pending.png";
-
 import {
   API_BASE_URL,
   completeOrder,
@@ -103,18 +102,11 @@ class CashFreePaymentStatusScreen extends Component {
         customerEmail: (user.email || "support@binbill.com").toString(),
         customerPhone: (user.phone || "").toString()
       };
-
-      //console.log("postData===============", postData);
-
       const res = await getGeneratedSignature(postData);
-
-      //console.log("res.result.postData==================", res.result);
-
       this.setState({
         orderIdWebView: res.result.orderId,
         orderAmountWebView: res.result.orderAmount
       });
-
       let new_appId = res.result.appId;
       let new_orderId = res.result.orderId;
       let new_orderAmount = res.result.orderAmount;
@@ -126,7 +118,6 @@ class CashFreePaymentStatusScreen extends Component {
       let new_returnUrl = res.result.returnUrl;
       let new_notifyUrl = res.result.notifyUrl;
       let new_signature = res.result.signature;
-
       this.sendData.postMessage(
         new_appId +
           "," +
