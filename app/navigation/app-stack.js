@@ -96,6 +96,7 @@ import CashbackBillGuidelines from "../containers/cashback-bill-guidelines-scree
 import ShopAndEarnShoppingList from "../containers/shop-and-earn-shopping-list-screen";
 import CashFreePaymentStatusScreen from "../containers/order-screen/cashfree-payment-status";
 import LoaderScreen from "../containers/create-shopping-list-screen/loader";
+import PendingPaymentStatusScreen from "../containers/order-screen/pending-status-screen";
 import ShoppingListOffersScreen from "../containers/my-shopping-list-offers-screen";
 import PendingPaymentStatusScreen from "../containers/order-screen/pending-status-screen";
 

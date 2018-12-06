@@ -121,7 +121,8 @@ export default class OffersTab extends React.Component {
       isLoading: true,
       error: null,
       selectedCategory: null,
-      offers: []
+      skuOffers: [],
+      normalOffers: []
     });
     try {
       const defaultSeller = JSON.parse(
@@ -147,13 +148,20 @@ export default class OffersTab extends React.Component {
       }
       this.setState({
         categories,
-        selectedCategory: result1.result[sellerIndex] || result1.result[0],
-        normalOffers: result1.result[sellerIndex].offers.filter(
-          offer => offer.on_sku != true
-        ),
-        skuOffers: result1.result[sellerIndex].offers.filter(
-          offer => offer.on_sku == true
-        )
+        selectedCategory:
+          sellerIndex > -1 ? result1.result[sellerIndex] : result1.result[0],
+        normalOffers:
+          sellerIndex > -1
+            ? result1.result[sellerIndex].offers.filter(
+                offer => offer.on_sku != true
+              )
+            : result1.result[0].offers.filter(offer => offer.on_sku != true),
+        skuOffers:
+          sellerIndex > -1
+            ? result1.result[sellerIndex].offers.filter(
+                offer => offer.on_sku == true
+              )
+            : result1.result[0].offers.filter(offer => offer.on_sku == true)
       });
     } catch (error) {
       console.log(error);

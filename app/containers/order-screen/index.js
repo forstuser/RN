@@ -423,10 +423,7 @@ class OrderScreen extends React.Component {
         order: order,
         user: user
       });
-    }
-
-    //Open the action sheet for the payment options
-    else this.paymentOptions.show();
+    } else this.paymentOptions.show();
   };
 
   openDigitalBill = () => {
