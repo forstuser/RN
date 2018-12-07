@@ -40,6 +40,7 @@ import RegistrationDetailsScreen from "../containers/registration-details-screen
 import NavigationService from "./index";
 import AuthStack from "./auth-stack";
 import AppStack from "./app-stack";
+import AppStackDummy from "./app-stack-dummy";
 import UserOnBoardingStack from "./user-on-boarding-stack";
 import { colors } from "../theme";
 
@@ -50,6 +51,7 @@ const RootNavigator = createSwitchNavigator(
     [SCREENS.AUTH_STACK]: AuthStack,
     [SCREENS.REGISTRATION_DETAILS_SCREEN]: RegistrationDetailsScreen,
     [SCREENS.APP_STACK]: AppStack,
+    [SCREENS.APP_STACK_DUMMY]: AppStackDummy,
     [SCREENS.USER_ON_BOARDING_STACK]: UserOnBoardingStack
   },
   { initialRouteName: "AppLoading" }

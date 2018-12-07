@@ -2412,3 +2412,14 @@ export const getHomeDeliveryStatus = async sellerId => {
     url: `/sellers/${sellerId}/home/delivery/status`
   });
 };
+
+export const shareLocationOnBoarding = async (latitude, longitude) => {
+  return await apiRequest({
+    method: "put",
+    url: `/link/near/by/sellers`,
+    data: {
+      latitude,
+      longitude
+    }
+  });
+};
