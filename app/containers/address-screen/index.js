@@ -459,7 +459,7 @@ class AddressScreen extends Component {
           </Modal>
           <Modal
             isVisible={isModelShow}
-            title="bahut dur hai "
+            title="Outside Delivery"
             style={{
               height: 350,
               ...defaultStyles.card
@@ -495,7 +495,8 @@ class AddressScreen extends Component {
                   lineHeight: 23
                 }}
               >
-                bahut dur hai dukan humse na ho ga deliver
+                Oops, your selected location is outside our Delivery Zone.
+                Please select another Store for your Order.
               </Text>
               <View
                 style={{

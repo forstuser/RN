@@ -59,7 +59,8 @@ class MyShoppingList extends React.Component {
     btnText: "",
     selectedSeller: null,
     showLoader: false,
-    sellerIsLogout: false
+    sellerIsLogout: false,
+    collectAtStore: false
   };
 
   componentDidMount() {
@@ -77,7 +78,7 @@ class MyShoppingList extends React.Component {
     Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_PLACE_ORDER);
     const selectedSeller = this.props.navigation.getParam("selectedSeller", []);
     let sellerId = selectedSeller.id || 0;
-    console.log("seller Id ", sellerId);
+    console.log("selectedSeller is ", selectedSeller);
     const collectAtStoreFlag = this.props.navigation.getParam(
       "collectAtStoreFlag"
     );
@@ -96,20 +97,44 @@ class MyShoppingList extends React.Component {
         isModelShow: true,
         sellerIsLogout: true,
         title: "Logged Out",
-        description: "Seller is logged out",
+        description: `Oops! It seems that ${
+          selectedSeller.seller_name
+        } is not logged in at the moment. Please try to order later`,
         btnText: "OK"
       });
-    } else if (res.home_delivery == true || collectAtStoreFlag == true)
-      this.proceedToAddressScreen(selectedSeller);
-    else
+    } else if (
+      !this.isShopClosed(res.shop_open_day, res.start_time, res.close_time)
+    ) {
       this.setState({
         isModelShow: true,
+        title: "Shop Closed",
+        description: ` Store closed now. Revisit during open hours.`,
+        btnText: "OK"
+      });
+    } else if (res.home_delivery == false) {
+      this.setState({
+        isModelShow: true,
+        collectAtStore: true,
         title: "Order Online",
         description: `Oops,Home Delivery not available
       currently. Come back to Order later or proceed to Order Now &
       Collect at Store`,
         btnText: "Collect at Store"
       });
+    } else if (res.home_delivery == true || collectAtStoreFlag == true)
+      this.proceedToAddressScreen(selectedSeller);
+  };
+
+  // function for check shop is closed or not
+  isShopClosed = (shop_open_day, start_time, close_time) => {
+    let days = JSON.parse("[" + shop_open_day + "]");
+    let startTime = moment(moment(start_time, ["h:mm A"])).format("HH:mm");
+    let closeTime = moment(moment(close_time, ["h:mm A"])).format("HH:mm");
+    let currentTime = moment(moment(moment(), ["h:mm A"])).format("HH:mm");
+    return days.includes(moment().day()) &&
+      (currentTime >= startTime && currentTime <= closeTime)
+      ? true
+      : false;
   };
 
   getMySellers = async () => {
@@ -228,7 +253,8 @@ class MyShoppingList extends React.Component {
       title,
       description,
       btnText,
-      sellerIsLogout
+      sellerIsLogout,
+      collectAtStore
     } = this.state;
 
     const selectedSeller = this.props.navigation.getParam("selectedSeller", []);
@@ -363,7 +389,7 @@ class MyShoppingList extends React.Component {
               /> */}
               <Button
                 text={btnText}
-                onPress={sellerIsLogout ? this.closeModal : this.orderNow}
+                onPress={collectAtStore ? this.orderNow : this.closeModal}
                 style={{
                   width: 150,
                   alignSelf: "center",
