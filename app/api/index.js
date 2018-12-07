@@ -23,7 +23,7 @@ let CASHFREE_URL =
 
 export { API_BASE_URL, CASHFREE_APP_ID, CASHFREE_URL };
 
-const APP_VERSION_FOR_API = 20105;
+const APP_VERSION_FOR_API = 20106;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
