@@ -217,10 +217,10 @@ class ShoppingListItem extends React.Component {
                   }}
                 >
                   You saved ₹{" "}
-                  {(
+                  {parseFloat(
                     parseFloat(item.current_unit_price) *
                       parseFloat(item.quantity) -
-                    parseFloat(item.current_selling_price)
+                      parseFloat(item.current_selling_price)
                   ).toFixed(2)}{" "}
                   <Text style={{ color: colors.mainBlue }}>
                     ({item.offer_discount}% off)
