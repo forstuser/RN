@@ -130,7 +130,7 @@ class SelectCitiesScreen extends Component {
       this.setState({ isLoading: false });
     }
 
-    this.props.navigation.navigate(SCREENS.APP_STACK);
+    this.props.navigation.navigate(SCREENS.SHARE_LOCATION_ONBOARDING_SCREEN);
   };
 
   render() {

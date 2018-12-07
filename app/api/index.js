@@ -23,7 +23,7 @@ let CASHFREE_URL =
 
 export { API_BASE_URL, CASHFREE_APP_ID, CASHFREE_URL };
 
-const APP_VERSION_FOR_API = 20105;
+const APP_VERSION_FOR_API = 20106;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
@@ -2403,5 +2403,16 @@ export const getHomeDeliveryStatus = async sellerId => {
   return await apiRequest({
     method: "get",
     url: `/sellers/${sellerId}/home/delivery/status`
+  });
+};
+
+export const shareLocationOnBoarding = async (latitude, longitude) => {
+  return await apiRequest({
+    method: "put",
+    url: `/link/near/by/sellers`,
+    data: {
+      latitude,
+      longitude
+    }
   });
 };

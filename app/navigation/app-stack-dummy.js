@@ -163,7 +163,7 @@ const BottomTabStack = createBottomTabNavigator(
     // },
   },
   {
-    initialRouteName: SCREENS.CREATE_SHOPPING_LIST_SCREEN,
+    initialRouteName: SCREENS.MY_SELLERS_SCREEN,
     tabBarComponent: CustomTabBar,
     tabBarPosition: "bottom",
     backBehavior: "none",
