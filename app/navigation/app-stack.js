@@ -98,7 +98,6 @@ import CashFreePaymentStatusScreen from "../containers/order-screen/cashfree-pay
 import LoaderScreen from "../containers/create-shopping-list-screen/loader";
 import PendingPaymentStatusScreen from "../containers/order-screen/pending-status-screen";
 import ShoppingListOffersScreen from "../containers/my-shopping-list-offers-screen";
-import PendingPaymentStatusScreen from "../containers/order-screen/pending-status-screen";
 
 const BottomTabStack = createBottomTabNavigator(
   {
