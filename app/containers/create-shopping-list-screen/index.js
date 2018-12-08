@@ -305,7 +305,8 @@ class ShoppingListScreen extends React.Component {
       this.setState({
         selectedSeller: selectedSellers[0],
         activeMainCategoryId: null,
-        activeCategoryId: null
+        activeCategoryId: null,
+        collectAtStoreFlag: false
       });
       const defaultSeller = JSON.parse(
         await AsyncStorage.getItem("defaultSeller")

@@ -111,7 +111,7 @@ class MyShoppingList extends React.Component {
         description: ` Store closed now. Revisit during open hours.`,
         btnText: "OK"
       });
-    } else if (res.home_delivery == false) {
+    } else if (res.home_delivery == false && collectAtStoreFlag == false) {
       this.setState({
         isModelShow: true,
         collectAtStore: true,
