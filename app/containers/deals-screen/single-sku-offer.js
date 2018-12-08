@@ -71,7 +71,10 @@ export default class SkuItemOffer extends React.Component {
         AsyncStorage.setItem("defaultSeller", JSON.stringify(selectedCategory));
         this.addItem(item);
       }
-    } else this.addItem(item);
+    } else {
+      AsyncStorage.setItem("defaultSeller", JSON.stringify(selectedCategory));
+      this.addItem(item);
+    }
   };
 
   hideIsClearItems = () => {

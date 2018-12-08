@@ -2173,6 +2173,13 @@ export const placeOrder = async ({
   });
 };
 
+export const getDistanceFromSeller = async ({ sellerId, addressId }) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers/${sellerId}/user/address/${addressId}/distance`
+  });
+};
+
 export const getOrderDetails = async ({ orderId }) => {
   return await apiRequest({
     method: "get",

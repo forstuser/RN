@@ -86,7 +86,7 @@ export default class SelectedItemsList extends React.Component {
 
           let savedPrice = 0;
           if (item.offer_discount && item.offer_discount > 0)
-            savedPrice = (
+            savedPrice = parseFloat(
               parseFloat(item.sku_measurement.mrp) - parseFloat(offerPrice)
             ).toFixed(2);
 

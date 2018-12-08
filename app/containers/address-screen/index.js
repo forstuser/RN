@@ -23,7 +23,8 @@ import {
   updateUserAddresses,
   deleteUserAddresses,
   placeOrder,
-  getProfileDetail
+  getProfileDetail,
+  getDistanceFromSeller
 } from "../../api";
 
 class AddressScreen extends Component {
@@ -31,10 +32,10 @@ class AddressScreen extends Component {
     title: "Manage Addresses"
   };
   static navigationOptions = ({ navigation }) => {
-    const flag = navigation.getParam("flag", false);
+    const collectAtStoreFlag = navigation.getParam("collectAtStoreFlag", false);
     const params = navigation.state.params || {};
     return {
-      title: flag
+      title: collectAtStoreFlag
         ? "Select Your Location"
         : params.sellerId
         ? "Select Delivery Address"
@@ -66,7 +67,8 @@ class AddressScreen extends Component {
       headerTitle: "Add New Address",
       pin: "",
       selectedIndex: 0,
-      showLoader: false
+      showLoader: false,
+      isModelShow: false
     };
   }
   componentDidMount() {
@@ -81,6 +83,12 @@ class AddressScreen extends Component {
   hide = () => {
     this.setState({ isVisible: false });
   };
+  openModal = () => {
+    this.setState({ isModelShow: true });
+  };
+  closeModal = () => {
+    this.setState({ isModelShow: false });
+  };
   showDeleteModal = () => {
     this.setState({ deleteModalShow: true });
   };
@@ -88,11 +96,14 @@ class AddressScreen extends Component {
     this.setState({ deleteModalShow: false });
   };
   getProfileDetail = async () => {
-    const flag = this.props.navigation.getParam("flag", false);
+    const collectAtStoreFlag = this.props.navigation.getParam(
+      "collectAtStoreFlag",
+      false
+    );
     try {
       const r = await getProfileDetail();
       const user = r.userProfile;
-      if (flag) {
+      if (collectAtStoreFlag) {
         this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN, {
           fromAddressScreen: true,
           userDetails: user
@@ -197,7 +208,10 @@ class AddressScreen extends Component {
   };
 
   openLocationModal = () => {
-    const flag = this.props.navigation.getParam("flag", false);
+    const collectAtStoreFlag = this.props.navigation.getParam(
+      "collectAtStoreFlag",
+      false
+    );
 
     this.setState({ showLoader: true });
     RNGooglePlaces.openPlacePickerModal()
@@ -220,24 +234,52 @@ class AddressScreen extends Component {
     Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_SELECT_ADDRESS);
     console.log(
       "collectAtStoreFlag while placing order___________",
-      this.props.navigation.getParam("flag")
+      this.props.navigation.getParam("collectAtStoreFlag")
     );
     this.setState({ showLoader: true });
+    const isDeliveryPossible = await this.isAddressDeliverable();
+    if (isDeliveryPossible) {
+      try {
+        const res = await placeOrder({
+          sellerId: this.props.navigation.getParam("sellerId"),
+          orderType: this.props.navigation.getParam("orderType"),
+          serviceName: this.props.navigation.getParam("serviceName"),
+          serviceTypeId: this.props.navigation.getParam("serviceTypeId"),
+          collect_at_store: this.props.navigation.getParam(
+            "collectAtStoreFlag"
+          ),
+          addressId: this.state.addresses[this.state.selectedIndex].id
+        });
+        const orderId = res.result.id;
+        this.props.navigation.popToTop();
+        this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
+          orderId,
+          collectAtStoreFlag: true
+        });
+      } catch (e) {
+        console.log("error", e);
+        showSnackbar({ text: e.message });
+      } finally {
+        this.setState({ showLoader: false });
+      }
+    } else {
+      this.openModal();
+      //open model not possible home delivery
+    }
+  };
+  isAddressDeliverable = async () => {
+    this.setState({ showLoader: true });
     try {
-      const res = await placeOrder({
+      const res = await getDistanceFromSeller({
         sellerId: this.props.navigation.getParam("sellerId"),
-        orderType: this.props.navigation.getParam("orderType"),
-        serviceName: this.props.navigation.getParam("serviceName"),
-        serviceTypeId: this.props.navigation.getParam("serviceTypeId"),
-        collect_at_store: this.props.navigation.getParam("flag"),
         addressId: this.state.addresses[this.state.selectedIndex].id
       });
-      const orderId = res.result.id;
-      this.props.navigation.popToTop();
-      this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
-        orderId,
-        flag: true
-      });
+      console.log("response for get distance api", res);
+      if (res.result.distance <= 2) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       console.log("error", e);
       showSnackbar({ text: e.message });
@@ -257,9 +299,13 @@ class AddressScreen extends Component {
       btnTXT,
       pin,
       headerTitle,
-      selectedIndex
+      selectedIndex,
+      isModelShow
     } = this.state;
-    const flag = this.props.navigation.getParam("flag", false);
+    const collectAtStoreFlag = this.props.navigation.getParam(
+      "collectAtStoreFlag",
+      false
+    );
     return (
       <ImageBackground
         style={{ flex: 1, width: null, height: null }}
@@ -307,7 +353,7 @@ class AddressScreen extends Component {
               style={styles.search}
             >
               <Text style={styles.searchText}>
-                {flag ? "Select Location" : "Add New Address"}
+                {collectAtStoreFlag ? "Select Location" : "Add New Address"}
               </Text>
               <Text>
                 <Icon
@@ -369,6 +415,7 @@ class AddressScreen extends Component {
               />
             </View>
           </Modal>
+
           <Modal
             isVisible={deleteModalShow}
             title={"Delete Address"}
@@ -406,6 +453,80 @@ class AddressScreen extends Component {
                   onPress={this.deleteAddress}
                   color="secondary"
                   style={styles.btn}
+                />
+              </View>
+            </View>
+          </Modal>
+          <Modal
+            isVisible={isModelShow}
+            title="Outside Delivery"
+            style={{
+              height: 350,
+              ...defaultStyles.card
+            }}
+            onClosePress={this.closeModal}
+          >
+            <View
+              style={{
+                flex: 1,
+                padding: 10,
+                justifyContent: "center"
+              }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 13
+                }}
+              >
+                <Image
+                  style={{ width: 90, height: 90 }}
+                  source={require("../../images/sad.png")}
+                />
+              </View>
+              <Text
+                style={{
+                  padding: 10,
+                  textAlign: "center",
+                  fontSize: 16,
+                  marginTop: 3,
+                  lineHeight: 23
+                }}
+              >
+                Oops, your selected location is outside our Delivery Zone.
+                Please select another Store for your Order.
+              </Text>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                {/* <Button
+                text="Order Later"
+                onPress={this.orderLater}
+                style={{
+                  width: 150,
+                  alignSelf: "center",
+                  marginRight: 5,
+                  height: 40
+                }}
+                color="grey"
+              /> */}
+                <Button
+                  text="OK"
+                  onPress={this.closeModal}
+                  style={{
+                    width: 150,
+                    alignSelf: "center",
+
+                    height: 40
+                  }}
+                  color="secondary"
                 />
               </View>
             </View>
