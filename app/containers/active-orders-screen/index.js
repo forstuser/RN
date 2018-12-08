@@ -17,7 +17,8 @@ class ActiveOrdersScreen extends Component {
     error: null,
     isFetchingData: false,
     sellerExist: false,
-    emptyMessage: null
+    emptyMessage: null,
+    cancelReasons: []
   };
 
   componentDidMount() {
@@ -40,6 +41,7 @@ class ActiveOrdersScreen extends Component {
       this.setState({
         isFetchingData: false,
         activeDeliveryOrders: activeOrders.result,
+        cancelReasons: activeOrders.reasons,
         sellerExist: activeOrders.seller_exist,
         emptyMessage: activeOrders.message
       });
@@ -77,8 +79,10 @@ class ActiveOrdersScreen extends Component {
   // };
 
   openOrderScreen = order => {
+    const { cancelReasons } = this.state;
     this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
       orderId: order.id,
+      cancelReasons: cancelReasons,
       fromActiveOrderScreen: true
     });
   };

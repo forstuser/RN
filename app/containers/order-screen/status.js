@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-
+import moment from "moment";
 import { Text, Image, Button } from "../../elements";
 import { colors } from "../../theme";
 import { ORDER_STATUS_TYPES, ORDER_TYPES } from "../../constants";
@@ -45,8 +45,36 @@ export default class Statuses extends React.Component {
       isInReview,
       paymentMode,
       paymentStatus,
-      collectAtStore
+      collectAtStore,
+      autoCancelTime,
+      deliveryMinutes,
+      autoAcceptTime,
+      deliveryClockStartTime
     } = this.props;
+
+    let minutesToDeliver, hrsMins, deliveryStart;
+    if (
+      deliveryMinutes < 60 ||
+      deliveryMinutes == null ||
+      deliveryMinutes == "null"
+    ) {
+      if (deliveryMinutes == null || deliveryMinutes == "null") {
+        minutesToDeliver = 0;
+      } else {
+        minutesToDeliver = deliveryMinutes;
+        hrsMins = "minutes";
+      }
+    } else {
+      minutesToDeliver = parseFloat(parseFloat(deliveryMinutes) / 60).toFixed(
+        2
+      );
+      hrsMins = "hours";
+    }
+    deliveryStart = moment(deliveryClockStartTime)
+      .add(deliveryMinutes, "minutes")
+      .format("hh:mm A");
+    // console.log("Delivery Time: ", deliveryStart);
+    // console.log("Time to Delivery: ", deliveryMinutes);
 
     return (
       <View style={{ marginBottom: 10 }}>
@@ -116,6 +144,43 @@ export default class Statuses extends React.Component {
           </View>
         ) : null}
 
+        {(statusType == ORDER_STATUS_TYPES.NEW && isInReview != true) ||
+        (statusType == ORDER_STATUS_TYPES.NEW &&
+          isInReview == true &&
+          isOrderModified != true) ? (
+          <Text style={{ color: "#ef622c", marginLeft: "13%", fontSize: 12 }}>
+            (Store will confirm order within {autoCancelTime} min)
+          </Text>
+        ) : null}
+
+        {statusType == ORDER_STATUS_TYPES.APPROVED &&
+        collectAtStore == false ? (
+          <Text
+            weight="Medium"
+            style={{ color: "#ef622c", fontSize: 16, marginTop: 5 }}
+          >
+            Order Delivery Time: {deliveryStart}
+          </Text>
+        ) : null}
+
+        {statusType == ORDER_STATUS_TYPES.NEW && isOrderModified == true ? (
+          <View>
+            {collectAtStore == false && minutesToDeliver > 0 ? (
+              <Text
+                weight="Medium"
+                style={{ color: "#ef622c", fontSize: 16, marginTop: 5 }}
+              >
+                Order Delivery Time within {minutesToDeliver} {hrsMins} from
+                Your Approval
+              </Text>
+            ) : null}
+            <Text style={{ color: "#999999", fontSize: 14, marginTop: 5 }}>
+              Your Order will be Automatically Approved if you do not respond
+              within {autoAcceptTime} minutes
+            </Text>
+          </View>
+        ) : null}
+
         {![
           ORDER_STATUS_TYPES.COMPLETE,
           ORDER_STATUS_TYPES.REJECTED,
@@ -141,8 +206,9 @@ export default class Statuses extends React.Component {
             {isOrderModified === false ? (
               <StatusItem
                 title={
-                  statusType === ORDER_STATUS_TYPES.APPROVED
-                    ? "Items Confirmed"
+                  statusType === ORDER_STATUS_TYPES.APPROVED ||
+                  statusType == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY
+                    ? "Order Accepted"
                     : "Confirmation Awaited"
                 }
                 isDone={

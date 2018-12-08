@@ -23,7 +23,7 @@ let CASHFREE_URL =
 
 export { API_BASE_URL, CASHFREE_APP_ID, CASHFREE_URL };
 
-const APP_VERSION_FOR_API = 20106;
+const APP_VERSION_FOR_API = 20107;
 
 const platform = Platform.OS == "ios" ? 2 : 1;
 
@@ -2203,11 +2203,16 @@ export const reOrder = async ({ orderId, sellerId }) => {
   });
 };
 
-export const cancelOrder = async ({ orderId, sellerId }) => {
+export const cancelOrder = async ({
+  orderId,
+  sellerId,
+  reasonId,
+  reasonText
+}) => {
   return await apiRequest({
     method: "put",
     url: `/consumer/orders/${orderId}/cancel`,
-    data: { seller_id: sellerId }
+    data: { seller_id: sellerId, reason_id: reasonId, reason_text: reasonText }
   });
 };
 

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   BackHandler,
   WebView,
+  TextInput,
   Dimensions
 } from "react-native";
 import moment from "moment";
@@ -59,7 +60,10 @@ import socketIo from "../../socket-io";
 import UploadBillModal from "./upload-bill-modal";
 import ReviewCard from "./review-card";
 import Modal1 from "../../components/modal";
+import Modal from "react-native-modal";
 import HeaderBackBtn from "../../components/header-nav-back-btn";
+import RadioBox from "../../components/radiobox";
+import { colors } from "../../theme";
 
 let deviceWidth = Dimensions.get("window").width;
 //let webViewLoadCount = 1;
@@ -85,7 +89,12 @@ class OrderScreen extends React.Component {
     title: "",
     headerText: "",
     showWebView: false,
-    generatedSignature: ""
+    generatedSignature: "",
+    isCancelOrderModal: false,
+    cancelReasons: [],
+    selectedReason: [],
+    showTextInput: false,
+    writtenReason: ""
     //orderIdWebView: "",
     //orderAmountWebView: ""
   };
@@ -95,6 +104,8 @@ class OrderScreen extends React.Component {
   }
 
   componentDidMount() {
+    const reasons = this.props.navigation.getParam("cancelReasons", []);
+    this.setState({ cancelReasons: reasons });
     this.getOrderDetails(this.props);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
@@ -283,17 +294,58 @@ class OrderScreen extends React.Component {
     }
   };
 
+  hideCancelOrderModal = () => {
+    this.setState({
+      isCancelOrderModal: false,
+      selectedReason: [],
+      writtenReason: "",
+      showTextInput: false
+    });
+  };
+
+  cancelOrderOpenModal = () => {
+    this.setState({ isCancelOrderModal: true });
+  };
+
+  onSelectReason = reason => {
+    this.setState({ writtenReason: "" });
+    if (reason.id == 0) {
+      this.setState({ showTextInput: true });
+    } else {
+      this.setState({ showTextInput: false });
+    }
+    console.log("reason: ", reason);
+    this.setState({ selectedReason: reason });
+  };
+
+  OnSubmitInCancellationReasons = () => {
+    this.setState({ isCancelOrderModal: false });
+    this.cancelOrder();
+  };
+
   cancelOrder = async () => {
     Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_CANCEL_ORDER);
+
     this.hide();
     this.setState({ isLoading: true });
-    const { order } = this.state;
+    const { order, selectedReason, writtenReason } = this.state;
     try {
       this.setState({ isLoading: true });
-      const res = await cancelOrder({
-        orderId: order.id,
-        sellerId: order.seller_id
-      });
+      let res;
+      if (selectedReason.id == 0) {
+        res = await cancelOrder({
+          orderId: order.id,
+          sellerId: order.seller_id,
+          reasonId: selectedReason.id,
+          reasonText: writtenReason
+        });
+      } else {
+        res = await cancelOrder({
+          orderId: order.id,
+          sellerId: order.seller_id,
+          reasonId: selectedReason.id
+        });
+      }
       this.setState({ order: res.result });
       showSnackbar({ text: "Order Cancelled!" });
     } catch (e) {
@@ -619,9 +671,15 @@ class OrderScreen extends React.Component {
       isVisible,
       title,
       headerText,
-      showWebView
+      showWebView,
+      isCancelOrderModal,
+      selectedReason,
+      cancelReasons,
+      showTextInput,
+      writtenReason
     } = this.state;
     console.log("ORDER***********************", order);
+    console.log("cancel reasons: ", cancelReasons);
 
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.getOrderDetails} />;
@@ -751,6 +809,10 @@ class OrderScreen extends React.Component {
                     startTime={startTime}
                     endTime={endTime}
                     collectAtStore={order.collect_at_store}
+                    autoCancelTime={order.auto_cancel_time}
+                    deliveryMinutes={order.delivery_minutes}
+                    autoAcceptTime={order.auto_accept_time}
+                    deliveryClockStartTime={order.delivery_clock_start_time}
                   />
                   {deliveryUser && (
                     <DeliveryUserDetails
@@ -965,7 +1027,7 @@ class OrderScreen extends React.Component {
                 {order.status_type == ORDER_STATUS_TYPES.NEW &&
                 !order.is_modified ? (
                   <Button
-                    onPress={this.cancelOrderPopup}
+                    onPress={this.cancelOrderOpenModal}
                     text="Cancel Order"
                     color="secondary"
                     borderRadius={0}
@@ -1116,6 +1178,94 @@ class OrderScreen extends React.Component {
           cancelButtonIndex={cancelIndex}
           options={options}
         />
+
+        <Modal
+          isVisible={isCancelOrderModal}
+          useNativeDriver
+          style={{
+            position: "absolute",
+            bottom: 0,
+            padding: 0,
+            margin: 0,
+            height: showTextInput ? 300 : 275
+          }}
+          onBackButtonPress={this.hideCancelOrderModal}
+          onBackdropPress={this.hideCancelOrderModal}
+        >
+          <View
+            style={{
+              padding: 15,
+              backgroundColor: "#fff",
+              flex: 1,
+              width: deviceWidth
+            }}
+          >
+            <Text weight="Medium" style={{ fontSize: 18 }}>
+              Reason for Cancellation:
+            </Text>
+            <View style={{ marginTop: 5 }}>
+              {cancelReasons.length > 0 &&
+                cancelReasons.map(reason => {
+                  return (
+                    <TouchableOpacity
+                      style={{ flexDirection: "row", marginTop: 10 }}
+                      onPress={() => this.onSelectReason(reason)}
+                    >
+                      <RadioBox
+                        style={{
+                          height: 20,
+                          width: 20,
+                          borderColor: colors.pinkishOrange
+                        }}
+                        isChecked={selectedReason.id == reason.id}
+                      />
+                      <Text style={{ fontSize: 16, marginLeft: 10 }}>
+                        {reason.title}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              {showTextInput ? (
+                <TextInput
+                  underlineColorAndroid="transparent"
+                  placeholder="Please specify..."
+                  maxLength={255}
+                  onChangeText={writtenReason =>
+                    this.setState({ writtenReason })
+                  }
+                  value={writtenReason}
+                />
+              ) : null}
+            </View>
+
+            <View style={{ position: "absolute", right: 15, top: 15 }}>
+              <TouchableOpacity
+                onPress={this.hideCancelOrderModal}
+                style={{
+                  paddingLeft: 10,
+                  paddingRight: 10
+                }}
+              >
+                <Icon name="md-close" color="#000" size={24} />
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ position: "absolute", bottom: 0 }}>
+              <Button
+                text="Submit"
+                onPress={this.OnSubmitInCancellationReasons}
+                color="secondary"
+                borderRadius={0}
+                textStyle={{ fontSize: 18 }}
+                style={{
+                  height: 50,
+                  width: deviceWidth,
+                  alignSelf: "center"
+                }}
+              />
+            </View>
+          </View>
+        </Modal>
 
         <LoadingOverlay visible={isLoading} />
       </View>
