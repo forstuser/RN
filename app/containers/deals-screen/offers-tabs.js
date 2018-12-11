@@ -8,6 +8,9 @@ import {
   Dimensions,
   AsyncStorage
 } from "react-native";
+import ScrollableTabView, {
+  DefaultTabBar
+} from "react-native-scrollable-tab-view";
 import AppIntroSlider from "react-native-app-intro-slider";
 import Snackbar from "../../utils/snackbar";
 import { Text } from "../../elements";
@@ -20,6 +23,7 @@ import {
   fetchOfferCategories,
   fetchCategoryOffers,
   getSellerOffers,
+  getOffers,
   getSkuWishList
 } from "../../api";
 import moment from "moment";
@@ -33,6 +37,8 @@ import OffersFilterModal from "./offers-filter-modal";
 import Analytics from "../../analytics";
 import SkuItemOffer from "./single-sku-offer";
 import SingleNormalOffer from "./single-normal-offer";
+import SingleBogoOffer from "./single-bogo-offer";
+import SingleExtraQuantityOffer from "./single-extra-quant-offer";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
@@ -50,8 +56,10 @@ export default class OffersTab extends React.Component {
     selectedCategory: null,
     isLoading: false,
     error: null,
-    normalOffers: [],
-    skuOffers: [],
+    discountOffers: [],
+    bogo: [],
+    extraQuantity: [],
+    generalOffers: [],
     wishList: [],
     emptyMessage: null
   };
@@ -61,10 +69,8 @@ export default class OffersTab extends React.Component {
       "didFocus",
       () => {
         this.fetchCategories();
-        //this.fetchWishlist();
       }
     );
-    //this.listScrollPosition.addListener(this.onListScroll);
   }
 
   componentWillUnmount() {
@@ -104,35 +110,23 @@ export default class OffersTab extends React.Component {
     }
   };
 
-  // fetchWishlist = async () => {
-  //   try {
-  //     const res = await getSkuWishList();
-  //     this.setState({ wishList: res.result.wishlist_items });
-  //   } catch (wishListError) {
-  //     console.log("wishListError: ", wishListError);
-  //     //this.setState({ wishListError });
-  //   } finally {
-  //     this.setState({ wishList: res.result.wishlist_items });
-  //   }
-  // };
-
   fetchCategories = async () => {
     this.setState({
       isLoading: true,
       error: null,
       selectedCategory: null,
-      skuOffers: [],
-      normalOffers: []
+      discountOffers: [],
+      bogo: [],
+      extraQuantity: [],
+      generalOffers: []
     });
     try {
       const defaultSeller = JSON.parse(
         await AsyncStorage.getItem("defaultSeller")
       );
       const result1 = await getSellerOffers();
-      console.log("Seller Offers: ", result1);
-      console.log("Default Seller: ", defaultSeller);
+      console.log("Seller Offer API result: ", result1);
       let resCategories = result1.result;
-      //console.log("selleeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", resCategories);
       const categories = resCategories.map(seller => ({
         ...seller,
         name: seller.name,
@@ -144,43 +138,100 @@ export default class OffersTab extends React.Component {
         sellerIndex = categories.findIndex(
           category => category.id == defaultSeller.id
         );
-        console.log("seller index: ", sellerIndex);
       }
-      this.setState({
-        categories,
-        selectedCategory:
-          sellerIndex > -1 ? result1.result[sellerIndex] : result1.result[0],
-        normalOffers:
-          sellerIndex > -1
-            ? result1.result[sellerIndex].offers.filter(
-                offer => offer.on_sku != true
-              )
-            : result1.result[0].offers.filter(offer => offer.on_sku != true),
-        skuOffers:
-          sellerIndex > -1
-            ? result1.result[sellerIndex].offers.filter(
-                offer => offer.on_sku == true
-              )
-            : result1.result[0].offers.filter(offer => offer.on_sku == true)
-      });
+      this.setState(
+        {
+          categories,
+          selectedCategory:
+            sellerIndex > -1 ? result1.result[sellerIndex] : result1.result[0]
+        },
+
+        () => {
+          if (this.state.categories.length > 0) {
+            this.fetchOffersType_1();
+            this.fetchOffersType_2();
+            this.fetchOffersType_3();
+            this.fetchOffersType_4();
+          }
+        }
+      );
     } catch (error) {
-      console.log(error);
-      //this.setState({ error });
+      console.log("ERROR IN SELLER OFFERS API: ", error);
     } finally {
       this.setState({ isLoading: false });
     }
   };
 
-  onCategorySelect = category => {
-    this.props.getWishList();
-    this.setState({
-      selectedCategory: category,
-      normalOffers: category.offers.filter(offer => offer.on_sku != true),
-      skuOffers: category.offers.filter(offer => offer.on_sku == true)
-    });
+  fetchOffersType_1 = async () => {
+    const { selectedCategory } = this.state;
+    try {
+      const res = await getOffers(selectedCategory.id, 1);
+      this.setState({ discountOffers: res.result });
+      //console.log("RESULT IN OFFER FETCH API: ", res);
+    } catch (error) {
+      console.log("ERROR IN OFFER FETCH API", error);
+    } finally {
+      console.log("done");
+    }
   };
 
-  renderSkuOffers = ({ item, index }) => {
+  fetchOffersType_2 = async () => {
+    const { selectedCategory } = this.state;
+    try {
+      const res = await getOffers(selectedCategory.id, 2);
+      this.setState({ bogo: res.result });
+      //console.log("RESULT IN OFFER FETCH API: ", res);
+    } catch (error) {
+      console.log("ERROR IN OFFER FETCH API", error);
+    } finally {
+      console.log("done");
+    }
+  };
+
+  fetchOffersType_3 = async () => {
+    const { selectedCategory } = this.state;
+    try {
+      const res = await getOffers(selectedCategory.id, 3);
+      this.setState({ extraQuantity: res.result });
+      //console.log("RESULT IN OFFER FETCH API: ", res);
+    } catch (error) {
+      console.log("ERROR IN OFFER FETCH API", error);
+    } finally {
+      console.log("done");
+    }
+  };
+
+  fetchOffersType_4 = async () => {
+    const { selectedCategory } = this.state;
+    try {
+      const res = await getOffers(selectedCategory.id, 4);
+      this.setState({ generalOffers: res.result });
+      //console.log("RESULT IN OFFER FETCH API: ", res);
+    } catch (error) {
+      console.log("ERROR IN OFFER FETCH API", error);
+    } finally {
+      console.log("done");
+    }
+  };
+
+  onCategorySelect = category => {
+    this.setState({ isLoading: true });
+    this.props.getWishList();
+    this.setState(
+      {
+        selectedCategory: category
+      },
+      () => {
+        this.fetchOffersType_1();
+        this.fetchOffersType_2();
+        this.fetchOffersType_3();
+        this.fetchOffersType_4();
+      }
+    );
+    this.setState({ isLoading: false });
+  };
+
+  renderDiscountOffers = ({ item, index }) => {
     const { selectedCategory } = this.state;
     const { wishList, getWishList } = this.props;
     return (
@@ -194,15 +245,36 @@ export default class OffersTab extends React.Component {
     );
   };
 
-  renderNormalOffers = ({ item, index }) => {
-    const { skuOffers } = this.state;
+  renderBogoOffers = ({ item, index }) => {
+    const { selectedCategory } = this.state;
+    const { wishList, getWishList } = this.props;
     return (
-      <SingleNormalOffer
-        skuOffersLength={skuOffers.length}
+      <SingleBogoOffer
         key={index}
         item={item}
+        wishList={wishList}
+        selectedCategory={selectedCategory}
+        getWishList={getWishList}
       />
     );
+  };
+
+  renderExtraQuantityOffers = ({ item, index }) => {
+    const { selectedCategory } = this.state;
+    const { wishList, getWishList } = this.props;
+    return (
+      <SingleExtraQuantityOffer
+        key={index}
+        item={item}
+        wishList={wishList}
+        selectedCategory={selectedCategory}
+        getWishList={getWishList}
+      />
+    );
+  };
+
+  renderGeneralOffers = ({ item, index }) => {
+    return <SingleNormalOffer key={index} item={item} />;
   };
 
   render() {
@@ -211,36 +283,19 @@ export default class OffersTab extends React.Component {
       selectedCategory,
       isLoading,
       error,
-      normalOffers,
-      skuOffers,
+      discountOffers,
+      bogo,
+      extraQuantity,
+      generalOffers,
       emptyMessage
     } = this.state;
-    // console.log("Category: ", selectedCategory);
     if (error) {
       return <ErrorOverlay error={error} onRetryPress={this.fetchCategories} />;
     }
 
-    console.log("Normal Offers", normalOffers);
-    console.log("SKU Offers", skuOffers);
-
-    // let slides = [];
-    // normalOffers.map((offer, index) => {
-    //   slides.push({
-    //     key: index,
-    //     id: offer.id,
-    //     title: offer.title,
-    //     description: offer.description,
-    //     end_date: offer.end_date,
-    //     document_details: offer.document_details.index
-    //   });
-    // });
-
-    // console.log("Slides", slides);
-
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
-        {this.state.categories.length != 0 &&
-        this.state.skuOffers.length > 0 ? (
+        {categories.length > 0 ? (
           <View
             style={[
               {
@@ -249,16 +304,9 @@ export default class OffersTab extends React.Component {
                 top: 0,
                 left: 0,
                 right: 0,
-                height: ITEM_SELECTOR_HEIGHT + 20,
+                height: 140,
                 marginTop: -15
               }
-              // {
-              //   transform: [
-              //     {
-              //       translateY: this.topPaddingElement
-              //     }
-              //   ]
-              // }
             ]}
           >
             <ItemSelector
@@ -274,22 +322,11 @@ export default class OffersTab extends React.Component {
           <View
             style={[
               {
-                // position: "absolute",
-                // top: 0,
-                // left: 0,
-                // right: 0,
                 height: windowHeight,
                 flex: 1,
                 alignItems: "center",
                 justifyContent: "center"
               }
-              // {
-              //   transform: [
-              //     {
-              //       translateY: this.topPaddingElement
-              //     }
-              //   ]
-              // }
             ]}
           >
             <Image
@@ -311,32 +348,202 @@ export default class OffersTab extends React.Component {
             </Text>
           </View>
         )}
-        {/* {!selectedCategory ? (
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: ITEM_SELECTOR_HEIGHT
+        {isLoading == false && categories.length > 0 ? (
+          <ScrollableTabView
+            renderTabBar={() => (
+              <DefaultTabBar
+                style={{
+                  height: 40,
+                  marginTop: 125,
+                  backgroundColor: "#fff",
+                  padding: 5
+                }}
+                inactiveTextColor="#aaa"
+                activeTextColor="#009ee5"
+              />
+            )}
+            tabBarUnderlineStyle={{
+              backgroundColor: colors.mainBlue,
+              height: 2
+            }}
+            ref={node => {
+              this.scrollableTabView = node;
+            }}
+            tabBarBackgroundColor="transparent"
+            tabBarTextStyle={{
+              fontSize: 13,
+              fontFamily: `Roboto-Bold`,
+              marginTop: 8
             }}
           >
-            {categories.length > 0 ? (
-              <Text
-                //weight="Bold"
-                style={{
-                  fontSize: 16,
-                  color: colors.secondaryText,
-                  textAlign: "center",
-                  margin: 15
-                }}
-              >
-                Please select a Seller to view ongoing Offers
-              </Text>
-            ) : null}
-          </View>
-        ) : (
-          <View />
-        )} */}
+            <View tabLabel="Discount Offers">
+              {discountOffers.length > 0 ? (
+                <FlatList
+                  contentContainerStyle={{
+                    paddingTop: 0
+                  }}
+                  style={{
+                    marginTop: 5
+                  }}
+                  data={discountOffers}
+                  keyExtractor={item => item.id}
+                  renderItem={this.renderDiscountOffers}
+                />
+              ) : (
+                <View
+                  style={[
+                    {
+                      flex: 1,
+                      marginTop: 175,
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }
+                  ]}
+                >
+                  <Image
+                    style={{ width: 150, height: 150 }}
+                    source={require("../../images/empty_offers.png")}
+                    resizeMode="contain"
+                  />
+                  <Text
+                    style={{
+                      padding: 20,
+                      fontSize: 16,
+                      textAlign: "center",
+                      color: colors.secondaryText
+                    }}
+                  >
+                    No Offers available as of now from your Seller currently
+                  </Text>
+                </View>
+              )}
+            </View>
+            <View tabLabel="BOGO">
+              {bogo.length > 0 ? (
+                <FlatList
+                  contentContainerStyle={{
+                    paddingTop: 0
+                  }}
+                  style={{
+                    marginTop: 5
+                  }}
+                  data={bogo}
+                  keyExtractor={item => item.id}
+                  renderItem={this.renderBogoOffers}
+                />
+              ) : (
+                <View
+                  style={[
+                    {
+                      flex: 1,
+                      marginTop: 175,
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }
+                  ]}
+                >
+                  <Image
+                    style={{ width: 150, height: 150 }}
+                    source={require("../../images/empty_offers.png")}
+                    resizeMode="contain"
+                  />
+                  <Text
+                    style={{
+                      padding: 20,
+                      fontSize: 16,
+                      textAlign: "center",
+                      color: colors.secondaryText
+                    }}
+                  >
+                    No Offers available as of now from your Seller currently
+                  </Text>
+                </View>
+              )}
+            </View>
+            <View tabLabel="Extra Quantity">
+              {extraQuantity.length > 0 ? (
+                <FlatList
+                  contentContainerStyle={{
+                    paddingTop: 0
+                  }}
+                  style={{
+                    marginTop: 5
+                  }}
+                  data={extraQuantity}
+                  keyExtractor={item => item.id}
+                  renderItem={this.renderExtraQuantityOffers}
+                />
+              ) : (
+                <View
+                  style={[
+                    {
+                      flex: 1,
+                      marginTop: 175,
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }
+                  ]}
+                >
+                  <Image
+                    style={{ width: 150, height: 150 }}
+                    source={require("../../images/empty_offers.png")}
+                    resizeMode="contain"
+                  />
+                  <Text
+                    style={{
+                      padding: 20,
+                      fontSize: 16,
+                      textAlign: "center",
+                      color: colors.secondaryText
+                    }}
+                  >
+                    No Offers available as of now from your Seller currently
+                  </Text>
+                </View>
+              )}
+            </View>
+            <View tabLabel="General Offers">
+              {generalOffers.length > 0 ? (
+                <FlatList
+                  contentContainerStyle={{
+                    paddingTop: 0
+                  }}
+                  style={{ marginTop: 5 }}
+                  data={generalOffers}
+                  keyExtractor={item => item.id}
+                  renderItem={this.renderGeneralOffers}
+                />
+              ) : (
+                <View
+                  style={[
+                    {
+                      flex: 1,
+                      marginTop: 175,
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }
+                  ]}
+                >
+                  <Image
+                    style={{ width: 150, height: 150 }}
+                    source={require("../../images/empty_offers.png")}
+                    resizeMode="contain"
+                  />
+                  <Text
+                    style={{
+                      padding: 20,
+                      fontSize: 16,
+                      textAlign: "center",
+                      color: colors.secondaryText
+                    }}
+                  >
+                    No Offers available as of now from your Seller currently
+                  </Text>
+                </View>
+              )}
+            </View>
+          </ScrollableTabView>
+        ) : null}
 
         {/* {normalOffers.length > 0 ? (
           <View style={{ marginTop: 10 }}>
@@ -363,44 +570,6 @@ export default class OffersTab extends React.Component {
             />
           </View>
         ) : null} */}
-
-        {/* {normalOffers.length > 0 ? (
-          <AppIntroSlider
-            dotColor="#fdd4c0"
-            activeDotColor={colors.pinkishOrange}
-            slides={slides}
-            renderItem={SingleNormalOffer}
-            hideNextButton={true}
-            hideDoneButton={true}
-          />
-        ) : null} */}
-
-        {skuOffers.length > 0 ? (
-          <FlatList
-            // onScroll={Animated.event(
-            //   [
-            //     {
-            //       nativeEvent: {
-            //         contentOffset: { y: this.listScrollPosition }
-            //       }
-            //     }
-            //   ],
-            //   { useNativeDriver: true }
-            // )}
-            contentContainerStyle={{
-              // paddingTop:
-              //   normalOffers.length == 0 ? ITEM_SELECTOR_HEIGHT - 40 : 0
-              paddingTop: ITEM_SELECTOR_HEIGHT - 0
-            }}
-            style={{
-              //marginTop: normalOffers.length == 0 ? 10 : 5,
-              marginTop: 10
-            }}
-            data={skuOffers}
-            keyExtractor={item => item.id}
-            renderItem={this.renderSkuOffers}
-          />
-        ) : null}
 
         <LoadingOverlay visible={isLoading} />
       </View>

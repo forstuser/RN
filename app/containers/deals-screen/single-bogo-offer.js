@@ -22,7 +22,7 @@ import {
   addSkuFromOffersToWishlist
 } from "../../api";
 
-export default class SkuItemOffer extends React.Component {
+export default class BogoOffer extends React.Component {
   state = {
     showBtn: true,
     isClearItems: false
@@ -103,11 +103,6 @@ export default class SkuItemOffer extends React.Component {
     const { item, wishList } = this.props;
     const { showBtn, isClearItems } = this.state;
     console.log("Wishlist_____", wishList);
-    let price = 0;
-    price = parseFloat(
-      parseFloat(item.mrp) *
-        parseFloat(1 - parseFloat(item.offer_discount) / 100)
-    ).toFixed(2);
 
     return (
       <View
@@ -157,7 +152,7 @@ export default class SkuItemOffer extends React.Component {
                 flexWrap: "wrap"
               }}
             >
-              {item.sku_title}
+              Buy 1 {item.sku_title} and Get {item.offer_discount} Free
             </Text>
             <Text
               style={{
@@ -169,44 +164,17 @@ export default class SkuItemOffer extends React.Component {
               ({item.measurement_value}
               {""} {item.acronym})
             </Text>
+
             <Text
               style={{
-                marginLeft: 5,
-                fontSize: 16,
-                flex: 1,
-                marginRight: 10,
-                marginTop: 5
-              }}
-            >
-              Price: ₹ {price}{" "}
-              <Text style={{ color: colors.success }}>
-                ({item.offer_discount}% off)
-              </Text>
-            </Text>
-            <Text
-              style={{
+                marginTop: 5,
                 marginLeft: 5,
                 fontSize: 14,
                 flex: 1,
-                marginRight: 10,
-                textDecorationLine: "line-through",
-                textDecorationColor: "#000"
+                marginRight: 10
               }}
             >
               MRP: ₹ {item.mrp}
-            </Text>
-            <Text
-              weight="Light"
-              style={{
-                //fontStyle: "italic",
-                marginLeft: 5,
-                fontSize: 10,
-                flex: 1,
-                marginRight: 10,
-                marginTop: 5
-              }}
-            >
-              *Offer valid till stocks last
             </Text>
             <Text style={{ fontSize: 12, marginLeft: 5, marginTop: 5 }}>
               Expires on: {moment(item.end_date).format("DD MMM, YYYY")}

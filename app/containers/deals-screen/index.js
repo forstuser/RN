@@ -212,7 +212,6 @@ class DealsScreen extends Component {
       "collectAtStoreFlag",
       false
     );
-    console.log("Seller in Offers_________", selectedSeller);
     return (
       <TabsScreenContainer
         navigation={this.props.navigation}

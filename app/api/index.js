@@ -2347,6 +2347,13 @@ export const getSellerOffers = async () => {
   });
 };
 
+export const getOffers = async (sellerId, offerType) => {
+  return await apiRequest({
+    method: "get",
+    url: `/sellers/${sellerId}/offer/${offerType}/list`
+  });
+};
+
 export const deleteSeller = async sellerId => {
   return await apiRequest({
     method: "delete",

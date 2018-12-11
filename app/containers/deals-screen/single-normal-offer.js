@@ -24,7 +24,7 @@ const deviceWidth = Dimensions.get("window").width;
 
 export default class SingleNormalOffer extends React.Component {
   render() {
-    const { item, skuOffersLength } = this.props;
+    const { item } = this.props;
     return (
       <View
         style={{
@@ -32,8 +32,8 @@ export default class SingleNormalOffer extends React.Component {
           margin: 5,
           marginLeft: 10,
           borderRadius: 5,
-          height: skuOffersLength > 0 ? 185 : 185,
-          width: deviceWidth - 40
+          height: 185,
+          width: deviceWidth
         }}
       >
         <Image
