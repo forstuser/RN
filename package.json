@@ -13,6 +13,7 @@
     "ios-codepush-release-format": "appcenter codepush release-react -a appcenterbin/BinBill --mandatory true --description "
   },
   "dependencies": {
+    "@babel/runtime": "^7.2.0",
     "add": "2.0.6",
     "axios": "0.17.1",
     "lodash": "4.17.4",
@@ -58,7 +59,7 @@
     "react-native-super-grid": "2.0.1",
     "react-native-svg": "6.0.0",
     "react-native-tab-view": "0.0.74",
-    "react-native-vector-icons": "4.4.2",
+    "react-native-vector-icons": "4.4.2^",
     "react-native-view-shot": "2.3.0",
     "react-navigation": "2.0.1",
     "react-redux": "5.0.6",
