@@ -682,7 +682,6 @@ class ShoppingListScreen extends React.Component {
   };
 
   setSelectedBrands = (selectedBrands, stopItemLoad = false) => {
-    console.log("xxxxxxxxxxxxxxxxxxxsssssssssssss", selectedBrands);
     this.setState({ selectedBrands }, () => {
       if (!stopItemLoad) {
         this.loadItemsFirstPage();

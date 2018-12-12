@@ -24,6 +24,11 @@ export default class SelectedItemsList extends React.Component {
     } = this.props;
 
     console.log("Items in My Shopping List_______________:", selectedItems);
+    let totalAmount = 0;
+    selectedItems.map(item => {
+      console.log("item", item);
+      totalAmount += item.sku_measurement.mrp;
+    });
     return (
       <FlatList
         contentContainerStyle={{
@@ -285,6 +290,24 @@ export default class SelectedItemsList extends React.Component {
             </View>
           );
         }}
+        ListFooterComponent={() => (
+          <View
+            style={{
+              flexDirection: "row",
+              height: 42,
+              borderTopWidth: 1,
+              borderBottomWidth: 1,
+              borderColor: "#eee",
+              marginHorizontal: 20,
+              alignItems: "center"
+            }}
+          >
+            <Text weight="Medium" style={{ flex: 1 }}>
+              Total Amount
+            </Text>
+            <Text weight="Medium">Rs. {totalAmount}</Text>
+          </View>
+        )}
       />
     );
   }
