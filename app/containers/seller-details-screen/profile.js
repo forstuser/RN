@@ -224,7 +224,7 @@ class SellerProfileTab extends React.Component {
                 ({seller.ratings.toFixed(2)})
               </Text>
             </View>
-            <View style={{ width: "80%" }}>
+            <View style={{ flex: 1, width: windowWidth - 150 }}>
               <Text
                 style={{
                   fontSize: 13,

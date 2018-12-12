@@ -109,16 +109,16 @@ class MySellersScreen extends React.Component {
     const { userData } = this.state;
 
     console.log("user deatils", this.state.userData);
-    if (userData.addresses.length === 0) {
-      this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
-        flag: true
-      });
-    } else {
-      this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN, {
-        city: location,
-        userDetails: user
-      });
-    }
+    // if (userData.addresses.length === 0) {
+    //   this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
+    //     flag: true
+    //   });
+    // } else {
+    this.props.navigation.navigate(SCREENS.ADD_SELLER_SCREEN, {
+      city: location,
+      userDetails: user
+    });
+    //}
   };
 
   openRedeemPointsScreen = seller => {

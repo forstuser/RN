@@ -4,7 +4,7 @@ import { Text, Button, Image } from "../../elements";
 import SuccessImage from "../../images/status_success.png";
 import FailedImage from "../../images/status_cancel.png";
 import PendingImage from "../../images/status_pending.png";
-
+import LoadingOverlay from "../../components/loading-overlay";
 import {
   API_BASE_URL,
   CASHFREE_APP_ID,
@@ -20,6 +20,7 @@ class PendingPaymentStatusScreen extends Component {
   };
 
   state = {
+    isLoading: false,
     orderIdWebView: "",
     orderAmountWebView: "",
     transactionStatus: null,
@@ -87,15 +88,22 @@ class PendingPaymentStatusScreen extends Component {
   };
 
   retryPressPending = async () => {
+    this.setState({ isLoading: true });
     const order = this.props.navigation.getParam("order", null);
     const orderIdWebView = this.props.navigation.getParam("orderId", null);
-    const res = await getTransactionStatus(orderIdWebView);
-    order["expense_id"] = res.expense_id || null;
-    this.setState({
-      transactionStatus: res,
-      order: order,
-      transactionStatusFromOrder: 0
-    });
+    try {
+      const res = await getTransactionStatus(orderIdWebView);
+      order["expense_id"] = res.expense_id || null;
+      this.setState({
+        transactionStatus: res,
+        order: order,
+        transactionStatusFromOrder: 0
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
     // if (res && res.status_type) {
     //   if (res.status_type == 16) {
     //     // this.payOnline();
@@ -112,7 +120,11 @@ class PendingPaymentStatusScreen extends Component {
     let statusMessage = null;
     let imageSource = null;
     let paymentMessage = null;
-    const { transactionStatus, transactionStatusFromOrder } = this.state;
+    const {
+      transactionStatus,
+      transactionStatusFromOrder,
+      isLoading
+    } = this.state;
     if (transactionStatus && transactionStatus.status_type == 16) {
       statusMessage = "Payment Received Successfully";
       imageSource = SuccessImage;
@@ -268,6 +280,7 @@ class PendingPaymentStatusScreen extends Component {
             ) : null}
           </View>
         </View>
+        <LoadingOverlay visible={isLoading} />
       </View>
     );
   }

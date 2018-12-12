@@ -231,8 +231,8 @@ class OrderScreen extends React.Component {
       }
     }
 
-    if (order.delivery_user_id) {
-      this.props.navigation.navigate(SCREENS.ORDER_REVIEWS_SCREEN, {
+    if (order.delivery_user_id == null || order.delivery_user_id == "null") {
+      this.props.navigation.navigate(SCREENS.SELLER_REVIEW_SCREEN, {
         order: order,
         sellerRatings,
         sellerReviewText,
@@ -240,7 +240,7 @@ class OrderScreen extends React.Component {
         serviceReviewText
       });
     } else {
-      this.props.navigation.navigate(SCREENS.SELLER_REVIEW_SCREEN, {
+      this.props.navigation.navigate(SCREENS.ORDER_REVIEWS_SCREEN, {
         order: order,
         sellerRatings,
         sellerReviewText,
@@ -385,15 +385,24 @@ class OrderScreen extends React.Component {
           sellerId: order.seller_id,
           skuList: order.order_details
         });
-        this.setState({ order: res.result });
+        this.setState({ order: res.result }, () => {
+          console.log("Order after Approved Button Press_______", order);
+          const orderItems = order.order_details.filter(
+            order => order.item_availability == true
+          );
+          if (orderItems.length == 0) {
+            showSnackbar({ text: "Order Cancelled!" });
+          } else showSnackbar({ text: "Order Approved!" });
+        });
       } else {
         const res = await approveAssistedServiceOrder({
           orderId: order.id,
           sellerId: order.seller_id
         });
-        this.setState({ order: res.result });
+        this.setState({ order: res.result }, () => {
+          showSnackbar({ text: "Order Approved!" });
+        });
       }
-      showSnackbar({ text: "Order Approved!" });
     } catch (e) {
       showSnackbar({ text: e.message });
     } finally {
@@ -767,12 +776,12 @@ class OrderScreen extends React.Component {
       }
     }
 
-    let options = ["Pay Online", "Pay Offline", "Credit"];
+    let options = ["Pay Online", "Paid Cash on Delivery", "Credit"];
     let cancelIndex = 3;
     if (order && !order.seller.pay_online && order.is_credit_allowed) {
       cancelIndex = 2;
       options = [
-        "Pay Offline",
+        "Paid Cash on Delivery",
         order.credit_limit < totalAmount ? (
           <Text style={{ fontSize: 18, color: "grey" }}>On Credit</Text>
         ) : (
@@ -781,15 +790,15 @@ class OrderScreen extends React.Component {
       ];
     } else if (order && !order.seller.pay_online && !order.is_credit_allowed) {
       cancelIndex = 1;
-      options = ["Pay Offline"];
+      options = ["Paid Cash on Delivery"];
     } else if (order && !order.is_credit_allowed && order.seller.pay_online) {
       cancelIndex = 2;
-      options = ["Pay Online", "Pay Offline"];
+      options = ["Pay Online", "Paid Cash on Delivery"];
     } else if (order && order.is_credit_allowed && order.seller.pay_online) {
       cancelIndex = 3;
       options = [
         "Pay Online",
-        "Pay Offline",
+        "Paid Cash on Delivery",
         order.credit_limit < totalAmount ? (
           <Text style={{ fontSize: 18, color: "grey" }}>On Credit</Text>
         ) : (

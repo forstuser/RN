@@ -67,6 +67,10 @@ export default class MySellersScreen extends React.Component {
       this.setState({ selectedAddress: userProfile.addresses[0] }, () =>
         this.getSellersFromDropDown()
       );
+    } else {
+      this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
+        flag: true
+      });
     }
   }
 
@@ -287,11 +291,13 @@ export default class MySellersScreen extends React.Component {
                             : address.address_line_2
                         }
                         value={address}
+                        color="#3b3b3b"
                       />
                     ))}
                     <Picker.Item
                       label="Add new address"
                       value="Add new address"
+                      color="#ef622c"
                     />
                   </Picker>
                 </View>

@@ -18,6 +18,7 @@ import {
   PAYMENT_STATUS_TYPES,
   ORDER_TYPES
 } from "../../constants";
+import LoadingOverlay from "../../components/loading-overlay";
 
 let webViewLoadCount = 1;
 
@@ -27,6 +28,7 @@ class CashFreePaymentStatusScreen extends Component {
   };
 
   state = {
+    isLoading: false,
     showWebView: true,
     orderIdWebView: "",
     orderAmountWebView: "",
@@ -190,10 +192,16 @@ class CashFreePaymentStatusScreen extends Component {
   };
 
   retryPressPending = async () => {
+    this.setState({ isLoading: true });
     const { orderIdWebView } = this.state;
-
-    const res = await getTransactionStatus(orderIdWebView);
-    this.setState({ transactionStatus: res });
+    try {
+      const res = await getTransactionStatus(orderIdWebView);
+      this.setState({ transactionStatus: res });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
     // if (res && res.status_type) {
     //   if (res.status_type == 16) {
     //     // this.payOnline();
@@ -255,7 +263,12 @@ class CashFreePaymentStatusScreen extends Component {
     let statusMessage = null;
     let imageSource = null;
     let paymentMessage = null;
-    const { transactionStatus, showWebView, orderAmountWebView } = this.state;
+    const {
+      transactionStatus,
+      showWebView,
+      orderAmountWebView,
+      isLoading
+    } = this.state;
     if (
       transactionStatus &&
       transactionStatus.status_type == PAYMENT_STATUS_TYPES.SUCCESS
@@ -433,6 +446,7 @@ class CashFreePaymentStatusScreen extends Component {
             </View>
           </View>
         ) : null}
+        <LoadingOverlay visible={isLoading} />
       </View>
     );
   }

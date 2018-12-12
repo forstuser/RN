@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import LinearGradient from "react-native-linear-gradient";
 import { Text, Button, Image, TextInput } from "../../elements";
 import LoadingOverlay from "../../components/loading-overlay";
-import { shareLocationOnBoarding } from "../../api";
+import { shareLocationOnBoarding, updateUserAddresses } from "../../api";
 import { showSnackbar } from "../../utils/snackbar";
 import { SCREENS } from "../../constants";
 import { colors, defaultStyles } from "../../theme";
@@ -34,19 +34,27 @@ class SelectSellerScreen extends Component {
   };
 
   saveAddress = async () => {
-    const { address1, latitude, longitude } = this.state;
+    const { address1, address2, pin, latitude, longitude } = this.state;
     const lat = latitude.toString();
     const long = longitude.toString();
     if (address1 == "") {
       showSnackbar({ text: "Please enter House/Flat no." });
     } else {
       try {
+        let item = {
+          address_line_1: address1,
+          address_line_2: address2,
+          pin: pin,
+          latitude: latitude,
+          longitude: longitude
+        };
         const res = await shareLocationOnBoarding(lat, long);
         console.log("LocationShareOnBoardingResponse____", res);
         this.setState({ addressModal: false });
         if (res.result > 0) {
           this.setState({ sellerExistModal: true });
         } else this.setState({ noSellerModal: true });
+        const updateAddressResponse = await updateUserAddresses(item);
       } catch (error) {
         console.log("error: ", error);
       } finally {
