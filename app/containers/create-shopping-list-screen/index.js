@@ -809,7 +809,7 @@ class ShoppingListScreen extends React.Component {
             >
               <Icon
                 style={{ marginTop: 1 }}
-                name="ios-barcode-outline"
+                name="ios-barcode"
                 size={37.5}
                 color="#fff"
               />

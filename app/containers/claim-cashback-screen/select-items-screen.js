@@ -36,7 +36,7 @@ export default class SelectCashbackItems extends React.Component {
         >
           <Icon
             style={{ marginTop: 1 }}
-            name="ios-barcode-outline"
+            name="ios-barcode"
             size={30}
             color={colors.pinkishOrange}
           />

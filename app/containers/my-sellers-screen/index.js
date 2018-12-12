@@ -873,7 +873,7 @@ class MySellersScreen extends React.Component {
                           ]}
                         >
                           <Icon
-                            name="ios-construct-outline"
+                            name="ios-construct"
                             style={styles.bottomButtonIcon}
                             color={colors.pinkishOrange}
                           />
