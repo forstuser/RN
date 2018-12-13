@@ -119,7 +119,7 @@ class SellerDetails extends React.Component {
                     }}
                   >
                     <Icon
-                      name="ios-call-outline"
+                      name="ios-call"
                       size={18}
                       color={colors.pinkishOrange}
                     />
@@ -146,7 +146,7 @@ class SellerDetails extends React.Component {
                     }}
                   >
                     <Icon
-                      name="ios-chatbubbles-outline"
+                      name="ios-chatbubbles"
                       size={18}
                       color={colors.pinkishOrange}
                     />

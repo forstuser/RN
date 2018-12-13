@@ -74,7 +74,7 @@ class AddressView extends Component {
               >
                 <Text>
                   <Icon
-                    name="ios-create-outline"
+                    name="ios-create"
                     size={20}
                     color={colors.pinkishOrange}
                   />
@@ -88,7 +88,7 @@ class AddressView extends Component {
               >
                 <Text>
                   <Icon
-                    name="ios-trash-outline"
+                    name="ios-trash"
                     size={20}
                     color={colors.pinkishOrange}
                   />

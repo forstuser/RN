@@ -103,7 +103,11 @@ class ItemSelector extends React.Component {
                     ]}
                     numberOfLines={2}
                   >
-                    {option.name}
+                    {option.name
+                      .toUpperCase()
+                      .split(" ")
+                      .slice(0, 2)
+                      .join(" ")}
                   </Text>
                 </View>
               </TouchableWithoutFeedback>

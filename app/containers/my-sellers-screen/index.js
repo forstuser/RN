@@ -848,7 +848,7 @@ class MySellersScreen extends React.Component {
                       style={styles.bottomButton}
                     >
                       <Icon
-                        name="ios-call-outline"
+                        name="ios-call"
                         style={styles.bottomButtonIcon}
                         color={colors.pinkishOrange}
                       />

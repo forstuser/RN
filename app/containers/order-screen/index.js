@@ -8,7 +8,8 @@ import {
   BackHandler,
   WebView,
   TextInput,
-  Dimensions
+  Dimensions,
+  AsyncStorage
 } from "react-native";
 import moment from "moment";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -103,9 +104,13 @@ class OrderScreen extends React.Component {
     //BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
   }
 
-  componentDidMount() {
-    const reasons = this.props.navigation.getParam("cancelReasons", []);
+  async componentDidMount() {
+    let reasons = await AsyncStorage.getItem("cancelReasons");
+    reasons = JSON.parse(reasons);
+    console.log("Cancel reasons in order screen_____________", reasons);
     this.setState({ cancelReasons: reasons });
+    // const reasons = this.props.navigation.getParam("cancelReasons", []);
+    // this.setState({ cancelReasons: reasons });
     this.getOrderDetails(this.props);
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
@@ -388,7 +393,7 @@ class OrderScreen extends React.Component {
         this.setState({ order: res.result }, () => {
           console.log("Order after Approved Button Press_______", order);
           const orderItems = order.order_details.filter(
-            order => order.item_availability == true
+            order => order.item_availability == true || order.suggestion
           );
           if (orderItems.length == 0) {
             showSnackbar({ text: "Order Cancelled!" });

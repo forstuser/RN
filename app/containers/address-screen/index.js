@@ -356,11 +356,7 @@ class AddressScreen extends Component {
                 {collectAtStoreFlag ? "Select Location" : "Add New Address"}
               </Text>
               <Text>
-                <Icon
-                  name="ios-pin-outline"
-                  size={20}
-                  color={colors.pinkishOrange}
-                />
+                <Icon name="ios-pin" size={20} color={colors.pinkishOrange} />
               </Text>
             </TouchableOpacity>
           </ScrollView>

@@ -122,7 +122,7 @@ export default class DeliveryUserDetails extends React.Component {
                   }}
                 >
                   <Icon
-                    name="ios-call-outline"
+                    name="ios-call"
                     size={18}
                     color={colors.pinkishOrange}
                   />
