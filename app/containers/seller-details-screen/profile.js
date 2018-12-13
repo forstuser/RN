@@ -356,7 +356,7 @@ class SellerProfileTab extends React.Component {
           >
             <TouchableOpacity onPress={this.call} style={[styles.button]}>
               <Icon
-                name="ios-call-outline"
+                name="ios-call"
                 style={styles.buttonIcon}
                 color={colors.pinkishOrange}
               />
@@ -369,7 +369,7 @@ class SellerProfileTab extends React.Component {
               style={[styles.button, { marginHorizontal: 1 }]}
             >
               <Icon
-                name="ios-navigate-outline"
+                name="ios-navigate"
                 style={styles.buttonIcon}
                 color={colors.pinkishOrange}
               />

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, ScrollView, BackHandler } from "react-native";
+import { View, ScrollView, BackHandler, TouchableOpacity } from "react-native";
 
 import { addSellerReview, addAssistedServiceReview } from "../../api";
 
@@ -168,15 +168,28 @@ export default class ShoppingOrderDeliveryReviewsScreen extends React.Component 
           <View style={{ margin: 15 }}>
             <Button
               onPress={this.onSubmit}
-              text="Submit Your Review"
+              text="Submit"
               color="secondary"
               style={{ marginBottom: 15 }}
             />
-            <Button
+            {/* <Button
               onPress={this.onMayBeLaterPress}
               text="Maybe Later"
               color="grey"
-            />
+            /> */}
+            <TouchableOpacity onPress={this.onMayBeLaterPress}>
+              <Text
+                weight="Medium"
+                style={{
+                  color: colors.mainBlue,
+                  textAlign: "center",
+                  textDecorationLine: "underline",
+                  textDecorationColor: colors.mainBlue
+                }}
+              >
+                Maybe Later
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

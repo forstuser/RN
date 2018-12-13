@@ -257,11 +257,7 @@ export default class SelectedItemsList extends React.Component {
                         marginRight: 5
                       }}
                     >
-                      <Icon
-                        name="ios-trash-outline"
-                        size={30}
-                        color="#999999"
-                      />
+                      <Icon name="ios-trash" size={30} color="#999999" />
                     </TouchableOpacity>
                   ) : null}
                 </View>

@@ -376,7 +376,7 @@ export default class OffersTab extends React.Component {
               marginTop: 8
             }}
           >
-            <View tabLabel="Discount Offers">
+            <View tabLabel="Discount">
               {discountOffers.length > 0 ? (
                 <FlatList
                   contentContainerStyle={{
@@ -460,7 +460,7 @@ export default class OffersTab extends React.Component {
                 </View>
               )}
             </View>
-            <View tabLabel="Extra Quantity">
+            <View tabLabel="Extra">
               {extraQuantity.length > 0 ? (
                 <FlatList
                   contentContainerStyle={{
@@ -502,7 +502,7 @@ export default class OffersTab extends React.Component {
                 </View>
               )}
             </View>
-            <View tabLabel="General Offers">
+            <View tabLabel="General">
               {generalOffers.length > 0 ? (
                 <FlatList
                   contentContainerStyle={{

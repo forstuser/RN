@@ -15,7 +15,7 @@ class DigitalBillScreen extends Component {
     const params = navigation.state.params || {};
 
     return {
-      title: "Invoice",
+      title: "Challan",
       headerLeft: <HeaderBackButton onPress={params.onBackPress} />
     };
   };
@@ -157,7 +157,7 @@ class DigitalBillScreen extends Component {
                 <View style={styles.line} />
                 <View style={{ marginTop: 7 }}>
                   <View style={styles.billDate}>
-                    <Text style={{ fontSize: 12 }}>Chalan No. :</Text>
+                    <Text style={{ fontSize: 12 }}>Challan No. :</Text>
                     <Text style={{ fontSize: 12 }}>
                       BinBill{""}
                       {digitalBillData.order_id}
@@ -326,7 +326,7 @@ class DigitalBillScreen extends Component {
                     }}
                   >
                     <Text style={styles.footerText}>
-                      *** This is a computer generated chalan and signature is
+                      *** This is a computer generated challan and signature is
                       not required
                     </Text>
                     <Text style={styles.footerText}>

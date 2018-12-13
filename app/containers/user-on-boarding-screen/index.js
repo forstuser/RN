@@ -28,10 +28,20 @@ class UserOnBoardingScreen extends Component {
     };
   };
   componentDidMount() {
+    // this.props.navigation.setParams({
+    //   onSkipPress: () => {
+    //     this.props.navigation.navigate(
+    //       SCREENS.SELECT_GENDER_SCREEN_ONBOARDING,
+    //       {
+    //         navigation: this.props.navigation
+    //       }
+    //     );
+    //   }
+    // });
     this.props.navigation.setParams({
       onSkipPress: () => {
         this.props.navigation.navigate(
-          SCREENS.SELECT_GENDER_SCREEN_ONBOARDING,
+          SCREENS.SELECT_CITIES_SCREEN_ONBOARDING,
           {
             navigation: this.props.navigation
           }

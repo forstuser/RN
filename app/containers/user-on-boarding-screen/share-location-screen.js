@@ -160,11 +160,7 @@ class SelectSellerScreen extends Component {
             >
               <Text style={styles.searchText}>Share Location</Text>
               <Text>
-                <Icon
-                  name="ios-pin-outline"
-                  size={22}
-                  color={colors.pinkishOrange}
-                />
+                <Icon name="ios-pin" size={22} color={colors.pinkishOrange} />
               </Text>
             </TouchableOpacity>
           </View>

@@ -372,7 +372,7 @@ export default class RegistrationDetails extends React.Component {
               onPress={this.openLocationPicker}
               value={location}
               placeholder="Enter Your Location"
-              leftIconName="ios-pin-outline"
+              leftIconName="ios-pin"
               multiline={true}
               inputStyle={location ? { height: 70 } : {}}
             /> */}

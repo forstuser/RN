@@ -388,7 +388,7 @@ class OrderScreen extends React.Component {
         this.setState({ order: res.result }, () => {
           console.log("Order after Approved Button Press_______", order);
           const orderItems = order.order_details.filter(
-            order => order.item_availability == true
+            order => order.item_availability == true || order.suggestion
           );
           if (orderItems.length == 0) {
             showSnackbar({ text: "Order Cancelled!" });
