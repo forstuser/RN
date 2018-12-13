@@ -2435,3 +2435,10 @@ export const shareLocationOnBoarding = async (latitude, longitude) => {
     }
   });
 };
+
+export const getCancelReasons = async () => {
+  return await apiRequest({
+    method: "get",
+    url: `/consumer/cancel/reasons`
+  });
+};

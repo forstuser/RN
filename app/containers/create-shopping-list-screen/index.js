@@ -22,7 +22,8 @@ import {
   addSkuItemToWishList,
   clearWishList,
   getMySellers,
-  getSellerSkuCategories
+  getSellerSkuCategories,
+  getCancelReasons
 } from "../../api";
 import { colors, defaultStyles } from "../../theme";
 import CheckBox from "../../components/checkbox";
@@ -76,7 +77,8 @@ class ShoppingListScreen extends React.Component {
     isVisibleCashbackModal: false,
     neverShowCashbackModal: false,
     collectAtStoreFlag: false,
-    hideBrands: false
+    hideBrands: false,
+    reasonsCancel: []
   };
 
   componentWillMount() {}
@@ -132,6 +134,7 @@ class ShoppingListScreen extends React.Component {
             });
             this.modalShow();
             this.loadSkuWishList();
+            this.cancelReasons();
             // this.getMySellers();
             // this.fromSellers();
           }
@@ -139,6 +142,18 @@ class ShoppingListScreen extends React.Component {
       }
     );
   }
+
+  cancelReasons = async () => {
+    try {
+      const res = await getCancelReasons();
+      console.log("res in cancel reasons api_______________", res.result);
+      AsyncStorage.setItem("cancelReasons", JSON.stringify(res.result));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("done");
+    }
+  };
 
   componentWillUnmount() {}
 
