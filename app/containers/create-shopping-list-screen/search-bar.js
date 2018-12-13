@@ -411,10 +411,10 @@ export default class SearchBar extends React.Component {
           <TouchableOpacity
             onPress={() => {
               this.toggleBrandsPopup();
-              this.toggleSellersPopup();
+              // this.toggleSellersPopup();
             }}
             disabled={
-              (brands.length == 0 && sellers.length == 0) ||
+              brands.length == 0 ||
               (activeMainCategoryId == 0 && searchTerm.length < 3)
 
               // activeMainCategoryId ==

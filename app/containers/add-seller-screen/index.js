@@ -18,6 +18,7 @@ import {
   getSellers,
   getMySellers,
   linkSeller,
+  updateUserAddresses,
   getProfileDetail
 } from "../../api";
 
@@ -90,6 +91,7 @@ export default class MySellersScreen extends React.Component {
     try {
       const res = await getProfileDetail();
       this.setState({ userDetails: res.userProfile });
+      console.log("user details", res);
     } catch (error) {
       console.log(error.message);
     } finally {
@@ -99,7 +101,10 @@ export default class MySellersScreen extends React.Component {
           userDetails.addresses &&
           userDetails.addresses.length > 0
         ) {
-          this.setState({ selectedAddress: userDetails.addresses[0] }, () =>
+          const defaultAddress = userDetails.addresses.filter(item => {
+            item.address_type == 1;
+          });
+          this.setState({ selectedAddress: defaultAddress }, () =>
             this.getSellersFromDropDown()
           );
         }
@@ -199,6 +204,18 @@ export default class MySellersScreen extends React.Component {
     this.setState({ sellers: res.result, isLoadingSellers: false });
   };
 
+  setDefault = async address => {
+    this.setState({ isLoadingSellers: true });
+    try {
+      let item = { address_type: 1, id: address.id };
+      const updateAddressResponse = await updateUserAddresses(item);
+      console.log("updateAddressResponse", updateAddressResponse);
+      this.setState({ isLoadingSellers: false });
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
+
   render() {
     const { navigation } = this.props;
     const {
@@ -273,6 +290,7 @@ export default class MySellersScreen extends React.Component {
                     }}
                     onValueChange={(itemValue, itemIndex) => {
                       if (itemValue != "Add new address") {
+                        this.setDefault(itemValue);
                         this.setState({ selectedAddress: itemValue }, () =>
                           this.getSellersFromDropDown()
                         );
