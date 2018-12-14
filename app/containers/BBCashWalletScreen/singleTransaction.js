@@ -4,6 +4,7 @@ import moment from "moment";
 
 import { Text } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
+import { ORDER_STATUS_TYPES } from "../../constants";
 
 class SingleTransaction extends Component {
   render() {
@@ -15,10 +16,11 @@ class SingleTransaction extends Component {
         {transaction.id !== null ? transaction.id : null}
       </Text>
     );
-    if (transaction.status_type === 16 && transaction.price !== 0) {
+    console.log("trassssssssssssssssssssssssssssss", transaction);
+    if (transaction.status_type === ORDER_STATUS_TYPES.APPROVED) {
       price = (
         <Text weight="Bold" style={styles.price1}>
-          +{transaction.price}
+          {transaction.price !== 0 ? `+ ` + transaction.price : 0}
         </Text>
       );
       if (transaction.is_paytm === true) {
@@ -36,75 +38,32 @@ class SingleTransaction extends Component {
         );
       }
     }
-    if (transaction.status_type === 16 && transaction.price === 0) {
-      price = (
-        <Text weight="Bold" style={styles.price1}>
-          {transaction.price}
-        </Text>
-      );
-      if (transaction.is_paytm === true) {
-        description = (
-          <Text weight="Bold" style={styles.info}>
-            Credited from Paytm
-          </Text>
-        );
-      }
-      if (transaction.is_paytm === false) {
-        description = (
-          <Text weight="Bold" style={styles.info}>
-            Received from BinBill
-          </Text>
-        );
-      }
-    }
+
     if (
-      transaction.price !== 0 &&
-      (transaction.status_type === 14 || transaction.status_type === 13)
+      transaction.status_type === ORDER_STATUS_TYPES.REDEEMED ||
+      transaction.status_type === ORDER_STATUS_TYPES.PENDING
     ) {
       price = (
         <Text weight="Bold" style={styles.price2}>
-          -{transaction.price}
+          {transaction.price !== 0
+            ? `- ` + transaction.price
+            : transaction.price}
         </Text>
       );
-      if (transaction.is_paytm === true && transaction.status_type === 14) {
+      if (
+        transaction.is_paytm === true &&
+        transaction.status_type === ORDER_STATUS_TYPES.REDEEMED
+      ) {
         description = (
           <Text weight="Bold" style={styles.info}>
             Redeemed at Paytm
           </Text>
         );
       }
-      if (transaction.is_paytm === true && transaction.status_type === 13) {
-        description = (
-          <Text weight="Bold" style={styles.info}>
-            Pending at Paytm
-          </Text>
-        );
-      }
-      if (transaction.is_paytm === false) {
-        description = (
-          <Text weight="Bold" style={styles.info}>
-            Redeemed at Seller
-          </Text>
-        );
-      }
-    }
-    if (
-      transaction.price === 0 &&
-      (transaction.status_type === 14 || transaction.status_type === 13)
-    ) {
-      price = (
-        <Text weight="Bold" style={styles.price2}>
-          {transaction.price}
-        </Text>
-      );
-      if (transaction.is_paytm === true && transaction.status_type === 14) {
-        description = (
-          <Text weight="Bold" style={styles.info}>
-            Redeemed at Paytm
-          </Text>
-        );
-      }
-      if (transaction.is_paytm === true && transaction.status_type === 13) {
+      if (
+        transaction.is_paytm === true &&
+        transaction.status_type === ORDER_STATUS_TYPES.PENDING
+      ) {
         description = (
           <Text weight="Bold" style={styles.info}>
             Pending at Paytm
