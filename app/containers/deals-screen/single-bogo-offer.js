@@ -142,18 +142,33 @@ export default class BogoOffer extends React.Component {
             />
           </View>
           <View style={{ flex: 1, marginLeft: 10, paddingRight: 10 }}>
-            <Text
-              weight="Medium"
-              style={{
-                marginLeft: 5,
-                fontSize: 14,
-                flex: 1,
-                marginRight: 10,
-                flexWrap: "wrap"
-              }}
-            >
-              Buy 1 {item.sku_title} and Get {item.offer_discount} Free
-            </Text>
+            {item.title ? (
+              <Text
+                weight="Medium"
+                style={{
+                  marginLeft: 5,
+                  fontSize: 14,
+                  flex: 1,
+                  marginRight: 10,
+                  flexWrap: "wrap"
+                }}
+              >
+                {item.title}
+              </Text>
+            ) : (
+              <Text
+                weight="Medium"
+                style={{
+                  marginLeft: 5,
+                  fontSize: 14,
+                  flex: 1,
+                  marginRight: 10,
+                  flexWrap: "wrap"
+                }}
+              >
+                Buy 1 {item.sku_title} and Get {item.offer_discount} Free
+              </Text>
+            )}
             <Text
               style={{
                 marginLeft: 5,
@@ -179,7 +194,7 @@ export default class BogoOffer extends React.Component {
             <Text style={{ fontSize: 12, marginLeft: 5, marginTop: 5 }}>
               Expires on: {moment(item.end_date).format("DD MMM, YYYY")}
             </Text>
-            <TouchableOpacity onPress={() => this.onViewDetails(item)}>
+            {/* <TouchableOpacity onPress={() => this.onViewDetails(item)}>
               <Text
                 style={{
                   fontSize: 13,
@@ -192,7 +207,7 @@ export default class BogoOffer extends React.Component {
               >
                 View Details
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             {showBtn ? (
               <Button
                 textStyle={{ fontSize: 14 }}

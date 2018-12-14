@@ -120,6 +120,14 @@ export default class OffersTab extends React.Component {
       extraQuantity: [],
       generalOffers: []
     });
+
+    //
+    const defaultSellerIdFromNotifications = this.props.navigation.getParam(
+      "defaultSellerIdFromNotifications",
+      null
+    );
+    //
+
     try {
       const defaultSeller = JSON.parse(
         await AsyncStorage.getItem("defaultSeller")
@@ -139,6 +147,15 @@ export default class OffersTab extends React.Component {
           category => category.id == defaultSeller.id
         );
       }
+
+      //
+      if (defaultSellerIdFromNotifications) {
+        sellerIndex = categories.findIndex(
+          category => category.id == defaultSellerIdFromNotifications
+        );
+      }
+      //
+
       this.setState(
         {
           categories,
@@ -353,10 +370,11 @@ export default class OffersTab extends React.Component {
             renderTabBar={() => (
               <DefaultTabBar
                 style={{
-                  height: 40,
+                  height: 20,
                   marginTop: 125,
                   backgroundColor: "#fff",
-                  padding: 5
+                  padding: 5,
+                  paddingTop: 0
                 }}
                 inactiveTextColor="#aaa"
                 activeTextColor="#009ee5"

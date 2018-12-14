@@ -211,7 +211,7 @@ export default class SkuItemOffer extends React.Component {
             <Text style={{ fontSize: 12, marginLeft: 5, marginTop: 5 }}>
               Expires on: {moment(item.end_date).format("DD MMM, YYYY")}
             </Text>
-            <TouchableOpacity onPress={() => this.onViewDetails(item)}>
+            {/* <TouchableOpacity onPress={() => this.onViewDetails(item)}>
               <Text
                 style={{
                   fontSize: 13,
@@ -224,7 +224,7 @@ export default class SkuItemOffer extends React.Component {
               >
                 View Details
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             {showBtn ? (
               <Button
                 textStyle={{ fontSize: 14 }}
