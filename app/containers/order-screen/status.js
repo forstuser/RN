@@ -5,6 +5,7 @@ import moment from "moment";
 import { Text, Image, Button } from "../../elements";
 import { colors } from "../../theme";
 import { ORDER_STATUS_TYPES, ORDER_TYPES } from "../../constants";
+import Modal from "react-native-modal";
 
 const StatusItem = ({ isDone = false, title }) => (
   <View style={{ flexDirection: "row", paddingVertical: 12 }}>
@@ -35,6 +36,15 @@ const StatusItem = ({ isDone = false, title }) => (
 );
 
 export default class Statuses extends React.Component {
+  state = {
+    isModalVisible: false
+  };
+  showAutoCancelModal = () => {
+    this.setState({ isModalVisible: true });
+  };
+  hideAutoCancelModal = () => {
+    this.setState({ isModalVisible: false });
+  };
   render() {
     const {
       statusType,
@@ -148,9 +158,17 @@ export default class Statuses extends React.Component {
         (statusType == ORDER_STATUS_TYPES.NEW &&
           isInReview == true &&
           isOrderModified != true) ? (
-          <Text style={{ color: "#ef622c", marginLeft: "13%", fontSize: 12 }}>
-            (Store will confirm order within {autoCancelTime} min)
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={{ color: "#ef622c", marginLeft: "13%", fontSize: 12 }}>
+              (Store will confirm order within {autoCancelTime} min)
+            </Text>
+            <Icon
+              style={{ marginLeft: 3 }}
+              name="md-information-circle"
+              sixe={10}
+              onPress={this.showAutoCancelModal}
+            />
+          </View>
         ) : null}
 
         {statusType == ORDER_STATUS_TYPES.APPROVED &&
@@ -298,6 +316,28 @@ export default class Statuses extends React.Component {
               )}
           </View>
         )}
+        <Modal
+          isVisible={this.state.isModalVisible}
+          useNativeDriver
+          onBackButtonPress={this.hideAutoCancelModal}
+          onBackdropPress={this.hideAutoCancelModal}
+        >
+          <View
+            style={{
+              backgroundColor: "#fff",
+              height: 100,
+              borderRadius: 5,
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 10
+            }}
+          >
+            <Text>
+              If your order is not confirmed within {autoCancelTime} mins, your
+              Order will be automatically Cancelled & you will need to Reorder
+            </Text>
+          </View>
+        </Modal>
       </View>
     );
   }

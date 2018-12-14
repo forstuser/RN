@@ -353,10 +353,11 @@ export default class OffersTab extends React.Component {
             renderTabBar={() => (
               <DefaultTabBar
                 style={{
-                  height: 40,
+                  height: 20,
                   marginTop: 125,
                   backgroundColor: "#fff",
-                  padding: 5
+                  padding: 5,
+                  paddingTop: 0
                 }}
                 inactiveTextColor="#aaa"
                 activeTextColor="#009ee5"

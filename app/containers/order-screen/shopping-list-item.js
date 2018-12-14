@@ -376,8 +376,19 @@ class ShoppingListItem extends React.Component {
                       }}
                       resizeMode="contain"
                       source={{
-                        uri: API_BASE_URL + `/skus/${item.suggestion.id}/images`
+                        uri:
+                          API_BASE_URL +
+                          `/skus/${item.suggestion.id}/measurements/${
+                            item.suggestion.sku_measurement.id
+                          }/images`
                       }}
+                      // source={{
+                      //   uri:
+                      //     API_BASE_URL +
+                      //     `/skus/${item.suggestion.id}/measurements/${
+                      //       item.sku_measurement.id
+                      //     }/images`
+                      // }}
                     />
                   </TouchableOpacity>
                   <Text
