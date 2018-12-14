@@ -28,7 +28,6 @@ export default class RedeemSellerPoints extends React.Component {
   };
 
   redeemPoints = async () => {
-    //alert('Redeem');
     Analytics.logEvent(Analytics.EVENTS.REDEEM_POINTS);
     const { sellerId, pointsToRedeem } = this.state;
     try {

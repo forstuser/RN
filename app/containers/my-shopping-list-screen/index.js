@@ -82,6 +82,7 @@ class MyShoppingList extends React.Component {
     const collectAtStoreFlag = this.props.navigation.getParam(
       "collectAtStoreFlag"
     );
+    console.log("collect store flag in my shopping list", collectAtStoreFlag);
     let res;
     try {
       res = await getHomeDeliveryStatus(sellerId);
@@ -154,10 +155,6 @@ class MyShoppingList extends React.Component {
   proceedToAddressScreen = async seller => {
     const collectAtStoreFlag = this.props.navigation.getParam(
       "collectAtStoreFlag"
-    );
-    console.log(
-      "collectAtStoreFlag in my shopping list___________",
-      collectAtStoreFlag
     );
     if (collectAtStoreFlag == false) {
       this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {

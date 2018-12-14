@@ -124,14 +124,6 @@ class ShoppingListScreen extends React.Component {
             collectAtStoreFlag: false
           },
           () => {
-            const collectAtStoreFlag = this.props.navigation.getParam(
-              "collectAtStoreFlag",
-              false
-            );
-            this.setState({ collectAtStoreFlag });
-            this.props.navigation.setParams({
-              collectAtStoreFlag: false
-            });
             this.modalShow();
             this.loadSkuWishList();
             this.cancelReasons();
@@ -146,7 +138,6 @@ class ShoppingListScreen extends React.Component {
   cancelReasons = async () => {
     try {
       const res = await getCancelReasons();
-      console.log("res in cancel reasons api_______________", res.result);
       AsyncStorage.setItem("cancelReasons", JSON.stringify(res.result));
     } catch (error) {
       console.log(error);
@@ -214,7 +205,6 @@ class ShoppingListScreen extends React.Component {
     try {
       const res = await getSkuWishList();
       this.setState({ wishList: res.result.wishlist_items });
-      console.log("Wishlist in Shop and Earn", res.result.wishlist_items);
       // if (res.result.wishlist_items.length > 0) {
       //   this.clearOrContinuePreviousListModal.show();
       // }
@@ -254,11 +244,6 @@ class ShoppingListScreen extends React.Component {
           .filter(category => category.brands)
           .forEach(category => brandsList.push(...category.brands));
       brandsList = _.uniqBy(brandsList, "brand_id");
-      console.log("data--------------------------------------");
-      console.log("mainCategories", mainCategories);
-      console.log("categories", categories);
-      console.log("Brandlist", brandsList);
-      console.log("Past items", pastItems);
       this.setState(
         () => ({
           mainCategories,
@@ -287,7 +272,6 @@ class ShoppingListScreen extends React.Component {
   };
 
   setDefaultSeller = async () => {
-    // console.log("this state", this.state.sellers[0]);
     let seller = this.state.sellers[0] || null;
     let defaultSeller = await AsyncStorage.getItem("defaultSeller");
     defaultSeller = JSON.parse(defaultSeller);
@@ -315,12 +299,21 @@ class ShoppingListScreen extends React.Component {
 
   setSelectedSellers = async selectedSellers => {
     const { selectedSeller } = this.state;
-
+    console.log("set select store", this.state.collectAtStoreFlag);
     if (selectedSellers.length > 0) {
       this.setState({
         selectedSeller: selectedSellers[0],
         activeMainCategoryId: null,
         activeCategoryId: null,
+        collectAtStoreFlag: false
+      });
+      // now take collectAtStoreFlag
+      const collectAtStoreFlag = this.props.navigation.getParam(
+        "collectAtStoreFlag",
+        false
+      );
+      this.setState({ collectAtStoreFlag });
+      this.props.navigation.setParams({
         collectAtStoreFlag: false
       });
       const defaultSeller = JSON.parse(
@@ -443,7 +436,6 @@ class ShoppingListScreen extends React.Component {
     // let listBrands = [];
     // brands && brands.forEach(brand => listBrands.push(...brand));
     // listBrands = _.uniqBy(listBrands, "brand_id");
-    console.log("main category is ", mainCategory);
     const newState = { activeMainCategoryId, selectedBrands: [] };
 
     if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
@@ -620,8 +612,6 @@ class ShoppingListScreen extends React.Component {
     }
 
     this.setState(newState, () => {
-      console.log("search term", searchTerm);
-      console.log("length of search term", searchTerm.length);
       if (
         searchTerm.length >= 3 &&
         searchTerm != this.state.lastSearchTerm3Characters
@@ -752,6 +742,7 @@ class ShoppingListScreen extends React.Component {
       collectAtStoreFlag,
       hideBrands
     } = this.state;
+
     if (referenceDataError || wishListError) {
       return (
         <ErrorOverlay
@@ -839,7 +830,7 @@ class ShoppingListScreen extends React.Component {
                   wishList,
                   changeIndexQuantity: this.changeIndexQuantity,
                   selectedSeller: selectedSeller,
-                  collectAtStoreFlag
+                  collectAtStoreFlag: collectAtStoreFlag
                 });
               }}
             >

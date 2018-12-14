@@ -111,7 +111,7 @@ export default ({
           extraData={{ wishList, skuData }}
           keyExtractor={(item, index) => item.id}
           onEndReached={() => {
-            alert("end");
+            // alert("end");
           }}
           onEndReachedThreshold={0.5}
         />
