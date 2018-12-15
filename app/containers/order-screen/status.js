@@ -333,8 +333,9 @@ export default class Statuses extends React.Component {
             }}
           >
             <Text>
-              If your order is not confirmed within {autoCancelTime} mins, your
-              Order will be automatically Cancelled & you will need to Reorder
+              If the Store does not respond within 15 mins, you will need to
+              reorder. The Store's late response penalty of Rs. 5/- will be
+              credited to your Wallet
             </Text>
           </View>
         </Modal>
