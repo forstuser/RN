@@ -101,7 +101,7 @@ class OrderScreen extends React.Component {
   };
 
   componentWillMount() {
-    //BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
+    BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
   }
 
   async componentDidMount() {
@@ -155,7 +155,7 @@ class OrderScreen extends React.Component {
 
   componentWillUnmount() {
     // alert("index screen");
-    //BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+    BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
     this.didFocusSubscription.remove();
 
     if (socketIo.socket) {
@@ -174,10 +174,10 @@ class OrderScreen extends React.Component {
       this.state.order.status_type == ORDER_STATUS_TYPES.EXPIRED
     ) {
       this.props.navigation.navigate(SCREENS.MY_ORDERS_SCREEN);
-      //return true;
+      return true;
     } else {
-      // alert("back");
-      this.props.navigation.goBack();
+      this.props.navigation.navigate(SCREENS.DASHBOARD_SCREEN);
+      return true;
     }
   };
 
@@ -844,6 +844,7 @@ class OrderScreen extends React.Component {
                     deliveryMinutes={order.delivery_minutes}
                     autoAcceptTime={order.auto_accept_time}
                     deliveryClockStartTime={order.delivery_clock_start_time}
+                    autoCancelPenalty={order.auto_cancel_max_cashback}
                   />
                   {deliveryUser && (
                     <DeliveryUserDetails

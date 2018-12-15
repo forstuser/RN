@@ -59,7 +59,8 @@ export default class Statuses extends React.Component {
       autoCancelTime,
       deliveryMinutes,
       autoAcceptTime,
-      deliveryClockStartTime
+      deliveryClockStartTime,
+      autoCancelPenalty
     } = this.props;
 
     let minutesToDeliver, hrsMins, deliveryStart;
@@ -325,7 +326,7 @@ export default class Statuses extends React.Component {
           <View
             style={{
               backgroundColor: "#fff",
-              height: 100,
+              height: 110,
               borderRadius: 5,
               alignItems: "center",
               justifyContent: "center",
@@ -333,8 +334,10 @@ export default class Statuses extends React.Component {
             }}
           >
             <Text>
-              If your order is not confirmed within {autoCancelTime} mins, your
-              Order will be automatically Cancelled & you will need to Reorder
+              If the Store does not respond within {autoCancelTime} mins, you
+              will need to reorder. The Store's late response penalty of ₹{" "}
+              {autoCancelPenalty}/- will be credited to your Wallet. This
+              cashback is not applicable in case of reorder.
             </Text>
           </View>
         </Modal>
