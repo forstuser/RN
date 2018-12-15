@@ -28,7 +28,12 @@ class AddressView extends Component {
               }}
             >
               <View>
-                <TouchableOpacity style={styles.outerCircle}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.selectAddress(index);
+                  }}
+                  style={styles.outerCircle}
+                >
                   {selectedIndex == index ? (
                     <View style={styles.innerCircle} />
                   ) : null}

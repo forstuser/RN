@@ -4,7 +4,7 @@ import moment from "moment";
 
 import { Text } from "../../elements";
 import { defaultStyles, colors } from "../../theme";
-import { ORDER_STATUS_TYPES } from "../../constants";
+import { ORDER_STATUS_TYPES, CASHBACK_SOURCE } from "../../constants";
 
 class SingleTransaction extends Component {
   render() {
@@ -16,26 +16,40 @@ class SingleTransaction extends Component {
         {transaction.id !== null ? transaction.id : null}
       </Text>
     );
-    console.log("trassssssssssssssssssssssssssssss", transaction);
+
     if (transaction.status_type === ORDER_STATUS_TYPES.APPROVED) {
       price = (
         <Text weight="Bold" style={styles.price1}>
           {transaction.price !== 0 ? `+ ` + transaction.price : 0}
         </Text>
       );
-      if (transaction.is_paytm === true) {
+      if (transaction.cashback_source === CASHBACK_SOURCE.DEFAULT) {
         description = (
           <Text weight="Bold" style={styles.info}>
-            Credited from Paytm
+            {transaction.title}
           </Text>
         );
-      }
-      if (transaction.is_paytm === false) {
+      } else if (transaction.cashback_source === CASHBACK_SOURCE.DELAYED) {
         description = (
           <Text weight="Bold" style={styles.info}>
-            Received from BinBill
+            Late Response Compensation
           </Text>
         );
+      } else {
+        if (transaction.is_paytm === true) {
+          description = (
+            <Text weight="Bold" style={styles.info}>
+              Credited from Paytm
+            </Text>
+          );
+        }
+        if (transaction.is_paytm === false) {
+          description = (
+            <Text weight="Bold" style={styles.info}>
+              Received from BinBill
+            </Text>
+          );
+        }
       }
     }
 
@@ -50,32 +64,46 @@ class SingleTransaction extends Component {
             : transaction.price}
         </Text>
       );
-      if (
-        transaction.is_paytm === true &&
-        transaction.status_type === ORDER_STATUS_TYPES.REDEEMED
-      ) {
+      if (transaction.cashback_source === CASHBACK_SOURCE.DEFAULT) {
         description = (
           <Text weight="Bold" style={styles.info}>
-            Redeemed at Paytm
+            {transaction.title}
           </Text>
         );
-      }
-      if (
-        transaction.is_paytm === true &&
-        transaction.status_type === ORDER_STATUS_TYPES.PENDING
-      ) {
+      } else if (transaction.cashback_source === CASHBACK_SOURCE.DELAYED) {
         description = (
           <Text weight="Bold" style={styles.info}>
-            Pending at Paytm
+            Late Response Compensation
           </Text>
         );
-      }
-      if (transaction.is_paytm === false) {
-        description = (
-          <Text weight="Bold" style={styles.info}>
-            Redeemed at Seller
-          </Text>
-        );
+      } else {
+        if (
+          transaction.is_paytm === true &&
+          transaction.status_type === ORDER_STATUS_TYPES.REDEEMED
+        ) {
+          description = (
+            <Text weight="Bold" style={styles.info}>
+              Redeemed at Paytm
+            </Text>
+          );
+        }
+        if (
+          transaction.is_paytm === true &&
+          transaction.status_type === ORDER_STATUS_TYPES.PENDING
+        ) {
+          description = (
+            <Text weight="Bold" style={styles.info}>
+              Pending at Paytm
+            </Text>
+          );
+        }
+        if (transaction.is_paytm === false) {
+          description = (
+            <Text weight="Bold" style={styles.info}>
+              Redeemed at Seller
+            </Text>
+          );
+        }
       }
     }
 

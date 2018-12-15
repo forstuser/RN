@@ -71,7 +71,9 @@ class BBCashWalletScreen extends Component {
           id: money.id,
           price: money.amount,
           status_type: money.status_type,
-          is_paytm: money.is_paytm
+          is_paytm: money.is_paytm,
+          cashback_source: money.cashback_source,
+          title: money.title
         });
       });
       console.log(walletArray);
