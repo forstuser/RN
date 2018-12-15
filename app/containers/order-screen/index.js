@@ -842,6 +842,7 @@ class OrderScreen extends React.Component {
                     deliveryMinutes={order.delivery_minutes}
                     autoAcceptTime={order.auto_accept_time}
                     deliveryClockStartTime={order.delivery_clock_start_time}
+                    autoCancelPenalty={order.auto_cancel_max_cashback}
                   />
                   {deliveryUser && (
                     <DeliveryUserDetails
