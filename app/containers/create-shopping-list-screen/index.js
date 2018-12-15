@@ -682,7 +682,7 @@ class ShoppingListScreen extends React.Component {
       }
       const newState = {
         // isSearching: false,
-        // isSearchDone: true,
+        isSearchDone: true, //removed comments to fix the empty screen issue while search
         items: [...items, ...res.result.sku_items],
         //brands: res.result.brands,
         sellers: res.seller_list,
