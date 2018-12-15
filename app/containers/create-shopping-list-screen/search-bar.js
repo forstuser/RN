@@ -128,11 +128,6 @@ export default class SearchBar extends React.Component {
   };
 
   startSearch = () => {
-    // const { searchTerm = "", loadItemsFirstPage = () => null } = this.props;
-    // if (searchTerm.length > 2) {
-    //   loadItemsFirstPage();
-    // }
-
     console.log("start search");
   };
 
@@ -201,10 +196,10 @@ export default class SearchBar extends React.Component {
     const { isBrandsPopupVisible, checkedBrands, checkedSellers } = this.state;
     // console.log("past items 2", pastItems);
     // console.log("items 2", items);
-    console.log("selectedCategoryIds 2", selectedCategoryIds);
+    // console.log("selectedCategoryIds 2", selectedCategoryIds);
     //console.log("active main category id 2", activeMainCategoryId);
     // console.log("measurementTypes 2", measurementTypes);
-    console.log("Brands___________", brands);
+    // console.log("Brands___________", brands);
     const activeMainCategory = activeMainCategoryId
       ? mainCategories.find(
           mainCategory => mainCategory.id == activeMainCategoryId
@@ -230,7 +225,7 @@ export default class SearchBar extends React.Component {
 
     const filteredItems = items
       .filter(item => {
-        if (searchTerm.length > 3) {
+        if (searchTerm && searchTerm.length > 3) {
           return item.title.toLowerCase().includes(searchTerm.toLowerCase());
         } else {
           return true;
@@ -414,7 +409,7 @@ export default class SearchBar extends React.Component {
               // this.toggleSellersPopup();
             }}
             disabled={
-              brands.length == 0 ||
+              (brands && brands.length == 0) ||
               (activeMainCategoryId == 0 && searchTerm.length < 3)
 
               // activeMainCategoryId ==
@@ -434,8 +429,10 @@ export default class SearchBar extends React.Component {
               name="md-options"
               size={25}
               color={
-                brands.length == 0 ||
-                (activeMainCategoryId == 0 && searchTerm.length < 3) // ||
+                (brands && brands.length == 0) ||
+                (activeMainCategoryId == 0 &&
+                  searchTerm &&
+                  searchTerm.length < 3) // ||
                   ? // (activeMainCategoryId ==
                     //   MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG ||
                     //   searchTerm.length < 3)
@@ -443,7 +440,7 @@ export default class SearchBar extends React.Component {
                   : colors.mainText
               }
             />
-            {selectedBrands.length > 0 ? (
+            {selectedBrands && selectedBrands.length > 0 ? (
               <View
                 style={{
                   position: "absolute",
@@ -464,7 +461,7 @@ export default class SearchBar extends React.Component {
           </TouchableOpacity>
         </View>
 
-        {filteredCategories.length > 0 && !searchTerm && (
+        {filteredCategories && filteredCategories.length > 0 && !searchTerm && (
           <View style={{ height: 34, paddingHorizontal: 5, marginBottom: 7 }}>
             <ScrollView
               ref={node => {
@@ -528,7 +525,9 @@ export default class SearchBar extends React.Component {
             borderTopWidth: 2
           }}
         >
-          {sellerMainCategories.length > 0 && !searchTerm ? (
+          {sellerMainCategories &&
+          sellerMainCategories.length > 0 &&
+          !searchTerm ? (
             <View
               style={{
                 flex: 1,
@@ -643,7 +642,7 @@ export default class SearchBar extends React.Component {
                 />
               )}
               ListEmptyComponent={() => {
-                if (items.length == 0 && isSearchDone) {
+                if (items && items.length == 0 && isSearchDone) {
                   return (
                     <View style={{ padding: 20, alignItems: "center" }}>
                       {searchTerm ? (
@@ -665,11 +664,11 @@ export default class SearchBar extends React.Component {
                       ) : null} */}
                     </View>
                   );
-                } else if (items.length == 0 && !isSearchDone) {
+                } else if (items && items.length == 0 && !isSearchDone) {
                   return (
                     <View style={{ paddingLeft: 10 }}>
                       <Text style={{ color: colors.secondaryText }}>
-                        {searchTerm.length < 3
+                        {searchTerm && searchTerm.length < 3
                           ? "Enter atleast 3 characters"
                           : ""}
                       </Text>

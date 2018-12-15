@@ -298,6 +298,7 @@ class ShoppingListScreen extends React.Component {
   };
 
   setSelectedSellers = async selectedSellers => {
+    console.log("selectedSellers", selectedSellers);
     const { selectedSeller } = this.state;
     console.log("set select store", this.state.collectAtStoreFlag);
     if (selectedSellers.length > 0) {
@@ -343,7 +344,7 @@ class ShoppingListScreen extends React.Component {
             }
           );
           console.log("response in main categories", filteredMainCategories);
-          if (this.state.pastItems.length > 0) {
+          if (this.state.pastItems && this.state.pastItems.length > 0) {
             this.setState(
               {
                 sellerMainCategories: [
@@ -386,7 +387,7 @@ class ShoppingListScreen extends React.Component {
         },
         () => {
           this.loadItemsFirstPage();
-          if (this.state.pastItems.length > 0) {
+          if (this.state.pastItems && this.state.pastItems.length > 0) {
             this.updateStateMainCategoryId(0);
           }
           this.setState({ isSearching: false });
@@ -776,6 +777,10 @@ class ShoppingListScreen extends React.Component {
               }}
               onValueChange={(itemValue, itemIndex) => {
                 this.setState({ selectedSeller: itemValue });
+                console.log(
+                  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                  this.state
+                );
                 this.setSelectedSellers([itemValue]);
               }}
             >

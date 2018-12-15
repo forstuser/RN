@@ -192,9 +192,11 @@ class OrderScreen extends React.Component {
   getOrderDetails = async props => {
     const { navigation } = props;
     const orderId = navigation.getParam("orderId", null);
+    console.log("orderid", orderId);
     this.setState({ isLoading: true, error: null });
     try {
       const res = await getOrderDetails({ orderId });
+      console.log("final order", res);
       this.setState({ order: res.result });
     } catch (error) {
       this.setState({ error });
