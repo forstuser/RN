@@ -431,12 +431,6 @@ class ShoppingListScreen extends React.Component {
     const mainCategory = mainCategories.find(
       mainCategoryItem => mainCategoryItem.id == activeMainCategoryId
     );
-    // const brands =
-    //   mainCategory.categories &&
-    //   mainCategory.categories.map(category => category.brands);
-    // let listBrands = [];
-    // brands && brands.forEach(brand => listBrands.push(...brand));
-    // listBrands = _.uniqBy(listBrands, "brand_id");
     const newState = { activeMainCategoryId, selectedBrands: [] };
 
     if (activeMainCategoryId > 0 && mainCategory.categories.length > 0) {
@@ -676,7 +670,7 @@ class ShoppingListScreen extends React.Component {
         isSearchDone: true, //removed comments to fix the empty screen issue while search
         items: [...items, ...res.result.sku_items],
         //brands: res.result.brands,
-        sellers: res.seller_list,
+        // sellers: res.seller_list,
         maxLimit: res.max_wish_list_items
       };
 
