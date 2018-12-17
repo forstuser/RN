@@ -69,12 +69,12 @@ class BasicDetailsScreen extends Component {
       imageUploaded
     } = this.state;
 
-    if (this.state.name === "") {
-      return Snackbar.show({
-        title: "Please enter your name",
-        duration: Snackbar.LENGTH_SHORT
-      });
-    }
+    // if (!this.state.name) {
+    //   return Snackbar.show({
+    //     title: "Please enter your name",
+    //     duration: Snackbar.LENGTH_SHORT
+    //   });
+    // }
     if (this.state.mobile === null) {
       return Snackbar.show({
         title: "Please enter your phone",
@@ -143,12 +143,12 @@ class BasicDetailsScreen extends Component {
       imageUploaded
     } = this.state;
 
-    if (this.state.name === "") {
-      return Snackbar.show({
-        title: "Please enter your name",
-        duration: Snackbar.LENGTH_SHORT
-      });
-    }
+    // if (!this.state.name) {
+    //   return Snackbar.show({
+    //     title: "Please enter your name",
+    //     duration: Snackbar.LENGTH_SHORT
+    //   });
+    // }
 
     if (this.state.mobile === null) {
       return Snackbar.show({
