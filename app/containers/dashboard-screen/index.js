@@ -102,22 +102,22 @@ class DashboardScreen extends React.Component {
     // }
     // this.props.navigation.navigate(SCREENS.REGISTRATION_DETAILS_SCREEN);
     // BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
-    this.didFocusSubscription = this.props.navigation.addListener(
-      "didFocus",
-      () => {
-        this.screenHasDisappeared = false;
-        this.fetchDashboardData();
-        this.expenseInsightContent.fetchCategories();
-        this.activeOrdersContent.fetchActiveOrders();
-        //this.ascContent.fetchProducts();
-        //this.calendarContent.fetchItems();
-        //
-        // this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
-        //   orderId: 29
-        // });
-        //this.setState({ isVisibleShopAndEarnModal: true });
-      }
-    );
+    // this.didFocusSubscription = this.props.navigation.addListener(
+    //   "didFocus",
+    //   () => {
+    this.screenHasDisappeared = false;
+    this.fetchDashboardData();
+    this.expenseInsightContent.fetchCategories();
+    this.activeOrdersContent.fetchActiveOrders();
+    //this.ascContent.fetchProducts();
+    //this.calendarContent.fetchItems();
+    //
+    // this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
+    //   orderId: 29
+    // });
+    //this.setState({ isVisibleShopAndEarnModal: true });
+    // }
+    // );
 
     this.willBlurSubscription = this.props.navigation.addListener(
       "willBlur",
