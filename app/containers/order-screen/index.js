@@ -95,7 +95,12 @@ class OrderScreen extends React.Component {
     cancelReasons: [],
     selectedReason: [],
     showTextInput: false,
-    writtenReason: ""
+    writtenReason: "",
+    showSellerDiscount: true,
+    isDeletingItems: false,
+    deleteOrderId: 0,
+    deleteItemId: 0,
+    deleteSellerId: 0
     //orderIdWebView: "",
     //orderAmountWebView: ""
   };
@@ -678,12 +683,46 @@ class OrderScreen extends React.Component {
     }
   };
 
-  deleteItemFromList = async (orderId, itemId, sellerId) => {
-    // console.log("Delete Item from list");
-    // console.log("Order Id_________", orderId);
-    // console.log("Item Id_________", itemId);
-    // console.log("Seller Id_________", sellerId);
-    const res = await deleteItemShoppingList(orderId, itemId, sellerId);
+  hideIsDeletingItems = () => {
+    this.setState({ isDeletingItems: false });
+  };
+
+  deleteItemFromList = (orderId, itemId, sellerId) => {
+    const { order, showSellerDiscount } = this.state;
+    this.setState(
+      {
+        deleteOrderId: orderId,
+        deleteItemId: itemId,
+        deleteSellerId: sellerId
+      },
+      () => {
+        if (
+          order &&
+          order.seller_discount &&
+          order.seller_discount > 0 &&
+          showSellerDiscount
+        ) {
+          this.setState({ isDeletingItems: true });
+        } else {
+          this.deleteItemFinal();
+        }
+      }
+    );
+  };
+
+  onContinueDelete = async () => {
+    this.setState({ isDeletingItems: false, showSellerDiscount: false }, () => {
+      this.deleteItemFinal();
+    });
+  };
+
+  deleteItemFinal = async () => {
+    const { deleteOrderId, deleteItemId, deleteSellerId } = this.state;
+    const res = await deleteItemShoppingList(
+      deleteOrderId,
+      deleteItemId,
+      deleteSellerId
+    );
     //console.log("Delete Item Response________________", res.result);
     this.setState({ order: res.result });
   };
@@ -707,7 +746,9 @@ class OrderScreen extends React.Component {
       selectedReason,
       cancelReasons,
       showTextInput,
-      writtenReason
+      writtenReason,
+      showSellerDiscount,
+      isDeletingItems
     } = this.state;
     console.log("ORDER***********************", order);
     console.log("cancel reasons: ", cancelReasons);
@@ -717,8 +758,10 @@ class OrderScreen extends React.Component {
     }
 
     let totalAmount = 0;
+    let discount = 0;
 
     if (order) {
+      discount = order.seller_discount;
       //console.log("Order Details_____________________", order);
       totalAmount = order.order_details.reduce((total, item) => {
         return item.selling_price ? total + Number(item.selling_price) : total;
@@ -923,11 +966,71 @@ class OrderScreen extends React.Component {
               }}
               ListFooterComponent={() => (
                 <View>
+                  {order &&
+                  order.seller_discount &&
+                  order.seller_discount > 0 &&
+                  showSellerDiscount ? (
+                    <View>
+                      {order.order_type == ORDER_TYPES.FMCG &&
+                      totalAmount > 0 ? (
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            height: 42,
+                            borderTopWidth: 1,
+                            borderBottomWidth: 0,
+                            borderColor: "#eee",
+                            marginHorizontal: 20,
+                            alignItems: "center"
+                          }}
+                        >
+                          <Text
+                            weight="Medium"
+                            style={{ flex: 1, color: "#444", fontSize: 12 }}
+                          >
+                            Total Amount
+                          </Text>
+                          <Text
+                            weight="Medium"
+                            style={{ color: "#444", fontSize: 12 }}
+                          >
+                            Rs. {parseFloat(totalAmount).toFixed(2)}
+                          </Text>
+                        </View>
+                      ) : null}
+                      {order.order_type == ORDER_TYPES.FMCG &&
+                      order.seller_discount &&
+                      order.seller_discount > 0 ? (
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            height: 10,
+                            marginBottom: 15,
+                            borderTopWidth: 0,
+                            borderBottomWidth: 0,
+                            borderColor: "#eee",
+                            marginHorizontal: 20,
+                            alignItems: "center"
+                          }}
+                        >
+                          <Text
+                            style={{ flex: 1, color: "#777", fontSize: 12 }}
+                          >
+                            Seller Discount
+                          </Text>
+                          <Text style={{ color: "#777", fontSize: 12 }}>
+                            Rs. {parseFloat(order.seller_discount).toFixed(2)}
+                          </Text>
+                        </View>
+                      ) : null}
+                    </View>
+                  ) : null}
+
                   {order.order_type == ORDER_TYPES.FMCG && totalAmount > 0 ? (
                     <View
                       style={{
                         flexDirection: "row",
-                        height: 42,
+                        height: 55,
                         borderTopWidth: 1,
                         borderBottomWidth: 1,
                         borderColor: "#eee",
@@ -936,9 +1039,17 @@ class OrderScreen extends React.Component {
                       }}
                     >
                       <Text weight="Medium" style={{ flex: 1 }}>
-                        Total Amount
+                        Payable Amount
                       </Text>
-                      <Text weight="Medium">Rs. {totalAmount}</Text>
+                      <Text weight="Medium">
+                        Rs.{" "}
+                        {showSellerDiscount && order.seller_discount > 0
+                          ? (
+                              parseFloat(totalAmount) -
+                              parseFloat(order.seller_discount)
+                            ).toFixed(2)
+                          : parseFloat(totalAmount).toFixed(2)}
+                      </Text>
                     </View>
                   ) : null}
 
@@ -1286,6 +1397,61 @@ class OrderScreen extends React.Component {
                   width: deviceWidth,
                   alignSelf: "center"
                 }}
+              />
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          isVisible={isDeletingItems}
+          useNativeDriver={true}
+          onBackButtonPress={this.hideIsDeletingItems}
+          onBackdropPress={this.hideIsDeletingItems}
+        >
+          <View
+            style={{
+              backgroundColor: "#fff",
+              width: 280,
+              height: 200,
+              alignSelf: "center",
+              borderRadius: 10,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Text
+              weight="Medium"
+              style={{
+                fontSize: 15,
+                padding: 10,
+                textAlign: "center",
+                marginBottom: 20
+              }}
+            >
+              Your Order Discount of Rs. {discount}/- will not be valid on
+              return of any item
+            </Text>
+            <View
+              style={{
+                width: "100%",
+                maxWidth: 220,
+                flexDirection: "row",
+                justifyContent: "space-between"
+              }}
+            >
+              <Button
+                text="Cancel"
+                style={{ width: 100, height: 40 }}
+                textStyle={{ fontSize: 12 }}
+                color="secondary"
+                type="outline"
+                onPress={this.hideIsDeletingItems}
+              />
+              <Button
+                text="Continue"
+                style={{ width: 100, height: 40 }}
+                color="secondary"
+                textStyle={{ fontSize: 12 }}
+                onPress={this.onContinueDelete}
               />
             </View>
           </View>
