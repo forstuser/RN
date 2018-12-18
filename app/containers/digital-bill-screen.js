@@ -111,6 +111,7 @@ class DigitalBillScreen extends Component {
   };
   render() {
     const { digitalBillData } = this.state;
+    console.log("DIGITAL BILL DATA____________", digitalBillData);
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }}>
         <View style={{ flex: 1 }}>
@@ -257,9 +258,51 @@ class DigitalBillScreen extends Component {
                       </View>
 
                       <Text weight="Medium" style={{ fontSize: 12 }}>
-                        ₹ {digitalBillData.total_amount}
+                        ₹ {parseFloat(digitalBillData.total_amount).toFixed(2)}
                       </Text>
                     </View>
+                    {digitalBillData &&
+                    digitalBillData.seller_discount &&
+                    digitalBillData.seller_discount > 0 ? (
+                      <View>
+                        <View
+                          style={{
+                            marginTop: 5,
+                            flexDirection: "row",
+                            justifyContent: "space-between"
+                          }}
+                        >
+                          <Text weight="Medium" style={{ fontSize: 12 }}>
+                            Seller Discount
+                          </Text>
+                          <Text weight="Medium" style={{ fontSize: 12 }}>
+                            ₹{" "}
+                            {parseFloat(
+                              digitalBillData.seller_discount
+                            ).toFixed(2)}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            marginTop: 5,
+                            flexDirection: "row",
+                            justifyContent: "space-between"
+                          }}
+                        >
+                          <Text weight="Medium" style={{ fontSize: 12 }}>
+                            Paid Amount
+                          </Text>
+                          <Text weight="Medium" style={{ fontSize: 12 }}>
+                            ₹{" "}
+                            {(
+                              parseFloat(digitalBillData.total_amount) -
+                              parseFloat(digitalBillData.seller_discount)
+                            ).toFixed(2)}
+                          </Text>
+                        </View>
+                      </View>
+                    ) : null}
+
                     <View
                       style={{
                         flex: 1,
