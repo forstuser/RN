@@ -29,11 +29,11 @@ export default class ShoppingList extends React.Component {
           imageUrl: image2,
           heading: `Shopping with a list is Systematic and Less Time consuming`
         },
-        {
-          id: 3,
-          imageUrl: image3,
-          heading: `Can be shared with your Family or a Seller for order & additional benefits`
-        },
+        // {
+        //   id: 3,
+        //   imageUrl: image3,
+        //   heading: `Can be shared with your Family or a Seller for order & additional benefits`
+        // },
         {
           id: 4,
           imageUrl: image4,
