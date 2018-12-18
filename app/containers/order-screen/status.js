@@ -172,7 +172,8 @@ export default class Statuses extends React.Component {
           </View>
         ) : null}
 
-        {statusType == ORDER_STATUS_TYPES.APPROVED &&
+        {(statusType == ORDER_STATUS_TYPES.APPROVED ||
+          statusType == ORDER_STATUS_TYPES.OUT_FOR_DELIVERY) &&
         collectAtStore == false ? (
           <Text
             weight="Medium"

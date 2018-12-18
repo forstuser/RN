@@ -427,49 +427,6 @@ export default class OffersTab extends React.Component {
               textAlign: "center"
             }}
           >
-            <View tabLabel="New Products">
-              {newProducts.length > 0 ? (
-                <FlatList
-                  contentContainerStyle={{
-                    paddingTop: 0
-                  }}
-                  style={{
-                    marginTop: 5
-                  }}
-                  data={newProducts}
-                  keyExtractor={item => item.id}
-                  renderItem={this.renderNewProducts}
-                />
-              ) : (
-                <View
-                  style={[
-                    {
-                      flex: 1,
-                      marginTop: 175,
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }
-                  ]}
-                >
-                  <Image
-                    style={{ width: 150, height: 150 }}
-                    source={require("../../images/empty_offers.png")}
-                    resizeMode="contain"
-                  />
-                  <Text
-                    style={{
-                      padding: 20,
-                      fontSize: 16,
-                      textAlign: "center",
-                      color: colors.secondaryText
-                    }}
-                  >
-                    No New Products available as of now from your Seller
-                    currently
-                  </Text>
-                </View>
-              )}
-            </View>
             <View tabLabel="Discount">
               {discountOffers.length > 0 ? (
                 <FlatList
@@ -592,6 +549,49 @@ export default class OffersTab extends React.Component {
                     }}
                   >
                     No Offers available as of now from your Seller currently
+                  </Text>
+                </View>
+              )}
+            </View>
+            <View tabLabel="New Products">
+              {newProducts.length > 0 ? (
+                <FlatList
+                  contentContainerStyle={{
+                    paddingTop: 0
+                  }}
+                  style={{
+                    marginTop: 5
+                  }}
+                  data={newProducts}
+                  keyExtractor={item => item.id}
+                  renderItem={this.renderNewProducts}
+                />
+              ) : (
+                <View
+                  style={[
+                    {
+                      flex: 1,
+                      marginTop: 175,
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }
+                  ]}
+                >
+                  <Image
+                    style={{ width: 150, height: 150 }}
+                    source={require("../../images/empty_offers.png")}
+                    resizeMode="contain"
+                  />
+                  <Text
+                    style={{
+                      padding: 20,
+                      fontSize: 16,
+                      textAlign: "center",
+                      color: colors.secondaryText
+                    }}
+                  >
+                    No New Products available as of now from your Seller
+                    currently
                   </Text>
                 </View>
               )}
