@@ -353,7 +353,11 @@ class AddressScreen extends Component {
               style={styles.search}
             >
               <Text style={styles.searchText}>
-                {collectAtStoreFlag ? "Select Location" : "Add New Address"}
+                {collectAtStoreFlag
+                  ? "Select Location"
+                  : addresses.length > 0
+                  ? "Add New Address"
+                  : "Add Address"}
               </Text>
               <Text>
                 <Icon name="ios-pin" size={20} color={colors.pinkishOrange} />

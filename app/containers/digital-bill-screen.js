@@ -258,7 +258,10 @@ class DigitalBillScreen extends Component {
                       </View>
 
                       <Text weight="Medium" style={{ fontSize: 12 }}>
-                        ₹ {parseFloat(digitalBillData.total_amount).toFixed(2)}
+                        ₹{" "}
+                        {parseFloat(
+                          digitalBillData.before_discount_amount
+                        ).toFixed(2)}
                       </Text>
                     </View>
                     {digitalBillData &&
@@ -295,8 +298,9 @@ class DigitalBillScreen extends Component {
                           <Text weight="Medium" style={{ fontSize: 12 }}>
                             ₹{" "}
                             {(
-                              parseFloat(digitalBillData.total_amount) -
-                              parseFloat(digitalBillData.seller_discount)
+                              parseFloat(
+                                digitalBillData.before_discount_amount
+                              ) - parseFloat(digitalBillData.seller_discount)
                             ).toFixed(2)}
                           </Text>
                         </View>
