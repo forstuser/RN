@@ -275,7 +275,7 @@ class AddressScreen extends Component {
         addressId: this.state.addresses[this.state.selectedIndex].id
       });
       console.log("response for get distance api", res);
-      if (res.result.distance <= 2) {
+      if (res.result.distance <= 3) {
         return true;
       } else {
         return false;
