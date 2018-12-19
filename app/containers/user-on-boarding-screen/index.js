@@ -11,20 +11,20 @@ class UserOnBoardingScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { onSkipPress } = navigation.state.params || {};
     return {
-      title: "Basic Details",
-      headerRight: (
-        <TouchableOpacity
-          style={{ paddingHorizontal: 10 }}
-          onPress={onSkipPress}
-        >
-          <Text
-            weight="Bold"
-            style={{ fontSize: 14, color: colors.pinkishOrange }}
-          >
-            SKIP
-          </Text>
-        </TouchableOpacity>
-      )
+      title: "Basic Details"
+      // headerRight: (
+      //   <TouchableOpacity
+      //     style={{ paddingHorizontal: 10 }}
+      //     onPress={onSkipPress}
+      //   >
+      //     <Text
+      //       weight="Bold"
+      //       style={{ fontSize: 14, color: colors.pinkishOrange }}
+      //     >
+      //       SKIP
+      //     </Text>
+      //   </TouchableOpacity>
+      // )
     };
   };
   componentDidMount() {
