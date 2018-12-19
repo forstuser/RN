@@ -19,7 +19,11 @@ import {
   API_BASE_URL,
   getAccessoriesCategory,
   getSkuWishList,
-  addSkuItemToWishList
+  addSkuItemToWishList,
+  fetchOfferCategories,
+  fetchCategoryOffers,
+  getSellerOffers,
+  getOffers
 } from "../../api";
 import { actions as uiActions } from "../../modules/ui";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -54,7 +58,20 @@ class DealsScreen extends Component {
       showFilter: true,
       wishList: [],
       selectedSeller: [],
-      skuItemIdsCurrentlyModifying: []
+      skuItemIdsCurrentlyModifying: [],
+
+      showFilterOffers: false,
+
+      emptyMessage: null,
+      categories: [],
+      isLoading: false,
+      error: null,
+      selectedCategory: null,
+      newProducts: [],
+      discountOffers: [],
+      bogo: [],
+      extraQuantity: [],
+      generalOffers: []
     };
   }
   componentDidMount() {
@@ -63,6 +80,7 @@ class DealsScreen extends Component {
       "didFocus",
       () => {
         this.fetchWishlist();
+        this.fetchCategories();
       }
     );
     this.handleDeeplink(this.props);
@@ -198,6 +216,168 @@ class DealsScreen extends Component {
     }
   };
 
+  fetchCategories = async () => {
+    this.setState({
+      isLoading: true,
+      error: null,
+      selectedCategory: null,
+      newProducts: [],
+      discountOffers: [],
+      bogo: [],
+      extraQuantity: [],
+      generalOffers: []
+    });
+
+    //
+    const defaultSellerIdFromNotifications = this.props.navigation.getParam(
+      "defaultSellerIdFromNotifications",
+      null
+    );
+    //
+
+    try {
+      const defaultSeller = JSON.parse(
+        await AsyncStorage.getItem("defaultSeller")
+      );
+      const result1 = await getSellerOffers();
+      console.log("Seller Offer API result: ", result1);
+      let resCategories = result1.result;
+      const categories = resCategories.map(seller => ({
+        ...seller,
+        name: seller.name,
+        imageUrl: `/consumer/sellers/${seller.id}/upload/1/images/0`
+      }));
+      this.setState({ emptyMessage: result1.message });
+      let sellerIndex = 0;
+      if (defaultSeller) {
+        sellerIndex = categories.findIndex(
+          category => category.id == defaultSeller.id
+        );
+      }
+
+      //
+      if (defaultSellerIdFromNotifications) {
+        sellerIndex = categories.findIndex(
+          category => category.id == defaultSellerIdFromNotifications
+        );
+      }
+      //
+
+      this.setState(
+        {
+          categories,
+          selectedCategory:
+            sellerIndex > -1 ? result1.result[sellerIndex] : result1.result[0]
+        },
+
+        () => {
+          if (this.state.categories.length > 0) {
+            this.fetchOffersType_0();
+            this.fetchOffersType_1();
+            this.fetchOffersType_2();
+            this.fetchOffersType_3();
+            this.fetchOffersType_4();
+          }
+        }
+      );
+    } catch (error) {
+      console.log("ERROR IN SELLER OFFERS API: ", error);
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
+  fetchOffersType_0 = async () => {
+    const { selectedCategory } = this.state;
+    try {
+      const res = await getOffers(selectedCategory.id, 0);
+      this.setState({ newProducts: res.result });
+      //console.log("RESULT IN OFFER FETCH API: ", res);
+    } catch (error) {
+      console.log("ERROR IN OFFER FETCH API", error);
+    } finally {
+      console.log("done");
+    }
+  };
+
+  fetchOffersType_1 = async () => {
+    const { selectedCategory } = this.state;
+    try {
+      const res = await getOffers(selectedCategory.id, 1);
+      this.setState({ discountOffers: res.result });
+      //console.log("RESULT IN OFFER FETCH API: ", res);
+    } catch (error) {
+      console.log("ERROR IN OFFER FETCH API", error);
+    } finally {
+      console.log("done");
+    }
+  };
+
+  fetchOffersType_2 = async () => {
+    const { selectedCategory } = this.state;
+    try {
+      const res = await getOffers(selectedCategory.id, 2);
+      this.setState({ bogo: res.result });
+      //console.log("RESULT IN OFFER FETCH API: ", res);
+    } catch (error) {
+      console.log("ERROR IN OFFER FETCH API", error);
+    } finally {
+      console.log("done");
+    }
+  };
+
+  fetchOffersType_3 = async () => {
+    const { selectedCategory } = this.state;
+    try {
+      const res = await getOffers(selectedCategory.id, 3);
+      this.setState({ extraQuantity: res.result });
+      //console.log("RESULT IN OFFER FETCH API: ", res);
+    } catch (error) {
+      console.log("ERROR IN OFFER FETCH API", error);
+    } finally {
+      console.log("done");
+    }
+  };
+
+  fetchOffersType_4 = async () => {
+    const { selectedCategory } = this.state;
+    try {
+      const res = await getOffers(selectedCategory.id, 4);
+      this.setState({ generalOffers: res.result });
+      //console.log("RESULT IN OFFER FETCH API: ", res);
+    } catch (error) {
+      console.log("ERROR IN OFFER FETCH API", error);
+    } finally {
+      console.log("done");
+    }
+  };
+
+  onCategorySelect = category => {
+    this.setState({ isLoading: true });
+    this.fetchWishlist();
+    this.setState(
+      {
+        selectedCategory: category
+      },
+      () => {
+        this.fetchOffersType_0();
+        this.fetchOffersType_1();
+        this.fetchOffersType_2();
+        this.fetchOffersType_3();
+        this.fetchOffersType_4();
+      }
+    );
+    this.setState({ isLoading: false });
+  };
+
+  hideOfferFilter = () => {
+    this.setState({ showFilterOffers: false });
+  };
+
+  showOfferFilter = () => {
+    alert("Filter in Offers");
+  };
+
   render() {
     const {
       activeTabIndex,
@@ -206,7 +386,18 @@ class DealsScreen extends Component {
       selectedOfferCategory,
       showFilter,
       wishList,
-      selectedSeller
+      selectedSeller,
+      categories: [],
+      isLoading,
+      categories,
+      error,
+      emptyMessage,
+      selectedCategory,
+      newProducts,
+      discountOffers,
+      bogo,
+      extraQuantity,
+      generalOffers
     } = this.state;
     const collectAtStoreFlag = this.props.navigation.getParam(
       "collectAtStoreFlag",
@@ -230,6 +421,39 @@ class DealsScreen extends Component {
               marginTop: 7
             }}
           >
+            <TouchableOpacity
+              onPress={this.showOfferFilter}
+              style={{
+                paddingHorizontal: 5,
+                marginHorizontal: 5,
+                flexDirection: "row",
+                alignItems: "center"
+                //borderTopRightRadius: 5,
+                //borderBottomRightRadius: 5,
+                //padding: 10,
+                //marginRight: 5
+              }}
+            >
+              <Icon name="md-options" size={25} color="#fff" />
+              {/* {selectedBrands && selectedBrands.length > 0 ? (
+                <View
+                  style={{
+                    position: "absolute",
+                    top: 5,
+                    right: 0,
+                    backgroundColor: colors.pinkishOrange,
+                    width: 16,
+                    height: 16,
+                    borderRadius: 8,
+                    alignItems: "center"
+                  }}
+                >
+                  <Text style={{ color: "#fff", fontSize: 10 }}>
+                    {selectedBrands.length}
+                  </Text>
+                </View>
+              ) : null} */}
+            </TouchableOpacity>
             <TouchableOpacity
               style={{ paddingHorizontal: 5, marginHorizontal: 5 }}
               onPress={() => {
@@ -331,6 +555,16 @@ class DealsScreen extends Component {
             navigation={this.props.navigation}
             wishList={wishList}
             getWishList={this.fetchWishlist}
+            isLoading={isLoading}
+            emptyMessage={emptyMessage}
+            categories={categories}
+            selectedCategory={selectedCategory}
+            newProducts={newProducts}
+            discountOffers={discountOffers}
+            bogo={bogo}
+            extraQuantity={extraQuantity}
+            generalOffers={generalOffers}
+            onCategorySelect={this.onCategorySelect}
           />
           // <AccessoriesTab
           //   accessoriesTabRef={ref => {
