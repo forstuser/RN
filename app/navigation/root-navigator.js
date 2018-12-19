@@ -12,7 +12,7 @@ import FCM, {
   WillPresentNotificationResult,
   NotificationType
 } from "react-native-fcm";
-
+import _ from "lodash";
 import {
   SCREENS,
   MAIN_CATEGORY_IDS,
@@ -60,6 +60,37 @@ const RootNavigator = createSwitchNavigator(
 const showLocalNotification = notif => {
   console.log("show notification", notif);
   if (notif && notif.title) {
+    // let num1 = 0,
+    //   num2 = 0,
+    //   updatedSubString = "",
+    //   notificationBodyUpdated = "";
+    // let notificationBody = notif.description;
+    // let subString = notificationBody.search("&#");
+    // console.log("SUBSTRING_______", subString);
+    // if (subString > -1) {
+    //   num1 = notificationBody[subString + 2];
+    //   num2 = notificationBody[subString + 3];
+
+    //   updatedSubString = num1.concat(num2);
+    //   subStringToBeReplaced = "&#".concat(updatedSubString + ";");
+    //   console.log("UPDATED SUB STRING", updatedSubString);
+    //   notificationBodyUpdated = notificationBody.replace(
+    //     subStringToBeReplaced,
+    //     String.fromCharCode(updatedSubString)
+    //   );
+    // } else notificationBodyUpdated = notificationBody;
+    //console.log("UPDATED NOTIFICATION______", notificationBodyUpdated);
+
+    // let notificationBody = notif.description;
+    // let notificationBodyUpdated = notificationBody.replace(
+    //   /\\u(\w\w\w\w)/g,
+    //   function(a, b) {
+    //     var charcode = parseInt(b, 16);
+    //     return String.fromCharCode(charcode);
+    //   }
+    // );
+    // console.log("UPDATED NOTIFICATION______", notificationBodyUpdated);
+
     FCM.presentLocalNotification({
       channel: "my_default_channel",
       title: notif.title, // as FCM payload

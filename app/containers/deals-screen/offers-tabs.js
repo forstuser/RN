@@ -48,226 +48,14 @@ const ITEM_SELECTOR_HEIGHT = 120;
 // const ITEM_SELECTOR_HEIGHT_WITH_FILTERS = ITEM_SELECTOR_HEIGHT + 36;
 
 export default class OffersTab extends React.Component {
-  lastListScrollPosition = 0;
-  listScrollPosition = new Animated.Value(0);
-  topPaddingElement = new Animated.Value(0);
-
   state = {
-    categories: [],
-    selectedCategory: null,
-    isLoading: false,
     error: null,
-    newProducts: [],
-    discountOffers: [],
-    bogo: [],
-    extraQuantity: [],
-    generalOffers: [],
-    wishList: [],
-    emptyMessage: null
-  };
-
-  componentDidMount() {
-    this.didFocusSubscription = this.props.navigation.addListener(
-      "didFocus",
-      () => {
-        this.fetchCategories();
-      }
-    );
-  }
-
-  componentWillUnmount() {
-    this.didFocusSubscription.remove();
-  }
-
-  onListScroll = ({ value }) => {
-    console.log(
-      "lastListScrollPosition: ",
-      this.lastListScrollPosition,
-      "value: ",
-      value
-    );
-
-    if (value > 0) {
-      if (value > this.lastListScrollPosition) {
-        Animated.timing(this.topPaddingElement, {
-          toValue: -ITEM_SELECTOR_HEIGHT,
-          duration: 200,
-          useNativeDriver: true
-        }).start();
-      } else if (value < this.lastListScrollPosition) {
-        Animated.timing(this.topPaddingElement, {
-          toValue: 0,
-          duration: 200,
-          useNativeDriver: true
-        }).start();
-      }
-      this.lastListScrollPosition = value;
-    } else if (value == 0) {
-      Animated.timing(this.topPaddingElement, {
-        toValue: 0,
-        duration: 200,
-        useNativeDriver: true
-      }).start();
-      this.lastListScrollPosition = value;
-    }
-  };
-
-  fetchCategories = async () => {
-    this.setState({
-      isLoading: true,
-      error: null,
-      selectedCategory: null,
-      discountOffers: [],
-      bogo: [],
-      extraQuantity: [],
-      generalOffers: []
-    });
-
-    //
-    const defaultSellerIdFromNotifications = this.props.navigation.getParam(
-      "defaultSellerIdFromNotifications",
-      null
-    );
-    //
-
-    try {
-      const defaultSeller = JSON.parse(
-        await AsyncStorage.getItem("defaultSeller")
-      );
-      const result1 = await getSellerOffers();
-      console.log("Seller Offer API result: ", result1);
-      let resCategories = result1.result;
-      const categories = resCategories.map(seller => ({
-        ...seller,
-        name: seller.name,
-        imageUrl: `/consumer/sellers/${seller.id}/upload/1/images/0`
-      }));
-      this.setState({ emptyMessage: result1.message });
-      let sellerIndex = 0;
-      if (defaultSeller) {
-        sellerIndex = categories.findIndex(
-          category => category.id == defaultSeller.id
-        );
-      }
-
-      //
-      if (defaultSellerIdFromNotifications) {
-        sellerIndex = categories.findIndex(
-          category => category.id == defaultSellerIdFromNotifications
-        );
-      }
-      //
-
-      this.setState(
-        {
-          categories,
-          selectedCategory:
-            sellerIndex > -1 ? result1.result[sellerIndex] : result1.result[0]
-        },
-
-        () => {
-          if (this.state.categories.length > 0) {
-            this.fetchOffersType_0();
-            this.fetchOffersType_1();
-            this.fetchOffersType_2();
-            this.fetchOffersType_3();
-            this.fetchOffersType_4();
-          }
-        }
-      );
-    } catch (error) {
-      console.log("ERROR IN SELLER OFFERS API: ", error);
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  };
-
-  fetchOffersType_0 = async () => {
-    const { selectedCategory } = this.state;
-    try {
-      const res = await getOffers(selectedCategory.id, 0);
-      this.setState({ newProducts: res.result });
-      //console.log("RESULT IN OFFER FETCH API: ", res);
-    } catch (error) {
-      console.log("ERROR IN OFFER FETCH API", error);
-    } finally {
-      console.log("done");
-    }
-  };
-
-  fetchOffersType_1 = async () => {
-    const { selectedCategory } = this.state;
-    try {
-      const res = await getOffers(selectedCategory.id, 1);
-      this.setState({ discountOffers: res.result });
-      //console.log("RESULT IN OFFER FETCH API: ", res);
-    } catch (error) {
-      console.log("ERROR IN OFFER FETCH API", error);
-    } finally {
-      console.log("done");
-    }
-  };
-
-  fetchOffersType_2 = async () => {
-    const { selectedCategory } = this.state;
-    try {
-      const res = await getOffers(selectedCategory.id, 2);
-      this.setState({ bogo: res.result });
-      //console.log("RESULT IN OFFER FETCH API: ", res);
-    } catch (error) {
-      console.log("ERROR IN OFFER FETCH API", error);
-    } finally {
-      console.log("done");
-    }
-  };
-
-  fetchOffersType_3 = async () => {
-    const { selectedCategory } = this.state;
-    try {
-      const res = await getOffers(selectedCategory.id, 3);
-      this.setState({ extraQuantity: res.result });
-      //console.log("RESULT IN OFFER FETCH API: ", res);
-    } catch (error) {
-      console.log("ERROR IN OFFER FETCH API", error);
-    } finally {
-      console.log("done");
-    }
-  };
-
-  fetchOffersType_4 = async () => {
-    const { selectedCategory } = this.state;
-    try {
-      const res = await getOffers(selectedCategory.id, 4);
-      this.setState({ generalOffers: res.result });
-      //console.log("RESULT IN OFFER FETCH API: ", res);
-    } catch (error) {
-      console.log("ERROR IN OFFER FETCH API", error);
-    } finally {
-      console.log("done");
-    }
-  };
-
-  onCategorySelect = category => {
-    this.setState({ isLoading: true });
-    this.props.getWishList();
-    this.setState(
-      {
-        selectedCategory: category
-      },
-      () => {
-        this.fetchOffersType_0();
-        this.fetchOffersType_1();
-        this.fetchOffersType_2();
-        this.fetchOffersType_3();
-        this.fetchOffersType_4();
-      }
-    );
-    this.setState({ isLoading: false });
+    wishList: []
   };
 
   renderNewProducts = ({ item, index }) => {
-    const { selectedCategory } = this.state;
-    const { wishList, getWishList } = this.props;
+    //const { selectedCategory } = this.state;
+    const { wishList, getWishList, selectedCategory } = this.props;
     return (
       <SingleNewProduct
         key={index}
@@ -280,8 +68,8 @@ export default class OffersTab extends React.Component {
   };
 
   renderDiscountOffers = ({ item, index }) => {
-    const { selectedCategory } = this.state;
-    const { wishList, getWishList } = this.props;
+    //const { selectedCategory } = this.state;
+    const { wishList, getWishList, selectedCategory } = this.props;
     return (
       <SkuItemOffer
         key={index}
@@ -294,8 +82,8 @@ export default class OffersTab extends React.Component {
   };
 
   renderBogoOffers = ({ item, index }) => {
-    const { selectedCategory } = this.state;
-    const { wishList, getWishList } = this.props;
+    //const { selectedCategory } = this.state;
+    const { wishList, getWishList, selectedCategory } = this.props;
     return (
       <SingleBogoOffer
         key={index}
@@ -308,8 +96,8 @@ export default class OffersTab extends React.Component {
   };
 
   renderExtraQuantityOffers = ({ item, index }) => {
-    const { selectedCategory } = this.state;
-    const { wishList, getWishList } = this.props;
+    //const { selectedCategory } = this.state;
+    const { wishList, getWishList, selectedCategory } = this.props;
     return (
       <SingleExtraQuantityOffer
         key={index}
@@ -337,10 +125,7 @@ export default class OffersTab extends React.Component {
       extraQuantity,
       generalOffers,
       emptyMessage
-    } = this.state;
-    if (error) {
-      return <ErrorOverlay error={error} onRetryPress={this.fetchCategories} />;
-    }
+    } = this.props;
 
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
@@ -363,7 +148,7 @@ export default class OffersTab extends React.Component {
               selectModalTitle="Select a Category"
               items={categories}
               selectedItem={selectedCategory}
-              onItemSelect={this.onCategorySelect}
+              onItemSelect={this.props.onCategorySelect}
               startOthersAfterCount={4}
             />
           </View>

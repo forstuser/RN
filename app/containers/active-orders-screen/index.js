@@ -233,7 +233,7 @@ class ActiveOrdersScreen extends Component {
             >
               You have not placed any Order. Please invite your neighbourhood
               Seller Or simply Add from the list of your nearby Sellers in ‘My
-              seller’ section to place an Order & avail exciting Offers.
+              Seller’ section to place an Order & avail exciting Offers.
             </Text>
           )}
         </View>

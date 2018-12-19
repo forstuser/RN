@@ -439,7 +439,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "center",
     marginBottom: 15,
-    color: colors.danger
+    color: colors.danger,
+    padding: 5
   }
 });
 

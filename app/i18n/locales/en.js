@@ -43,7 +43,7 @@ export default {
   app_intro_4_desc: `Receive timely Warranty/Insurance Alerts and connect with Manufacturers for Repair & After Sales issues.`,
   app_intro_5_header: `A Home Maker's Companion`,
   app_intro_5_title: `Manage Home Expenses`,
-  app_intro_5_desc: `Manage Expenses, Attendance, Bills & Documents and buy the most suited Accessories for your Home Appliances.`,
+  app_intro_5_desc: `Manage your Home Expenses, Attendance, Bills & Important Documents.`,
   app_intro_next: "NEXT",
   app_intro_skip: "SKIP",
   app_intro_start: "Let's Get Started ",
@@ -757,7 +757,7 @@ export default {
     "Discover amazing facts & tips related to brands and lifestyle, to fill you with awe! ",
   ehome_tip:
     "Check your private and secure eHome for your saved Bills, Expenses & Documents.",
-  deals_tip: "Check out your Seller Offers.",
+  deals_tip: "Check out your Seller's Offers here to Save More.",
   attendance_tip:
     // "Plan your Day for tasks to be done, clothes to be worn and dishes to be cooked. Track attendance & payouts for all your household services too!",
     "Track attendance & payouts for all your household services!",
