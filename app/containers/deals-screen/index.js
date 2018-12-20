@@ -40,6 +40,7 @@ import { showSnackbar } from "../../utils/snackbar";
 const offersIcon = require("../../images/deals.png");
 import FilterOfferModal from "./filter-offers-modal";
 const SCREEN_WIDTH = Dimensions.get("window").width;
+import _ from "lodash";
 
 class DealsScreen extends Component {
   static navigationOptions = {
@@ -254,7 +255,14 @@ class DealsScreen extends Component {
         name: seller.name,
         imageUrl: `/consumer/sellers/${seller.id}/upload/1/images/0`
       }));
-      this.setState({ emptyMessage: result1.message });
+      const finalTitle = categories[0].name
+        .split(" ")
+        .slice(0, 1)
+        .join(" ");
+      this.setState({
+        emptyMessage: result1.message,
+        headerTitle: _.upperFirst(_.lowerCase(finalTitle)) + " Offers"
+      });
       let sellerIndex = 0;
       if (defaultSeller) {
         sellerIndex = categories.findIndex(
@@ -419,9 +427,15 @@ class DealsScreen extends Component {
       checkedCategories: []
     });
     this.fetchWishlist();
+    const finalTitle = category.name
+      .split(" ")
+      .slice(0, 1)
+      .join(" ");
+    console.log("xxxxxxxxxxxxxx", finalTitle);
     this.setState(
       {
-        selectedCategory: category
+        selectedCategory: category,
+        headerTitle: _.upperFirst(_.lowerCase(finalTitle)) + " Offers"
       },
       () => {
         this.setState({
