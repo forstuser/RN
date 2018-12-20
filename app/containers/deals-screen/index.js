@@ -72,6 +72,7 @@ class DealsScreen extends Component {
       bogo: [],
       extraQuantity: [],
       generalOffers: [],
+      headerTitle: "Offers",
 
       brandsInFilter: [],
       categoriesInFilter: [],
@@ -509,6 +510,7 @@ class DealsScreen extends Component {
       discountOffers,
       bogo,
       extraQuantity,
+      headerTitle,
       generalOffers,
       brandsInFilter,
       categoriesInFilter,
@@ -530,7 +532,7 @@ class DealsScreen extends Component {
           this.scrollableTabView = ref;
         }}
         iconSource={offersIcon}
-        title="Offers"
+        title={headerTitle}
         onTabChange={this.onTabChange}
         headerRight={
           <View
