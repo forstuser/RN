@@ -226,13 +226,16 @@ class DigitalBillScreen extends Component {
                     {item.quantity}
                   </Text>
                   <Text weight="Medium" style={styles.headerTitle}>
-                    ₹ {_.round(item.non_tax_value, 2)}
+                    ₹ {item.selling_price}
                   </Text>
                   {/* <Text weight="Medium" style={styles.headerTitle}>
                     {item.tax} %
                   </Text> */}
                   <Text weight="Medium" style={styles.headerTitle}>
-                    ₹ {item.selling_price}
+                    ₹{" "}
+                    {(
+                      parseFloat(item.selling_price) * parseFloat(item.quantity)
+                    ).toFixed(2)}
                   </Text>
                 </View>
               );
