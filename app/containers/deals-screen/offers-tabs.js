@@ -135,11 +135,11 @@ export default class OffersTab extends React.Component {
       generalOffers,
       emptyMessage
     } = this.props;
-
+    console.log("emptyMessage", emptyMessage);
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
         {this.state.showCategory ? (
-          <View>
+          <View style={categories.length > 0 ? {} : { flex: 1 }}>
             {categories.length > 0 ? (
               <View
                 style={[
@@ -170,6 +170,7 @@ export default class OffersTab extends React.Component {
                     height: windowHeight,
                     flex: 1,
                     alignItems: "center",
+                    alignSelf: "center",
                     justifyContent: "center"
                   }
                 ]}
