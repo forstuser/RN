@@ -233,7 +233,11 @@ class DealsScreen extends Component {
       discountOffers: [],
       bogo: [],
       extraQuantity: [],
-      generalOffers: []
+      generalOffers: [],
+      checkedBrands: [],
+      checkedCategories: [],
+      brandsInFilter: [],
+      categoriesInFilter: []
     });
 
     //
@@ -457,7 +461,14 @@ class DealsScreen extends Component {
   };
 
   resetOffersFilter = () => {
-    this.setState({ checkedBrands: [], checkedCategories: [] });
+    this.setState({ checkedBrands: [], checkedCategories: [] }, () => {
+      this.fetchOffersType_0();
+      this.fetchOffersType_1();
+      this.fetchOffersType_2();
+      this.fetchOffersType_3();
+      this.fetchOffersType_4();
+      this.filterOfferModal.hide();
+    });
   };
 
   toggleBrandSelection = brand => {
