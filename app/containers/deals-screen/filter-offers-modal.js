@@ -17,10 +17,9 @@ import { API_BASE_URL, getMySellers } from "../../api";
 
 import { colors } from "../../theme";
 
-class FilterModalScreen extends Component {
+class FilterOffersModal extends Component {
   state = {
     isVisible: false,
-    isLoadingMySellers: false,
     selectedMainCategory: "Filter by Brands"
   };
 
@@ -30,7 +29,6 @@ class FilterModalScreen extends Component {
 
   hide = () => {
     this.setState({ isVisible: false });
-    this.props.hideFilter();
   };
 
   renderMainCategoryItem = ({ item, index }) => {
@@ -60,7 +58,7 @@ class FilterModalScreen extends Component {
         onPress={() => {
           this.state.selectedMainCategory === "Filter by Brands"
             ? this.props.toggleBrandSelection(item)
-            : this.props.toggleSellerSelection(item);
+            : this.props.toggleCategorySelection(item);
         }}
         style={{
           flexDirection: "row",
@@ -68,16 +66,12 @@ class FilterModalScreen extends Component {
           alignItems: "center"
         }}
       >
-        <Text style={{ flex: 1, fontSize: 12 }}>
-          {this.state.selectedMainCategory === "Filter by Brands"
-            ? item.brand_name
-            : item.seller_name}
-        </Text>
+        <Text style={{ flex: 1, fontSize: 12 }}>{item.name}</Text>
         <Checkbox
           isChecked={
             this.state.selectedMainCategory === "Filter by Brands"
-              ? this.props.checkedBrandIds.includes(item.brand_id)
-              : this.props.checkedSellerIds.includes(item.id)
+              ? this.props.checkedBrandIds.includes(item.id)
+              : this.props.checkedCategoryIds.includes(item.id)
           }
         />
       </TouchableOpacity>
@@ -85,43 +79,23 @@ class FilterModalScreen extends Component {
   };
 
   render() {
-    const { hideSellerFilter, hideBrands } = this.props;
-
     let mainCategories = [
       {
         id: 1,
         title: "Filter by Brands"
+      },
+      {
+        id: 2,
+        title: "Filter by Categories"
       }
     ];
 
-    // if (!hideSellerFilter) {
-    //   mainCategories.push({
-    //     id: 2,
-    //     title: "Filter by Sellers"
-    //   });
-    // }
-
-    // if (hideBrands == true) {
-    //   mainCategories = [
-    //     {
-    //       id: 2,
-    //       title: "Filter by Sellers"
-    //     }
-    //   ];
-    // }
-
     let source = null;
-    // if (this.state.selectedMainCategory === "Filter by Sellers") {
-    //   source = this.props.sellers;
-    // } else if (this.state.selectedMainCategory === "Filter by Brands") {
-    //   source = this.props.brands;
-    // }
     if (this.state.selectedMainCategory === "Filter by Brands") {
-      source = this.props.brands;
-      console.log("final brands", source);
+      source = this.props.brandsInFilter;
+    } else if (this.state.selectedMainCategory === "Filter by Categories") {
+      source = this.props.categoriesInFilter;
     }
-
-    //console.log("Brands in Filter", this.props.brands);
 
     return (
       <Modal
@@ -134,7 +108,6 @@ class FilterModalScreen extends Component {
             <View
               style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
             >
-              {/* <BlueGradientBG /> */}
               <TouchableOpacity
                 style={{ paddingVertical: 10, paddingHorizontal: 15 }}
                 onPress={this.hide}
@@ -153,7 +126,7 @@ class FilterModalScreen extends Component {
                 Filter
               </Text>
             </View>
-            <TouchableOpacity onPress={this.props.resetBrandsFilter}>
+            <TouchableOpacity onPress={this.props.resetOffersFilter}>
               <Text
                 weight="Bold"
                 style={{
@@ -174,7 +147,7 @@ class FilterModalScreen extends Component {
                 flexDirection: "row"
               }}
             >
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 2 }}>
                 <FlatList
                   contentContainerStyle={{
                     backgroundColor: "#F4F4F4",
@@ -185,12 +158,11 @@ class FilterModalScreen extends Component {
                   keyExtractor={item => item.id}
                 />
               </View>
-              <View style={{ flex: 2, paddingLeft: 10 }}>
+              <View style={{ flex: 3, paddingLeft: 10 }}>
                 <FlatList
                   data={source}
                   extraData={source}
                   renderItem={this.renderCategoryItem}
-                  extraData={this.props.wishList}
                   keyExtractor={(item, index) => item.id}
                   ItemSeparatorComponent={() => (
                     <View style={{ backgroundColor: "#efefef", height: 1 }} />
@@ -198,18 +170,12 @@ class FilterModalScreen extends Component {
                 />
               </View>
             </View>
-            {this.state.selectedMainCategory === "Filter by Brands" ? (
-              <Button
-                onPress={
-                  this.state.selectedMainCategory === "Filter by Brands"
-                    ? this.props.applyBrandsFilter
-                    : this.props.applySellersFilter
-                }
-                text="Apply Filter"
-                borderRadius={0}
-                color="secondary"
-              />
-            ) : null}
+            <Button
+              onPress={this.props.applyOffersFilter}
+              text="Apply Filter"
+              borderRadius={0}
+              color="secondary"
+            />
           </View>
         </View>
       </Modal>
@@ -269,4 +235,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default FilterModalScreen;
+export default FilterOffersModal;
