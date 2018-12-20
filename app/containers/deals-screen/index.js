@@ -38,7 +38,7 @@ import AccessoriesTab from "./accessories-tab";
 import AccessoryCategoriesFilterModal from "./accessory-categories-filter-modal";
 import { showSnackbar } from "../../utils/snackbar";
 const offersIcon = require("../../images/deals.png");
-
+import FilterOfferModal from "./filter-offers-modal";
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 class DealsScreen extends Component {
@@ -71,7 +71,13 @@ class DealsScreen extends Component {
       discountOffers: [],
       bogo: [],
       extraQuantity: [],
-      generalOffers: []
+      generalOffers: [],
+
+      brandsInFilter: [],
+      categoriesInFilter: [],
+
+      checkedBrands: [],
+      checkedCategories: []
     };
   }
   componentDidMount() {
@@ -267,7 +273,15 @@ class DealsScreen extends Component {
         {
           categories,
           selectedCategory:
-            sellerIndex > -1 ? result1.result[sellerIndex] : result1.result[0]
+            sellerIndex > -1 ? result1.result[sellerIndex] : result1.result[0],
+          brandsInFilter:
+            sellerIndex > -1
+              ? result1.result[sellerIndex].brands
+              : result1.result[0].brands,
+          categoriesInFilter:
+            sellerIndex > -1
+              ? result1.result[sellerIndex].categories
+              : result1.result[0].categories
         },
 
         () => {
@@ -288,9 +302,18 @@ class DealsScreen extends Component {
   };
 
   fetchOffersType_0 = async () => {
-    const { selectedCategory } = this.state;
+    const { selectedCategory, checkedBrands, checkedCategories } = this.state;
+    const checkedBrandIds = checkedBrands.map(checkedBrand => checkedBrand.id);
+    const checkedCategoryIds = checkedCategories.map(
+      checkedCategory => checkedCategory.id
+    );
     try {
-      const res = await getOffers(selectedCategory.id, 0);
+      const res = await getOffers(
+        selectedCategory.id,
+        0,
+        checkedBrandIds,
+        checkedCategoryIds
+      );
       this.setState({ newProducts: res.result });
       //console.log("RESULT IN OFFER FETCH API: ", res);
     } catch (error) {
@@ -301,9 +324,18 @@ class DealsScreen extends Component {
   };
 
   fetchOffersType_1 = async () => {
-    const { selectedCategory } = this.state;
+    const { selectedCategory, checkedBrands, checkedCategories } = this.state;
+    const checkedBrandIds = checkedBrands.map(checkedBrand => checkedBrand.id);
+    const checkedCategoryIds = checkedCategories.map(
+      checkedCategory => checkedCategory.id
+    );
     try {
-      const res = await getOffers(selectedCategory.id, 1);
+      const res = await getOffers(
+        selectedCategory.id,
+        1,
+        checkedBrandIds,
+        checkedCategoryIds
+      );
       this.setState({ discountOffers: res.result });
       //console.log("RESULT IN OFFER FETCH API: ", res);
     } catch (error) {
@@ -314,9 +346,18 @@ class DealsScreen extends Component {
   };
 
   fetchOffersType_2 = async () => {
-    const { selectedCategory } = this.state;
+    const { selectedCategory, checkedBrands, checkedCategories } = this.state;
+    const checkedBrandIds = checkedBrands.map(checkedBrand => checkedBrand.id);
+    const checkedCategoryIds = checkedCategories.map(
+      checkedCategory => checkedCategory.id
+    );
     try {
-      const res = await getOffers(selectedCategory.id, 2);
+      const res = await getOffers(
+        selectedCategory.id,
+        2,
+        checkedBrandIds,
+        checkedCategoryIds
+      );
       this.setState({ bogo: res.result });
       //console.log("RESULT IN OFFER FETCH API: ", res);
     } catch (error) {
@@ -327,9 +368,18 @@ class DealsScreen extends Component {
   };
 
   fetchOffersType_3 = async () => {
-    const { selectedCategory } = this.state;
+    const { selectedCategory, checkedBrands, checkedCategories } = this.state;
+    const checkedBrandIds = checkedBrands.map(checkedBrand => checkedBrand.id);
+    const checkedCategoryIds = checkedCategories.map(
+      checkedCategory => checkedCategory.id
+    );
     try {
-      const res = await getOffers(selectedCategory.id, 3);
+      const res = await getOffers(
+        selectedCategory.id,
+        3,
+        checkedBrandIds,
+        checkedCategoryIds
+      );
       this.setState({ extraQuantity: res.result });
       //console.log("RESULT IN OFFER FETCH API: ", res);
     } catch (error) {
@@ -340,9 +390,18 @@ class DealsScreen extends Component {
   };
 
   fetchOffersType_4 = async () => {
-    const { selectedCategory } = this.state;
+    const { selectedCategory, checkedBrands, checkedCategories } = this.state;
+    const checkedBrandIds = checkedBrands.map(checkedBrand => checkedBrand.id);
+    const checkedCategoryIds = checkedCategories.map(
+      checkedCategory => checkedCategory.id
+    );
     try {
-      const res = await getOffers(selectedCategory.id, 4);
+      const res = await getOffers(
+        selectedCategory.id,
+        4,
+        checkedBrandIds,
+        checkedCategoryIds
+      );
       this.setState({ generalOffers: res.result });
       //console.log("RESULT IN OFFER FETCH API: ", res);
     } catch (error) {
@@ -353,13 +412,21 @@ class DealsScreen extends Component {
   };
 
   onCategorySelect = category => {
-    this.setState({ isLoading: true });
+    this.setState({
+      isLoading: true,
+      checkedBrands: [],
+      checkedCategories: []
+    });
     this.fetchWishlist();
     this.setState(
       {
         selectedCategory: category
       },
       () => {
+        this.setState({
+          brandsInFilter: category.brands,
+          categoriesInFilter: category.categories
+        });
         this.fetchOffersType_0();
         this.fetchOffersType_1();
         this.fetchOffersType_2();
@@ -370,12 +437,46 @@ class DealsScreen extends Component {
     this.setState({ isLoading: false });
   };
 
-  hideOfferFilter = () => {
-    this.setState({ showFilterOffers: false });
+  showOfferFilter = () => {
+    this.filterOfferModal.show();
   };
 
-  showOfferFilter = () => {
-    alert("Filter in Offers");
+  resetOffersFilter = () => {
+    this.setState({ checkedBrands: [], checkedCategories: [] });
+  };
+
+  toggleBrandSelection = brand => {
+    let brandsChecked = [...this.state.checkedBrands];
+    const idx = brandsChecked.findIndex(brandItem => brandItem.id == brand.id);
+    if (idx == -1) {
+      brandsChecked.push(brand);
+    } else {
+      brandsChecked.splice(idx, 1);
+    }
+    this.setState({ checkedBrands: brandsChecked });
+  };
+
+  toggleCategorySelection = category => {
+    let categoriesChecked = [...this.state.checkedCategories];
+    const idx = categoriesChecked.findIndex(
+      categoryItem => categoryItem.id == category.id
+    );
+
+    if (idx == -1) {
+      categoriesChecked.push(category);
+    } else {
+      categoriesChecked.splice(idx, 1);
+    }
+    this.setState({ checkedCategories: categoriesChecked });
+  };
+
+  applyOffersFilter = () => {
+    this.fetchOffersType_0();
+    this.fetchOffersType_1();
+    this.fetchOffersType_2();
+    this.fetchOffersType_3();
+    this.fetchOffersType_4();
+    this.filterOfferModal.hide();
   };
 
   render() {
@@ -397,11 +498,19 @@ class DealsScreen extends Component {
       discountOffers,
       bogo,
       extraQuantity,
-      generalOffers
+      generalOffers,
+      brandsInFilter,
+      categoriesInFilter,
+      checkedBrands,
+      checkedCategories
     } = this.state;
     const collectAtStoreFlag = this.props.navigation.getParam(
       "collectAtStoreFlag",
       false
+    );
+    const checkedBrandIds = checkedBrands.map(checkedBrand => checkedBrand.id);
+    const checkedCategoryIds = checkedCategories.map(
+      checkedCategory => checkedCategory.id
     );
     return (
       <TabsScreenContainer
@@ -435,7 +544,8 @@ class DealsScreen extends Component {
               }}
             >
               <Icon name="md-options" size={25} color="#fff" />
-              {/* {selectedBrands && selectedBrands.length > 0 ? (
+              {(checkedBrands || checkedCategories) &&
+              (checkedBrands.length > 0 || checkedCategories.length > 0) ? (
                 <View
                   style={{
                     position: "absolute",
@@ -449,10 +559,10 @@ class DealsScreen extends Component {
                   }}
                 >
                   <Text style={{ color: "#fff", fontSize: 10 }}>
-                    {selectedBrands.length}
+                    {checkedBrands.length + checkedCategories.length}
                   </Text>
                 </View>
-              ) : null} */}
+              ) : null}
             </TouchableOpacity>
             <TouchableOpacity
               style={{ paddingHorizontal: 5, marginHorizontal: 5 }}
@@ -597,6 +707,19 @@ class DealsScreen extends Component {
           steps={[
             { ref: this.filterIconRef, text: I18n.t("deals_filter_tip") }
           ]}
+        />
+        <FilterOfferModal
+          ref={node => {
+            this.filterOfferModal = node;
+          }}
+          applyOffersFilter={this.applyOffersFilter}
+          resetOffersFilter={this.resetOffersFilter}
+          brandsInFilter={brandsInFilter}
+          categoriesInFilter={categoriesInFilter}
+          toggleBrandSelection={this.toggleBrandSelection}
+          toggleCategorySelection={this.toggleCategorySelection}
+          checkedBrandIds={checkedBrandIds}
+          checkedCategoryIds={checkedCategoryIds}
         />
       </TabsScreenContainer>
     );
