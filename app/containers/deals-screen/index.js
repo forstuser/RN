@@ -71,7 +71,8 @@ class DealsScreen extends Component {
       discountOffers: [],
       bogo: [],
       extraQuantity: [],
-      generalOffers: []
+      generalOffers: [],
+      headerTitle: "Offers"
     };
   }
   componentDidMount() {
@@ -397,6 +398,7 @@ class DealsScreen extends Component {
       discountOffers,
       bogo,
       extraQuantity,
+      headerTitle,
       generalOffers
     } = this.state;
     const collectAtStoreFlag = this.props.navigation.getParam(
@@ -410,7 +412,7 @@ class DealsScreen extends Component {
           this.scrollableTabView = ref;
         }}
         iconSource={offersIcon}
-        title="Offers"
+        title={headerTitle}
         onTabChange={this.onTabChange}
         headerRight={
           <View
