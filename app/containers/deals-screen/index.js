@@ -570,7 +570,7 @@ class DealsScreen extends Component {
                 //marginRight: 5
               }}
             >
-              <Icon name="md-options" size={25} color="#fff" />
+              <Icon name="md-options" size={30} color="#fff" />
               {(checkedBrands || checkedCategories) &&
               (checkedBrands.length > 0 || checkedCategories.length > 0) ? (
                 <View
