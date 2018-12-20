@@ -385,7 +385,7 @@ export default class OffersTab extends React.Component {
                       color: colors.secondaryText
                     }}
                   >
-                    No Offers available from your Seller currently
+                    No New Products available from your Seller currently
                   </Text>
                 </View>
               )}

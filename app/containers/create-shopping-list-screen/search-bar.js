@@ -410,7 +410,10 @@ export default class SearchBar extends React.Component {
             }}
             disabled={
               (brands && brands.length == 0) ||
-              (activeMainCategoryId == 0 && searchTerm.length < 3)
+              ((activeMainCategoryId == 0 ||
+                activeMainCategoryId ==
+                  MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG) &&
+                searchTerm.length < 3)
 
               // activeMainCategoryId ==
               //   MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG ||
@@ -430,8 +433,9 @@ export default class SearchBar extends React.Component {
               size={25}
               color={
                 (brands && brands.length == 0) ||
-                (activeMainCategoryId == 0 &&
-                  searchTerm &&
+                ((activeMainCategoryId == 0 ||
+                  activeMainCategoryId ==
+                    MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG) &&
                   searchTerm.length < 3) // ||
                   ? // (activeMainCategoryId ==
                     //   MAIN_CATEGORY_IDS_SHOP_N_EARN.FRUIT_N_VEG ||
