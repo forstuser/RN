@@ -134,9 +134,16 @@ export default class SelectedItemsList extends React.Component {
                   <Text
                     weight="Medium"
                     style={{ fontSize: 12, flex: 1, marginRight: 20 }}
-                    numberOfLines={2}
+                    numberOfLines={3}
                   >
-                    {item.title}
+                    {item.offer_title
+                      ? item.offer_type == 2 || item.offer_type == 3
+                        ? item.title
+                            .concat(" (")
+                            .concat(item.offer_title)
+                            .concat(")")
+                        : item.offer_title
+                      : item.title}
                     <Text
                       style={{
                         color: colors.mainText,
@@ -172,17 +179,17 @@ export default class SelectedItemsList extends React.Component {
                 <View>
                   <Text>
                     Price: ₹{" "}
-                    {item.offer_discount > 0
+                    {item.offer_discount > 0 && item.offer_type == 1
                       ? offerPrice
                       : item.sku_measurement.mrp}{" "}
-                    {item.offer_discount > 0 ? (
+                    {item.offer_discount > 0 && item.offer_type == 1 ? (
                       <Text style={{ color: colors.success }}>
                         ({item.offer_discount}% off)
                       </Text>
                     ) : null}
                   </Text>
                 </View>
-                {item.offer_discount > 0 ? (
+                {item.offer_discount > 0 && item.offer_type == 1 ? (
                   <View>
                     <Text
                       style={{
@@ -198,7 +205,7 @@ export default class SelectedItemsList extends React.Component {
                 ) : (
                   <View />
                 )}
-                {item.offer_discount > 0 ? (
+                {item.offer_discount > 0 && item.offer_type == 1 ? (
                   <View>
                     <Text
                       //weight="Medium"
@@ -218,12 +225,20 @@ export default class SelectedItemsList extends React.Component {
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    marginTop: item.offer_discount > 0 ? -3 : 0
+                    marginTop:
+                      item.offer_discount > 0 ||
+                      item.offer_type == 2 ||
+                      item.offer_type == 3 ||
+                      item.offer_type == 4
+                        ? -3
+                        : 0
                   }}
                 >
                   <View style={{ flex: 1 }}>
                     {cashback &&
-                    (!item.offer_discount || item.offer_discount <= 0) ? (
+                    (!item.offer_discount ||
+                      item.offer_discount <= 0 ||
+                      item.offer_type != 1) ? (
                       <Text
                         //weight="Medium"
                         style={{
@@ -235,7 +250,8 @@ export default class SelectedItemsList extends React.Component {
                       </Text>
                     ) : cashback &&
                       item.offer_discount &&
-                      item.offer_discount > 0 ? (
+                      item.offer_discount > 0 &&
+                      item.offer_type == 1 ? (
                       <Text
                         //weight="Medium"
                         style={{
