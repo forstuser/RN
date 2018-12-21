@@ -359,53 +359,42 @@ class ShoppingListItem extends React.Component {
                   Suggested Item:
                 </Text>
                 <View style={{ flexDirection: "row", marginTop: 5 }}>
-                  {/* <TouchableOpacity
-                  style={{
-                    width: 16,
-                    height: 16,
-                    borderRadius: 8,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: colors.success,
-                    marginLeft: -20
-                  }}
-                >
-                  <Icon name="md-checkmark" size={12} color="#fff" />
-                </TouchableOpacity> */}
                   <TouchableOpacity
                     style={{
-                      // width: 55,
-                      // height: 60,
-                      //borderRadius: 8,
-                      // alignItems: "center",
-                      //justifyContent: "center",
                       backgroundColor: "#fff"
                     }}
                   >
-                    <Image
-                      style={{
-                        width: 80,
-                        height: 80,
-                        justifyContent: "flex-start",
-                        alignSelf: "flex-start",
-                        alignContent: "flex-start"
-                      }}
-                      resizeMode="contain"
-                      source={{
-                        uri:
-                          API_BASE_URL +
-                          `/skus/${item.suggestion.id}/measurements/${
-                            item.suggestion.sku_measurement.id
-                          }/images`
-                      }}
-                      // source={{
-                      //   uri:
-                      //     API_BASE_URL +
-                      //     `/skus/${item.suggestion.id}/measurements/${
-                      //       item.sku_measurement.id
-                      //     }/images`
-                      // }}
-                    />
+                    {item.suggestion && item.suggestion.sku_measurement ? (
+                      <Image
+                        style={{
+                          width: 80,
+                          height: 80,
+                          justifyContent: "flex-start",
+                          alignSelf: "flex-start",
+                          alignContent: "flex-start"
+                        }}
+                        resizeMode="contain"
+                        source={{
+                          uri:
+                            API_BASE_URL +
+                            `/skus/${item.suggestion.id}/measurements/${
+                              item.suggestion.sku_measurement.id
+                            }/images`
+                        }}
+                      />
+                    ) : (
+                      <Image
+                        style={{
+                          width: 80,
+                          height: 80,
+                          justifyContent: "flex-start",
+                          alignSelf: "flex-start",
+                          alignContent: "flex-start"
+                        }}
+                        resizeMode="contain"
+                        source={require("../../images/blackBinbill.png")}
+                      />
+                    )}
                   </TouchableOpacity>
                   <Text
                     weight="Medium"
