@@ -71,6 +71,7 @@ export default class OffersTab extends React.Component {
 
   renderDiscountOffers = ({ item, index }) => {
     //const { selectedCategory } = this.state;
+    console.log("index", index);
     const { wishList, getWishList, selectedCategory } = this.props;
     return (
       <SkuItemOffer
@@ -118,7 +119,7 @@ export default class OffersTab extends React.Component {
     console.log(event.nativeEvent.contentOffset.y);
     if (event.nativeEvent.contentOffset.y > 100) {
       this.setState({ showCategory: false });
-    } else if (event.nativeEvent.contentOffset.y < 100) {
+    } else if (event.nativeEvent.contentOffset.y < 120) {
       this.setState({ showCategory: true });
     }
   };

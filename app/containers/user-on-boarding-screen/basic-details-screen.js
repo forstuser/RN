@@ -58,7 +58,7 @@ class BasicDetailsScreen extends Component {
   };
 
   onProceedAnyway = async () => {
-    this.profilePicModal.hide();
+    // this.profilePicModal.hide();
     const {
       name,
       phone,
@@ -148,6 +148,8 @@ class BasicDetailsScreen extends Component {
         title: "Please enter your name",
         duration: Snackbar.LENGTH_SHORT
       });
+    } else {
+      this.onProceedAnyway();
     }
 
     if (this.state.mobile === null) {
@@ -157,92 +159,136 @@ class BasicDetailsScreen extends Component {
       });
     }
 
-    if (user.image_name === null && !imageUploaded) {
-      this.profilePicModal.show();
-    } else {
-      this.onProceedAnyway();
-    }
+    // if (user.image_name === null && !imageUploaded) {
+    //   this.profilePicModal.show();
+    // } else {
+    //   this.onProceedAnyway();
+    // }
   };
 
-  onUploadImageFromModal = () => {
-    this.profilePicModal.hide();
-    this.headerPicRef.uploadImageBtnModal();
-  };
+  // onUploadImageFromModal = () => {
+  //   this.profilePicModal.hide();
+  //   this.headerPicRef.uploadImageBtnModal();
+  // };
 
   render() {
     console.log("ABC: ", this.state.user);
     return (
-      <ScrollView style={styles.container}>
-        <View style={[styles.box, styles.box1]}>
-          {/* <Image 
-                            style={styles.userPic} 
-                            source={require('./user.png')}
-                            resizeMode='contain' 
-                        />
-                        <TouchableOpacity
-                            style={styles.cameraIcon}
-                            onPress={this.uploadPic}
-                            >
-                            <Icon
-                                name="md-camera"                        
-                                size={20}
-                                color="#ff732e"
-                            />
-                        </TouchableOpacity>
- */}
-          {this.state.user ? (
-            <HeaderPic
-              profile={this.state.user}
-              onUploadImage={() => {
-                this.setState({ imageUploaded: true });
-              }}
-              ref={node => {
-                this.headerPicRef = node;
-              }}
-            />
-          ) : null}
-        </View>
-        <View style={[styles.box, styles.box2]}>
-          <TextInput
-            underlineColorAndroid="transparent"
-            placeholder="Name*"
-            style={styles.input}
-            onChangeText={name => this.setState({ name })}
-            value={this.state.name}
-          />
-          <TextInput
-            underlineColorAndroid="transparent"
-            placeholder="Mobile"
-            style={styles.input}
-            onChangeText={mobile => this.setState({ mobile })}
-            value={this.state.mobile}
-            maxLength={10}
-          />
-          <TextInput
-            underlineColorAndroid="transparent"
-            placeholder="Email"
-            style={styles.input}
-            onChangeText={email => this.setState({ email })}
-            value={this.state.email}
-          />
-        </View>
-        <View style={[styles.box, styles.box3]}>
-          <Button
-            text="Next"
-            onPress={this.onNextPress}
-            color="secondary"
-            textStyle={{ fontSize: 20 }}
-          />
-        </View>
-        <ProfilePicModal
-          ref={node => {
-            this.profilePicModal = node;
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: "center"
+            // alignItems: "center"
           }}
-          onUploadImageFromModal={this.onUploadImageFromModal}
-          onProceedAnyway={this.onProceedAnyway}
-        />
-        <LoadingOverlay visible={this.state.isLoading} />
-      </ScrollView>
+        >
+          <View>
+            <View style={[styles.box, styles.box1]}>
+              <Image
+                style={styles.imageIcon}
+                source={require("./icon.png")}
+                resizeMode="contain"
+              />
+            </View>
+            <View style={{ paddingHorizontal: 20 }}>
+              <TextInput
+                underlineColorAndroid="transparent"
+                placeholder="Name*"
+                style={styles.input}
+                onChangeText={name => this.setState({ name })}
+                value={this.state.name}
+              />
+              <TextInput
+                underlineColorAndroid="transparent"
+                placeholder="Mobile"
+                style={styles.input}
+                onChangeText={mobile => this.setState({ mobile })}
+                value={this.state.mobile}
+                maxLength={10}
+              />
+            </View>
+            <View style={[styles.box, styles.box3]}>
+              <Button
+                text="Next"
+                onPress={this.onNextPress}
+                color="secondary"
+                textStyle={{ fontSize: 20 }}
+              />
+            </View>
+          </View>
+        </ScrollView>
+      </View>
+      //       <ScrollView style={styles.container}>
+      //         <View style={[styles.box, styles.box1]}>
+      //           {/* <Image
+      //                   style={styles.userPic}
+      //                   source={require('./user.png')}
+      //                   resizeMode='contain'
+      //               />
+      //               <TouchableOpacity
+      //                   style={styles.cameraIcon}
+      //                   onPress={this.uploadPic}
+      //                   >
+      //                   <Icon
+      //                       name="md-camera"
+      //                       size={20}
+      //                       color="#ff732e"
+      //                   />
+      //               </TouchableOpacity>
+      //  */}
+      //           {this.state.user ? (
+      //             <HeaderPic
+      //               profile={this.state.user}
+      //               onUploadImage={() => {
+      //                 this.setState({ imageUploaded: true });
+      //               }}
+      //               ref={node => {
+      //                 this.headerPicRef = node;
+      //               }}
+      //             />
+      //           ) : null}
+      //         </View>
+      //         <View style={[styles.box, styles.box2]}>
+      //           <TextInput
+      //             underlineColorAndroid="transparent"
+      //             placeholder="Name*"
+      //             style={styles.input}
+      //             onChangeText={name => this.setState({ name })}
+      //             value={this.state.name}
+      //           />
+      //           <TextInput
+      //             underlineColorAndroid="transparent"
+      //             placeholder="Mobile"
+      //             style={styles.input}
+      //             onChangeText={mobile => this.setState({ mobile })}
+      //             value={this.state.mobile}
+      //             maxLength={10}
+      //           />
+      //           <TextInput
+      //             underlineColorAndroid="transparent"
+      //             placeholder="Email"
+      //             style={styles.input}
+      //             onChangeText={email => this.setState({ email })}
+      //             value={this.state.email}
+      //           />
+      //         </View>
+      //         <View style={[styles.box, styles.box3]}>
+      //           <Button
+      //             text="Next"
+      //             onPress={this.onNextPress}
+      //             color="secondary"
+      //             textStyle={{ fontSize: 20 }}
+      //           />
+      //         </View>
+      //         <ProfilePicModal
+      //           ref={node => {
+      //             this.profilePicModal = node;
+      //           }}
+      //           onUploadImageFromModal={this.onUploadImageFromModal}
+      //           onProceedAnyway={this.onProceedAnyway}
+      //         />
+      //         <LoadingOverlay visible={this.state.isLoading} />
+      //       </ScrollView>
     );
   }
 }
@@ -264,9 +310,9 @@ const styles = {
     //padding: 20
   },
   box1: {
-    flex: 3
+    flex: 1,
     //justifyContent: 'center',
-    //alignItems: 'center',
+    alignItems: "center"
   },
   box2: {
     flex: 6,
@@ -278,7 +324,8 @@ const styles = {
   },
   input: {
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
+    fontSize: 22
   },
   cameraIcon: {
     position: "absolute",
@@ -289,6 +336,10 @@ const styles = {
     borderRadius: 50,
     borderColor: "#fff",
     backgroundColor: "#fff"
+  },
+  imageIcon: {
+    height: 135,
+    width: 135
   }
 };
 

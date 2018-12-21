@@ -155,8 +155,11 @@ export default class Statuses extends React.Component {
           </View>
         ) : null}
 
-        {(statusType == ORDER_STATUS_TYPES.NEW && isInReview != true) ||
+        {(statusType == ORDER_STATUS_TYPES.NEW &&
+          orderType === ORDER_TYPES.FMCG &&
+          isInReview != true) ||
         (statusType == ORDER_STATUS_TYPES.NEW &&
+          orderType === ORDER_TYPES.FMCG &&
           isInReview == true &&
           isOrderModified != true) ? (
           <View style={{ flexDirection: "row", alignItems: "center" }}>
