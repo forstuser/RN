@@ -172,9 +172,16 @@ class ShoppingListItem extends React.Component {
                     ? colors.secondaryText
                     : colors.mainText
               }}
-              numberOfLines={2}
+              numberOfLines={3}
             >
-              {item.title}
+              {item.offer_title
+                ? item.offer_type == 2 || item.offer_type == 3
+                  ? item.title
+                      .concat(" (")
+                      .concat(item.offer_title)
+                      .concat(")")
+                  : item.offer_title
+                : item.title}
               <Text
                 style={{
                   color: colors.secondaryText
@@ -208,7 +215,9 @@ class ShoppingListItem extends React.Component {
               marginTop: 5
             }}
           >
-            {item.offer_discount > 0 ? (
+            {item.offer_discount &&
+            item.offer_discount > 0 &&
+            item.offer_type == 1 ? (
               <View>
                 <Text
                   style={{
@@ -234,11 +243,17 @@ class ShoppingListItem extends React.Component {
               style={{
                 flexDirection: "row",
                 marginTop:
-                  item.offer_discount && item.offer_discount > 0 ? 5 : 0
+                  item.offer_discount &&
+                  item.offer_discount > 0 &&
+                  item.offer_type == 1
+                    ? 5
+                    : 0
               }}
             >
               {cashback > 0 &&
-              (!item.offer_discount || item.offer_discount <= 0) ? (
+              (!item.offer_discount ||
+                item.offer_discount <= 0 ||
+                item.offer_type != 1) ? (
                 <Text
                   weight="Medium"
                   style={{
@@ -254,7 +269,8 @@ class ShoppingListItem extends React.Component {
                 </Text>
               ) : cashback > 0 &&
                 item.offer_discount &&
-                item.offer_discount > 0 ? (
+                item.offer_discount > 0 &&
+                item.offer_type == 1 ? (
                 <Text
                   weight="Medium"
                   style={{
