@@ -146,6 +146,10 @@ class ProfileScreen extends Component {
     }
   };
 
+  uploadImageBtnModal = () => {
+    this.uploadOptions.show();
+  };
+
   render() {
     const { isLoading, profilePic } = this.state;
     // console.log("XYZT:", this.props.profile);
