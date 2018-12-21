@@ -260,7 +260,7 @@ export default class OffersTab extends React.Component {
                       color: colors.secondaryText
                     }}
                   >
-                    No Offers available from your Seller currently
+                    No Discount Offers available from your Seller currently
                   </Text>
                 </View>
               )}
@@ -302,7 +302,7 @@ export default class OffersTab extends React.Component {
                       color: colors.secondaryText
                     }}
                   >
-                    No Offers available from your Seller currently
+                    No BOGO Offers available from your Seller currently
                   </Text>
                 </View>
               )}
@@ -344,7 +344,7 @@ export default class OffersTab extends React.Component {
                       color: colors.secondaryText
                     }}
                   >
-                    No Offers available from your Seller currently
+                    No Extra Offers available from your Seller currently
                   </Text>
                 </View>
               )}
@@ -426,7 +426,7 @@ export default class OffersTab extends React.Component {
                       color: colors.secondaryText
                     }}
                   >
-                    No Offers available from your Seller currently
+                    No General Offers available from your Seller currently
                   </Text>
                 </View>
               )}

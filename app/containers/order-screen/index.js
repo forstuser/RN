@@ -826,7 +826,7 @@ class OrderScreen extends React.Component {
       }
     }
 
-    let options = ["Pay Online", "Paid Cash on Delivery", "Credit"];
+    let options = ["Pay Seller Online", "Paid Cash on Delivery", "Credit"];
     let cancelIndex = 3;
     if (order && !order.seller.pay_online && order.is_credit_allowed) {
       cancelIndex = 2;
@@ -843,11 +843,11 @@ class OrderScreen extends React.Component {
       options = ["Paid Cash on Delivery"];
     } else if (order && !order.is_credit_allowed && order.seller.pay_online) {
       cancelIndex = 2;
-      options = ["Pay Online", "Paid Cash on Delivery"];
+      options = ["Pay Seller Online", "Paid Cash on Delivery"];
     } else if (order && order.is_credit_allowed && order.seller.pay_online) {
       cancelIndex = 3;
       options = [
-        "Pay Online",
+        "Pay Seller Online",
         "Paid Cash on Delivery",
         order.credit_limit < totalAmount ? (
           <Text style={{ fontSize: 18, color: "grey" }}>On Credit</Text>

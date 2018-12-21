@@ -173,7 +173,7 @@ class Header extends Component {
                   onPress={this.props.onWalletPress}
                 >
                   <Image
-                    style={{ width: 25, height: 25 }}
+                    style={{ width: 30, height: 30 }}
                     source={require("../../images/wallet.png")}
                   />
                   <Text weight="Medium" style={{ fontSize: 12, color: "#fff" }}>
