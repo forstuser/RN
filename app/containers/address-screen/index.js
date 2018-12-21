@@ -228,6 +228,7 @@ class AddressScreen extends Component {
         });
       })
       .catch(error => console.log(error.message)); // error is a Javascript Error object
+    this.setState({ showLoader: false });
   };
 
   makeOrder = async () => {
