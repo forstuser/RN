@@ -25,6 +25,12 @@ const deviceWidth = Dimensions.get("window").width;
 export default class SingleNormalOffer extends React.Component {
   render() {
     const { item } = this.props;
+    console.log("GENERAL OFFERS______________________", item);
+    let imgUrl = null;
+    if (item.brand_offer_id) {
+      imgUrl = `/suggested/offers/${item.brand_offer_id}/images`;
+    } else
+      imgUrl = `/offer/${item.id}/images/${item.document_details.index || 0}`;
     return (
       <View
         style={{
@@ -32,16 +38,14 @@ export default class SingleNormalOffer extends React.Component {
           margin: 5,
           marginLeft: 10,
           borderRadius: 5,
-          height: 185,
-          width: deviceWidth
+          height: 210,
+          width: deviceWidth - 20
         }}
       >
         <Image
-          style={{ height: 130, width: deviceWidth - 40 }}
+          style={{ height: 130, width: deviceWidth - 20 }}
           source={{
-            uri:
-              API_BASE_URL +
-              `/offer/${item.id}/images/${item.document_details.index || 0}`
+            uri: API_BASE_URL + imgUrl
           }}
           resizeMode="stretch"
         />
@@ -56,41 +60,3 @@ export default class SingleNormalOffer extends React.Component {
     );
   }
 }
-
-// const SingleNormalOffer = ({
-//   key,
-//   id,
-//   title,
-//   description,
-//   end_date,
-//   document_details
-// }) => (
-//   <View
-//     style={{
-//       ...defaultStyles.card,
-//       margin: 10,
-//       height: 100,
-//       width: 200,
-//       borderRadius: 5,
-//       flex: 1
-//     }}
-//   >
-//     <Image
-//       style={{ height: 20, flex: 1, width: null }}
-//       source={{
-//         uri: API_BASE_URL + `/offer/${id}/images/${document_details || 0}`
-//       }}
-//     />
-//     <View style={{ padding: 10 }}>
-//       <Text weight="Medium" style={{ fontSize: 19 }}>
-//         {title}
-//       </Text>
-//       <Text style={{ fontSize: 15 }}>{description}</Text>
-//       <Text style={{ fontSize: 15, color: colors.mainBlue }}>
-//         Expiring on: {moment(end_date).format("DD MMM, YYYY")}
-//       </Text>
-//     </View>
-//   </View>
-// );
-
-// export default SingleNormalOffer;

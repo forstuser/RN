@@ -164,6 +164,11 @@ class BasicDetailsScreen extends Component {
     }
   };
 
+  onUploadImageFromModal = () => {
+    this.profilePicModal.hide();
+    this.headerPicRef.uploadImageBtnModal();
+  };
+
   render() {
     console.log("ABC: ", this.state.user);
     return (
@@ -190,6 +195,9 @@ class BasicDetailsScreen extends Component {
               profile={this.state.user}
               onUploadImage={() => {
                 this.setState({ imageUploaded: true });
+              }}
+              ref={node => {
+                this.headerPicRef = node;
               }}
             />
           ) : null}
@@ -230,6 +238,7 @@ class BasicDetailsScreen extends Component {
           ref={node => {
             this.profilePicModal = node;
           }}
+          onUploadImageFromModal={this.onUploadImageFromModal}
           onProceedAnyway={this.onProceedAnyway}
         />
         <LoadingOverlay visible={this.state.isLoading} />

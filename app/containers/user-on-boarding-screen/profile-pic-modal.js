@@ -96,7 +96,8 @@ class ProfilePicModal extends React.Component {
               style={{ width: 125, height: 40 }}
               color="secondary"
               textStyle={{ fontSize: 12 }}
-              onPress={this.hide}
+              //onPress={this.hide}
+              onPress={this.props.onUploadImageFromModal}
             />
           </View>
         </View>
