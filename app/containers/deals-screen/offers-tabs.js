@@ -135,11 +135,11 @@ export default class OffersTab extends React.Component {
       generalOffers,
       emptyMessage
     } = this.props;
-
+    console.log("emptyMessage", emptyMessage);
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
         {this.state.showCategory ? (
-          <View>
+          <View style={categories.length > 0 ? {} : { flex: 1 }}>
             {categories.length > 0 ? (
               <View
                 style={[
@@ -170,6 +170,7 @@ export default class OffersTab extends React.Component {
                     height: windowHeight,
                     flex: 1,
                     alignItems: "center",
+                    alignSelf: "center",
                     justifyContent: "center"
                   }
                 ]}
@@ -240,7 +241,7 @@ export default class OffersTab extends React.Component {
                   style={[
                     {
                       flex: 1,
-                      marginTop: 175,
+                      marginTop: 90,
                       alignItems: "center",
                       justifyContent: "center"
                     }
@@ -264,7 +265,7 @@ export default class OffersTab extends React.Component {
                 </View>
               )}
             </ScrollView>
-            <View tabLabel="BOGO">
+            <ScrollView onScroll={this.handleScroll} tabLabel="BOGO">
               {bogo.length > 0 ? (
                 <FlatList
                   contentContainerStyle={{
@@ -282,7 +283,7 @@ export default class OffersTab extends React.Component {
                   style={[
                     {
                       flex: 1,
-                      marginTop: 175,
+                      marginTop: 90,
                       alignItems: "center",
                       justifyContent: "center"
                     }
@@ -305,8 +306,8 @@ export default class OffersTab extends React.Component {
                   </Text>
                 </View>
               )}
-            </View>
-            <View tabLabel="Extra">
+            </ScrollView>
+            <ScrollView onScroll={this.handleScroll} tabLabel="Extra">
               {extraQuantity.length > 0 ? (
                 <FlatList
                   contentContainerStyle={{
@@ -324,7 +325,7 @@ export default class OffersTab extends React.Component {
                   style={[
                     {
                       flex: 1,
-                      marginTop: 175,
+                      marginTop: 90,
                       alignItems: "center",
                       justifyContent: "center"
                     }
@@ -347,8 +348,8 @@ export default class OffersTab extends React.Component {
                   </Text>
                 </View>
               )}
-            </View>
-            <View tabLabel="New Products">
+            </ScrollView>
+            <ScrollView onScroll={this.handleScroll} tabLabel="New Products">
               {newProducts.length > 0 ? (
                 <FlatList
                   contentContainerStyle={{
@@ -366,7 +367,7 @@ export default class OffersTab extends React.Component {
                   style={[
                     {
                       flex: 1,
-                      marginTop: 175,
+                      marginTop: 90,
                       alignItems: "center",
                       justifyContent: "center"
                     }
@@ -385,12 +386,12 @@ export default class OffersTab extends React.Component {
                       color: colors.secondaryText
                     }}
                   >
-                    No Offers available from your Seller currently
+                    No New Products available from your Seller currently
                   </Text>
                 </View>
               )}
-            </View>
-            <View tabLabel="General">
+            </ScrollView>
+            <ScrollView onScroll={this.handleScroll} tabLabel="General">
               {generalOffers.length > 0 ? (
                 <FlatList
                   contentContainerStyle={{
@@ -406,7 +407,7 @@ export default class OffersTab extends React.Component {
                   style={[
                     {
                       flex: 1,
-                      marginTop: 175,
+                      marginTop: 90,
                       alignItems: "center",
                       justifyContent: "center"
                     }
@@ -429,7 +430,7 @@ export default class OffersTab extends React.Component {
                   </Text>
                 </View>
               )}
-            </View>
+            </ScrollView>
           </ScrollableTabView>
         ) : null}
 

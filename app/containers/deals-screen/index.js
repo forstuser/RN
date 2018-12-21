@@ -40,6 +40,7 @@ import { showSnackbar } from "../../utils/snackbar";
 const offersIcon = require("../../images/deals.png");
 import FilterOfferModal from "./filter-offers-modal";
 const SCREEN_WIDTH = Dimensions.get("window").width;
+import _ from "lodash";
 
 class DealsScreen extends Component {
   static navigationOptions = {
@@ -252,13 +253,25 @@ class DealsScreen extends Component {
       );
       const result1 = await getSellerOffers();
       console.log("Seller Offer API result: ", result1);
+      this.setState({
+        emptyMessage: result1.message
+      });
       let resCategories = result1.result;
       const categories = resCategories.map(seller => ({
         ...seller,
         name: seller.name,
         imageUrl: `/consumer/sellers/${seller.id}/upload/1/images/0`
       }));
-      this.setState({ emptyMessage: result1.message });
+      if (categories.length > 0) {
+        const finalTitle = categories[0].name
+          .split(" ")
+          .slice(0, 1)
+          .join(" ");
+        this.setState({
+          headerTitle: _.upperFirst(_.lowerCase(finalTitle)) + " Offers"
+        });
+      }
+
       let sellerIndex = 0;
       if (defaultSeller) {
         sellerIndex = categories.findIndex(
@@ -297,6 +310,13 @@ class DealsScreen extends Component {
             this.fetchOffersType_3();
             this.fetchOffersType_4();
           }
+          const finalTitle = this.state.selectedCategory.name
+            .split(" ")
+            .slice(0, 1)
+            .join(" ");
+          this.setState({
+            headerTitle: _.upperFirst(_.lowerCase(finalTitle)) + " Offers"
+          });
         }
       );
     } catch (error) {
@@ -423,9 +443,15 @@ class DealsScreen extends Component {
       checkedCategories: []
     });
     this.fetchWishlist();
+    const finalTitle = category.name
+      .split(" ")
+      .slice(0, 1)
+      .join(" ");
+    console.log("xxxxxxxxxxxxxx", finalTitle);
     this.setState(
       {
-        selectedCategory: category
+        selectedCategory: category,
+        headerTitle: _.upperFirst(_.lowerCase(finalTitle)) + " Offers"
       },
       () => {
         this.setState({
@@ -517,6 +543,7 @@ class DealsScreen extends Component {
       checkedBrands,
       checkedCategories
     } = this.state;
+    console.log("Empty", emptyMessage);
     const collectAtStoreFlag = this.props.navigation.getParam(
       "collectAtStoreFlag",
       false
