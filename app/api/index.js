@@ -9,9 +9,9 @@ import { actions as uiActions } from "../modules/ui";
 import { actions as loggedInUserActions } from "../modules/logged-in-user";
 import Analytics from "../analytics";
 
-let API_BASE_URL = "https://consumer-stage.binbill.com";
+let API_BASE_URL = "https://consumer.binbill.com";
 if (!__DEV__) {
-  API_BASE_URL = "https://consumer-stage.binbill.com";
+  API_BASE_URL = "https://consumer.binbill.com";
 }
 // test -> let CASHFREE_APP_ID = "1844ecd62445987b8152c2304481";
 // test -> let CASHFREE_URL =

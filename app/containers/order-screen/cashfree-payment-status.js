@@ -33,7 +33,8 @@ class CashFreePaymentStatusScreen extends Component {
     orderIdWebView: "",
     orderAmountWebView: "",
     transactionStatus: null,
-    order: null
+    order: null,
+    counterPayment: 0
   };
   componentDidMount() {
     BackHandler.addEventListener("hardwareBackPress", this.handleBackPress);
@@ -149,21 +150,32 @@ class CashFreePaymentStatusScreen extends Component {
 
   onNavStateChange = async webViewState => {
     let order = this.props.navigation.getParam("order", null);
-    if (webViewState.url == API_BASE_URL + "/consumer/payments") {
-      const { orderIdWebView } = this.state;
-      //console.log("orderIDWebView----------", orderIdWebView);
-      const res = await getTransactionStatus(orderIdWebView);
-      console.log(
-        "responeseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-        res
-      );
-      order["expense_id"] = res.expense_id;
-      this.setState({
-        transactionStatus: res,
-        showWebView: false,
-        order: order
+    if (
+      webViewState.url == API_BASE_URL + "/consumer/payments" &&
+      this.state.counterPayment == 0
+    ) {
+      this.setState({ counterPayment: 1 }, () => {
+        this.getStatus();
       });
     }
+  };
+
+  getStatus = async () => {
+    console.log("__________________Status Payment__________________");
+    let order = this.props.navigation.getParam("order", null);
+    const { orderIdWebView } = this.state;
+    //console.log("orderIDWebView----------", orderIdWebView);
+    const res = await getTransactionStatus(orderIdWebView);
+    console.log(
+      "responeseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      res
+    );
+    order["expense_id"] = res.expense_id;
+    this.setState({
+      transactionStatus: res,
+      showWebView: false,
+      order: order
+    });
   };
 
   //Rendering the web view for the payment gateway
