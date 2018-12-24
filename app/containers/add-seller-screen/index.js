@@ -7,7 +7,7 @@ import {
   TextInput,
   Picker
 } from "react-native";
-
+import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import ScrollableTabView, {
@@ -19,6 +19,7 @@ import {
   getMySellers,
   linkSeller,
   updateUserAddresses,
+  shareLocationOnBoarding,
   getProfileDetail
 } from "../../api";
 
@@ -35,6 +36,7 @@ import InviteSellerNameModal from "./invite-seller-name";
 import AddSellerHeader from "./add-seller-header";
 import { SCREENS } from "../../constants";
 import LinearGradient from "react-native-linear-gradient";
+import RNGooglePlaces from "react-native-google-places";
 
 export default class MySellersScreen extends React.Component {
   static navigationOptions = {
@@ -52,7 +54,8 @@ export default class MySellersScreen extends React.Component {
     searchTerm: "",
     userDetails: null,
     selectedAddress: null,
-    addresses: []
+    addresses: [],
+    sellerExistModal: false
   };
 
   componentWillMount() {
@@ -83,6 +86,13 @@ export default class MySellersScreen extends React.Component {
       }
     );
   }
+  hideSellerExistModal = () => {
+    this.setState({ sellerExistModal: false });
+    this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
+  };
+  showSellerExistModal = () => {
+    this.setState({ sellerExistModal: true });
+  };
 
   getUserDetails = async () => {
     this.setState({
@@ -216,6 +226,21 @@ export default class MySellersScreen extends React.Component {
     }
   };
 
+  updateAddress = async ({ address_line_2, latitude, longitude }) => {
+    const updateAddressResponse = await updateUserAddresses({
+      address_line_2,
+      latitude,
+      longitude
+    });
+    const linkSellerFromLatLong = await shareLocationOnBoarding(
+      latitude.toString(),
+      longitude.toString()
+    );
+    this.showSellerExistModal();
+  };
+  goToMySeller = () => {
+    this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
+  };
   render() {
     const { navigation } = this.props;
     const {
@@ -227,7 +252,8 @@ export default class MySellersScreen extends React.Component {
       isSearchDone,
       userDetails,
       selectedAddress,
-      isloading
+      isloading,
+      sellerExistModal
     } = this.state;
 
     const mySellersIds = mySellers.map(seller => seller.id);
@@ -295,7 +321,18 @@ export default class MySellersScreen extends React.Component {
                           this.getSellersFromDropDown()
                         );
                       } else {
-                        this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN);
+                        // open address popup
+                        this.setState({ isloading: true });
+                        RNGooglePlaces.openPlacePickerModal()
+                          .then(place => {
+                            this.updateAddress({
+                              address_line_2: place.address || place.name,
+                              latitude: place.latitude,
+                              longitude: place.longitude
+                            });
+                          })
+                          .catch(error => console.log(error.message)); // error is a Javascript Error object
+                        this.setState({ isloading: false });
                       }
                     }}
                   >
@@ -470,6 +507,70 @@ export default class MySellersScreen extends React.Component {
             this.inviteSellerNameModal = node;
           }}
         />
+        <Modal
+          isVisible={sellerExistModal}
+          useNativeDriver
+          onBackButtonPress={this.hideSellerExistModal}
+          onBackdropPress={this.hideSellerExistModal}
+        >
+          <View
+            style={{
+              backgroundColor: "#fff",
+              height: 300,
+              borderRadius: 5,
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 10
+            }}
+          >
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 20
+              }}
+            >
+              <Image
+                style={{ width: 90, height: 90 }}
+                source={require("../../images/happiness.png")}
+              />
+            </View>
+            <Text
+              style={{
+                padding: 20,
+                textAlign: "center",
+                fontSize: 16,
+                marginTop: 10
+              }}
+            >
+              <Text weight="Bold">Hurray!</Text> We have added your
+              Neighbourhood Grocery Stores in ‘My Seller’ section to help you
+              Shop & Earn Cashback.
+            </Text>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: 0
+              }}
+            >
+              <Button
+                text="Go to My Seller"
+                onPress={this.goToMySeller}
+                style={{
+                  width: 170,
+                  alignSelf: "center",
+
+                  height: 45
+                }}
+                color="secondary"
+              />
+            </View>
+          </View>
+        </Modal>
         <LoadingOverlay visible={isloading} />
       </View>
     );
