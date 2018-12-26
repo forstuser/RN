@@ -487,7 +487,21 @@ class OrderScreen extends React.Component {
       order.payment_mode_id &&
       order.payment_status &&
       order.payment_mode_id == 4 &&
-      (order.payment_status == 13 || order.payment_status == 4)
+      order.payment_status == 4
+    ) {
+      this.props.navigation.navigate(SCREENS.PENDING_PAYMENT_STATUS_SCREEN, {
+        transactionStatus: 4,
+        orderId: order.payment_ref_id,
+        orderAmount: order.total_amount,
+        order: order,
+        user: user
+      });
+    } else if (
+      order.payment_ref_id &&
+      order.payment_mode_id &&
+      order.payment_status &&
+      order.payment_mode_id == 4 &&
+      order.payment_status == 13
     ) {
       this.props.navigation.navigate(SCREENS.PENDING_PAYMENT_STATUS_SCREEN, {
         transactionStatus: 13,

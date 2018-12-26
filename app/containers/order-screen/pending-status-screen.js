@@ -133,7 +133,8 @@ class PendingPaymentStatusScreen extends Component {
     } else if (
       (transactionStatus && transactionStatus.status_type == 18) ||
       (transactionStatus && transactionStatus.status_type == 4) ||
-      (transactionStatus && transactionStatus.status_type == 9)
+      (transactionStatus && transactionStatus.status_type == 9) ||
+      (transactionStatusFromOrder && transactionStatusFromOrder == 4)
     ) {
       statusMessage = "Payment Failed";
       imageSource = FailedImage;
@@ -238,7 +239,8 @@ class PendingPaymentStatusScreen extends Component {
             (transactionStatus && transactionStatus.status_type == 4) ||
             (transactionStatus && transactionStatus.status_type == 8) ||
             (transactionStatus && transactionStatus.status_type == 17) ||
-            (transactionStatusFromOrder && transactionStatusFromOrder == 13) ? (
+            (transactionStatusFromOrder && transactionStatusFromOrder == 13) ||
+            (transactionStatusFromOrder && transactionStatusFromOrder == 4) ? (
               <View style={{ flexDirection: "row", marginTop: 35 }}>
                 <Button
                   onPress={() =>
@@ -257,7 +259,9 @@ class PendingPaymentStatusScreen extends Component {
                     (transactionStatus && transactionStatus.status_type == 9) ||
                     (transactionStatus &&
                       transactionStatus.status_type == 17) ||
-                    (transactionStatus && transactionStatus.status_type == 4)
+                    (transactionStatus && transactionStatus.status_type == 4) ||
+                    (transactionStatusFromOrder &&
+                      transactionStatusFromOrder == 4)
                       ? this.retryPressFail
                       : (transactionStatus &&
                           transactionStatus.status_type == 13) ||
