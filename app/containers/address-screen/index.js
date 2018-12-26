@@ -68,7 +68,9 @@ class AddressScreen extends Component {
       pin: "",
       selectedIndex: 0,
       showLoader: false,
-      isModelShow: false
+      isModelShow: false,
+      isAddressComplete: false,
+      callOrderApi: false
     };
   }
   componentDidMount() {
@@ -94,6 +96,12 @@ class AddressScreen extends Component {
   };
   hideDeleteModal = () => {
     this.setState({ deleteModalShow: false });
+  };
+  hideCompleteAddress = () => {
+    this.setState({ isAddressComplete: false });
+  };
+  showCompleteAddress = () => {
+    this.setState({ isAddressComplete: true });
   };
   getProfileDetail = async () => {
     const collectAtStoreFlag = this.props.navigation.getParam(
@@ -143,11 +151,11 @@ class AddressScreen extends Component {
         longitude: this.state.longitude,
         id: this.state.addreesID
       };
+      console.log("item", item);
       if (item.id == null) {
         delete item.id;
       }
       const updateAddressResponse = await updateUserAddresses(item);
-      console.log("updateAddressResponse", updateAddressResponse);
       this.fetchUserAddress();
       this.getProfileDetail();
       this.setState({ showLoader: false });
@@ -155,6 +163,41 @@ class AddressScreen extends Component {
       console.log("error: ", error);
     }
   };
+
+  placeOrder = async () => {
+    if (this.state.address1 == "") {
+      return showSnackbar({ text: "Please enter House/Flat no." });
+    }
+    this.setState({ showLoader: true });
+    try {
+      let item = {
+        address_line_1: this.state.address1,
+        address_line_2: this.state.address2,
+        pin: this.state.pin,
+        latitude: this.state.latitude,
+        longitude: this.state.longitude,
+        id: this.state.addreesID
+      };
+      console.log("item", item);
+      if (item.id == null) {
+        delete item.id;
+      }
+      const updateAddressResponse = await updateUserAddresses(item);
+      if (updateAddressResponse.status) {
+        this.setState({ callOrderApi: true }, () => {
+          this.makeOrder();
+          this.hideCompleteAddress();
+          this.fetchUserAddress();
+          this.getProfileDetail();
+        });
+      }
+
+      this.setState({ showLoader: false });
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
+
   updateAddress = index => {
     console.log(this.state.addresses[index]);
     this.setState({
@@ -232,40 +275,50 @@ class AddressScreen extends Component {
   };
 
   makeOrder = async () => {
-    Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_SELECT_ADDRESS);
-    console.log(
-      "collectAtStoreFlag while placing order___________",
-      this.props.navigation.getParam("collectAtStoreFlag")
-    );
-    this.setState({ showLoader: true });
-    const isDeliveryPossible = await this.isAddressDeliverable();
-    if (isDeliveryPossible) {
-      try {
-        const res = await placeOrder({
-          sellerId: this.props.navigation.getParam("sellerId"),
-          orderType: this.props.navigation.getParam("orderType"),
-          serviceName: this.props.navigation.getParam("serviceName"),
-          serviceTypeId: this.props.navigation.getParam("serviceTypeId"),
-          collect_at_store: this.props.navigation.getParam(
-            "collectAtStoreFlag"
-          ),
-          addressId: this.state.addresses[this.state.selectedIndex].id
-        });
-        const orderId = res.result.id;
-        this.props.navigation.popToTop();
-        this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
-          orderId,
-          collectAtStoreFlag: true
-        });
-      } catch (e) {
-        console.log("error", e);
-        showSnackbar({ text: e.message });
-      } finally {
-        this.setState({ showLoader: false });
-      }
+    const { selectedIndex, addresses, callOrderApi } = this.state;
+    console.log("addresss:------------", this.state);
+    if (addresses[selectedIndex].address_line_1 == null && !callOrderApi) {
+      this.setState({
+        btnTXT: "Place Order",
+        headerTitle: "Complete Your Address",
+        address2: addresses[selectedIndex].address_line_2,
+        pin: addresses[selectedIndex].pin,
+        latitude: addresses[selectedIndex].latitude,
+        longitude: addresses[selectedIndex].longitude,
+        addreesID: addresses[selectedIndex].id
+      });
+      this.showCompleteAddress();
     } else {
-      this.openModal();
-      //open model not possible home delivery
+      Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_SELECT_ADDRESS);
+      this.setState({ showLoader: true });
+      const isDeliveryPossible = await this.isAddressDeliverable();
+      if (isDeliveryPossible) {
+        try {
+          const res = await placeOrder({
+            sellerId: this.props.navigation.getParam("sellerId"),
+            orderType: this.props.navigation.getParam("orderType"),
+            serviceName: this.props.navigation.getParam("serviceName"),
+            serviceTypeId: this.props.navigation.getParam("serviceTypeId"),
+            collect_at_store: this.props.navigation.getParam(
+              "collectAtStoreFlag"
+            ),
+            addressId: addresses[selectedIndex].id
+          });
+          const orderId = res.result.id;
+          this.props.navigation.popToTop();
+          this.props.navigation.navigate(SCREENS.ORDER_SCREEN, {
+            orderId,
+            collectAtStoreFlag: true
+          });
+        } catch (e) {
+          console.log("error", e);
+          showSnackbar({ text: e.message });
+        } finally {
+          this.setState({ showLoader: false });
+        }
+      } else {
+        this.openModal();
+      }
     }
   };
   isAddressDeliverable = async () => {
@@ -301,7 +354,8 @@ class AddressScreen extends Component {
       pin,
       headerTitle,
       selectedIndex,
-      isModelShow
+      isModelShow,
+      isAddressComplete
     } = this.state;
     const collectAtStoreFlag = this.props.navigation.getParam(
       "collectAtStoreFlag",
@@ -309,7 +363,7 @@ class AddressScreen extends Component {
     );
     return (
       <ImageBackground
-        style={{ flex: 1, width: null, height: null }}
+        style={{ width: "100%", height: "100%" }}
         source={require("../../images/back_image_address.png")}
         resizeMode="cover"
       >
@@ -532,6 +586,58 @@ class AddressScreen extends Component {
               </View>
             </View>
           </Modal>
+          <Modal
+            isVisible={isAddressComplete}
+            title={headerTitle}
+            onClosePress={this.hideCompleteAddress}
+            onBackButtonPress={this.hideCompleteAddress}
+            onBackdropPress={this.hideCompleteAddress}
+            style={{ height: 300, backgroundColor: "#fff" }}
+          >
+            <View style={{ width: 320 }}>
+              <TextInput
+                placeholder="House/Flat No*"
+                value={address1}
+                style={{ borderRadius: 5, paddingHorizontal: 10 }}
+                onChangeText={address1 => this.setState({ address1 })}
+              />
+              <TextInput
+                placeholder="Address"
+                value={address2}
+                style={{ borderRadius: 5, paddingHorizontal: 10 }}
+                onChangeText={address2 => this.setState({ address2 })}
+              />
+              <TextInput
+                keyboardType="numeric"
+                placeholder="Pin"
+                value={pin}
+                style={{ borderRadius: 5, paddingHorizontal: 10 }}
+                onChangeText={pin => this.setState({ pin })}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                width: 300,
+                justifyContent: "space-between",
+                alignSelf: "center"
+              }}
+            >
+              <Button
+                text="Cancel"
+                onPress={this.hideCompleteAddress}
+                color="grey"
+                style={styles.btn}
+              />
+              <Button
+                text={btnTXT}
+                onPress={this.placeOrder}
+                color="secondary"
+                style={styles.btn}
+              />
+            </View>
+          </Modal>
+
           <LoadingOverlay visible={showLoader} />
         </View>
       </ImageBackground>
@@ -541,7 +647,7 @@ class AddressScreen extends Component {
 const styles = {
   constainer: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     padding: 10
   },
   or: {
