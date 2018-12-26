@@ -72,9 +72,7 @@ export default class MySellersScreen extends React.Component {
         this.getSellersFromDropDown()
       );
     } else {
-      this.props.navigation.navigate(SCREENS.ADDRESS_SCREEN, {
-        flag: true
-      });
+      this.openGoogleAddress();
     }
   }
 
@@ -241,6 +239,20 @@ export default class MySellersScreen extends React.Component {
   goToMySeller = () => {
     this.props.navigation.navigate(SCREENS.MY_SELLERS_SCREEN);
   };
+
+  openGoogleAddress = () => {
+    this.setState({ isloading: true });
+    RNGooglePlaces.openPlacePickerModal()
+      .then(place => {
+        this.updateAddress({
+          address_line_2: place.address || place.name,
+          latitude: place.latitude,
+          longitude: place.longitude
+        });
+      })
+      .catch(error => console.log(error.message)); // error is a Javascript Error object
+    this.setState({ isloading: false });
+  };
   render() {
     const { navigation } = this.props;
     const {
@@ -322,17 +334,7 @@ export default class MySellersScreen extends React.Component {
                         );
                       } else {
                         // open address popup
-                        this.setState({ isloading: true });
-                        RNGooglePlaces.openPlacePickerModal()
-                          .then(place => {
-                            this.updateAddress({
-                              address_line_2: place.address || place.name,
-                              latitude: place.latitude,
-                              longitude: place.longitude
-                            });
-                          })
-                          .catch(error => console.log(error.message)); // error is a Javascript Error object
-                        this.setState({ isloading: false });
+                        this.openGoogleAddress();
                       }
                     }}
                   >

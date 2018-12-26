@@ -276,7 +276,7 @@ class AddressScreen extends Component {
 
   makeOrder = async () => {
     const { selectedIndex, addresses, callOrderApi } = this.state;
-    console.log("addresss:------------", this.state);
+    console.log("addresss:------------", addresses[selectedIndex]);
     if (addresses[selectedIndex].address_line_1 == null && !callOrderApi) {
       this.setState({
         btnTXT: "Place Order",
@@ -317,6 +317,7 @@ class AddressScreen extends Component {
           this.setState({ showLoader: false });
         }
       } else {
+        this.setState({ callOrderApi: false });
         this.openModal();
       }
     }

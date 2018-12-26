@@ -10,7 +10,6 @@ class AddressView extends Component {
   }
   render() {
     const { index, address, sellerId, selectedIndex } = this.props;
-    console.log("all", index, address, sellerId, selectedIndex);
     return (
       <View style={styles.constainer}>
         <View style={styles.header}>
