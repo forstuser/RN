@@ -34,32 +34,27 @@ class SelectSellerScreen extends Component {
   };
 
   saveAddress = async () => {
-    const { address1, address2, pin, latitude, longitude } = this.state;
+    const { address2, pin, latitude, longitude } = this.state;
     const lat = latitude.toString();
     const long = longitude.toString();
-    if (address1 == "") {
-      showSnackbar({ text: "Please enter House/Flat no." });
-    } else {
-      try {
-        let item = {
-          address_line_1: address1,
-          address_line_2: address2,
-          pin: pin,
-          latitude: latitude,
-          longitude: longitude
-        };
-        const res = await shareLocationOnBoarding(lat, long);
-        console.log("LocationShareOnBoardingResponse____", res);
-        this.setState({ addressModal: false });
-        if (res.result > 0) {
-          this.setState({ sellerExistModal: true });
-        } else this.setState({ noSellerModal: true });
-        const updateAddressResponse = await updateUserAddresses(item);
-      } catch (error) {
-        console.log("error: ", error);
-      } finally {
-        this.setState({ addressModal: false });
-      }
+    try {
+      let item = {
+        address_line_2: address2,
+        pin: pin,
+        latitude: latitude,
+        longitude: longitude
+      };
+      const res = await shareLocationOnBoarding(lat, long);
+      console.log("LocationShareOnBoardingResponse____", res);
+      this.setState({ addressModal: false });
+      if (res.result > 0) {
+        this.setState({ sellerExistModal: true });
+      } else this.setState({ noSellerModal: true });
+      const updateAddressResponse = await updateUserAddresses(item);
+    } catch (error) {
+      console.log("error: ", error);
+    } finally {
+      this.setState({ addressModal: false });
     }
   };
 
@@ -70,9 +65,9 @@ class SelectSellerScreen extends Component {
         this.setState({
           latitude: place.latitude,
           longitude: place.longitude,
-          address2: place.address || place.name,
-          addressModal: true
+          address2: place.address || place.name
         });
+        this.saveAddress();
       })
       .catch(error => console.log(error.message));
   };
