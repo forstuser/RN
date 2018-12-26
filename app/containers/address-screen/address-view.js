@@ -10,14 +10,12 @@ class AddressView extends Component {
   }
   render() {
     const { index, address, sellerId, selectedIndex } = this.props;
+    console.log("all", index, address, sellerId, selectedIndex);
     return (
       <View style={styles.constainer}>
         <View style={styles.header}>
           {sellerId ? (
-            <TouchableOpacity
-              onPress={() => {
-                this.props.selectAddress(index);
-              }}
+            <View
               style={{
                 alignContent: "space-between",
                 flexDirection: "row",
@@ -27,28 +25,60 @@ class AddressView extends Component {
                 marginVertical: 10
               }}
             >
-              <View>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.selectAddress(index);
-                  }}
-                  style={styles.outerCircle}
-                >
-                  {selectedIndex == index ? (
-                    <View style={styles.innerCircle} />
-                  ) : null}
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{ paddingRight: 20, paddingBottom: 0, paddingLeft: 15 }}
+              <TouchableOpacity
+                onPress={() => {
+                  this.props.selectAddress(index);
+                }}
+                style={{
+                  alignContent: "space-between",
+                  flexDirection: "row",
+                  flex: 1,
+                  paddingLeft: 5,
+                  alignItems: "center",
+                  marginVertical: 10
+                }}
               >
-                <Text style={{ fontSize: 14 }}>
-                  {address.address_line_1} {address.address_line_2}{" "}
-                  {address.locality_name} {address.city_name}{" "}
-                  {address.state_name} {address.pin}
+                <View>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.selectAddress(index);
+                    }}
+                    style={styles.outerCircle}
+                  >
+                    {selectedIndex == index ? (
+                      <View style={styles.innerCircle} />
+                    ) : null}
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    paddingRight: 20,
+                    paddingBottom: 0,
+                    paddingLeft: 15
+                  }}
+                >
+                  <Text style={{ fontSize: 14 }}>
+                    {address.address_line_1} {address.address_line_2}{" "}
+                    {address.locality_name} {address.city_name}{" "}
+                    {address.state_name} {address.pin}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  this.props.updateAddress(index);
+                }}
+                style={{ marginLeft: 12 }}
+              >
+                <Text>
+                  <Icon
+                    name="ios-create"
+                    size={20}
+                    color={colors.pinkishOrange}
+                  />
                 </Text>
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </View>
           ) : (
             <View>
               <Text style={styles.address}> Address {index + 1}</Text>
@@ -117,7 +147,7 @@ class AddressView extends Component {
 }
 const styles = {
   constainer: {
-    backgroundColor: "#fff"
+    // backgroundColor: "#fff"
     // flex: 1,
   },
   header: {
