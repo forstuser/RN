@@ -97,7 +97,7 @@ export default class CashbackBillsScreen extends React.Component {
                     padding: 10
                   }}
                 >
-                  No transactions has been made yet.
+                  No transactions has been made as yet.
                 </Text>
               </View>
             ) : null

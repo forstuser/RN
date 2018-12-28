@@ -231,9 +231,9 @@ class ActiveOrdersScreen extends Component {
                 padding: 15
               }}
             >
-              You have not placed any Order. Please invite your neighbourhood
-              Seller Or simply Add from the list of your nearby Sellers in ‘My
-              Seller’ section to place an Order & avail exciting Offers.
+              You have not placed an Order yet. Please invite your neighbourhood
+              Seller/s to place an Order & get faster Delivery, Offers,
+              Discounts & Cashback!
             </Text>
           )}
         </View>

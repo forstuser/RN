@@ -145,7 +145,8 @@ export default class OrdersList extends React.Component {
                     padding: 10
                   }}
                 >
-                  You have not ordered any grocery as yet
+                  You have not Ordered any Grocery As yet. Shop Now to avail
+                  Exciting Offers & Cashback
                 </Text>
                 <Button
                   style={{ height: 40, width: 150, marginTop: 30 }}
