@@ -91,9 +91,11 @@ export default class SkuItem extends React.Component {
     const addActiveSkuToList = () => {
       Analytics.logEvent(Analytics.EVENTS.ADD_SKU_SHOPPING_LIST);
       const selectedItem = { ...item };
+      console.log("1", selectedItem);
       selectedItem.sku_measurement = selectedItem.sku_measurements.find(
         skuMeasurement => skuMeasurement.id == item.activeSkuMeasurementId
       );
+      console.log("2", selectedItem);
       selectedItem.quantity = 1;
       delete selectedItem.sku_measurements;
       delete selectedItem.activeSkuMeasurementId;

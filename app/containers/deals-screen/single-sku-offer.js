@@ -29,38 +29,34 @@ export default class SkuItemOffer extends React.Component {
   };
 
   componentWillMount() {
-    const { wishList, item } = this.props;
-    if (
-      wishList.filter(
-        wishlist =>
-          wishlist.id == item.sku_id && wishlist.seller_id == item.seller_id
-      ).length > 0
-    ) {
-      this.setState({ showBtn: false });
-    }
+    // const { wishList, item } = this.props;
+    // if (
+    //   wishList.filter(
+    //     wishlist =>
+    //       wishlist.id == item.sku_id && wishlist.seller_id == item.seller_id
+    //   ).length > 0
+    // ) {
+    //   this.setState({ showBtn: false });
+    // }
   }
 
   addItem = async item => {
-    //console.log("SKU ID", item.sku_id);
-    //console.log("SELLER ID", item.seller_id);
-    //console.log("SKU MEASUREMENT ID", item.sku_measurement_id);
     try {
       const res = await addSkuFromOffersToWishlist(
         item.sku_id,
         item.seller_id,
         item.sku_measurement_id
       );
-      //console.log("Response of add SKU from offers to wishlist", res);
     } catch (error) {
       console.log(error);
     } finally {
       this.props.getWishList();
       this.setState({ showBtn: false });
-      //console.log("Item added");
     }
   };
 
   addItemToShoppingList = async item => {
+    console.log("xxxxxxxxxxxxx", item);
     const { wishList, selectedCategory } = this.props;
     console.log("selectedCategory is", selectedCategory);
     const defaultSeller = JSON.parse(
@@ -96,19 +92,68 @@ export default class SkuItemOffer extends React.Component {
       showSnackbar({ text: e.message });
     }
   };
-  onViewDetails = item => {
-    alert("View Details");
+  moreOffers = item => {
+    alert("more offers");
   };
   render() {
-    const { item, wishList } = this.props;
+    const { item, wishList, skuItemIdsCurrentlyModifying = [] } = this.props;
+    console.log("items", item);
     const { showBtn, isClearItems } = this.state;
-    console.log("Wishlist_____", wishList);
+    const itemsInWishList = wishList.filter(listItem => listItem.id == item.id);
+    const skuMeasurementsInWishList = itemsInWishList
+      .filter(itemInWishList => (itemInWishList.sku_measurement ? true : false))
+      .map(itemInWishList => itemInWishList.sku_measurement);
+    const skuMeasurementIdsInWishList = skuMeasurementsInWishList.map(
+      item => item.id
+    );
+
+    activeSkuMeasurementFromWishList = skuMeasurementsInWishList.find(
+      skuMeasurementInWishList =>
+        skuMeasurementInWishList.id == item.activeSkuMeasurementId
+    );
+
+    const activeItemInWishList = itemsInWishList.find(
+      itemInWishList =>
+        itemInWishList.sku_measurement.id == item.activeSkuMeasurementId
+    );
+
+    const quantity = activeItemInWishList ? activeItemInWishList.quantity : 0;
+
+    const skuId = activeSkuMeasurementFromWishList
+      ? activeSkuMeasurementFromWishList.id
+      : null;
+
+    const addActiveSkuToList = () => {
+      const selectedItem = { ...item };
+      // selectedItem.sku_measurement = selectedItem.sku_measurements.find(
+      //   skuMeasurement => skuMeasurement.id == item.activeSkuMeasurementId
+      // );
+      selectedItem.quantity = 1;
+      delete selectedItem.sku_measurements;
+      delete selectedItem.activeSkuMeasurementId;
+      this.addItemToShoppingList(selectedItem);
+    };
+
     let price = 0;
+    let cashback = 0;
+    let isLoading = false;
     price = parseFloat(
       parseFloat(item.mrp) *
         parseFloat(1 - parseFloat(item.offer_discount) / 100)
     ).toFixed(2);
-
+    cashback = parseFloat(
+      parseFloat(price) * parseFloat(item.cashback_percent / 100)
+    ).toFixed(2);
+    if (cashback > 10) {
+      cashback = 10;
+    }
+    if (skuItemIdsCurrentlyModifying.includes(item.activeSkuMeasurementId)) {
+      isLoading = true;
+      console.log("isLoading: ", isLoading);
+    } else {
+      isLoading = false;
+    }
+    console.log("cashback is ", cashback);
     return (
       <View
         style={[
@@ -208,24 +253,117 @@ export default class SkuItemOffer extends React.Component {
             >
               *Offer valid till stocks last
             </Text>
-            <Text style={{ fontSize: 12, marginLeft: 5, marginTop: 5 }}>
-              Expires on: {moment(item.end_date).format("DD MMM, YYYY")}
-            </Text>
-            {/* <TouchableOpacity onPress={() => this.onViewDetails(item)}>
+            {/* <Text
+              style={{
+                fontSize: 10,
+                color: colors.mainBlue,
+                marginTop: 5,
+                marginLeft: 6
+              }}
+            >
+              Cashback Up To ₹ {cashback}
+            </Text> */}
+            <TouchableOpacity onPress={() => this.moreOffers(item)}>
               <Text
                 style={{
-                  fontSize: 13,
+                  fontSize: 10,
                   color: colors.pinkishOrange,
-                  marginTop: 7,
+                  marginTop: 5,
                   marginLeft: 5,
                   textDecorationLine: "underline",
                   textDecorationColor: colors.pinkishOrange
                 }}
               >
-                View Details
+                2 More Offers
               </Text>
-            </TouchableOpacity> */}
-            {showBtn ? (
+            </TouchableOpacity>
+            <View
+              style={{
+                flexDirection: "column",
+                // backgroundColor: "green",
+                // justifyContent: "flex-start",
+                // alignItems: "center",
+                flex: 1,
+                marginTop: cashback || item.activeSkuMeasurementId ? 6 : 0
+              }}
+            >
+              {item ? (
+                <View>
+                  {cashback ? (
+                    <TouchableOpacity
+                      onPress={this.showCashbackDetailsModal}
+                      style={{ flexDirection: "row", alignItems: "center" }}
+                    >
+                      <Text
+                        weight="Medium"
+                        style={{
+                          fontSize: 10,
+                          color: colors.mainBlue,
+                          // marginTop: 5,
+                          marginLeft: 6
+                        }}
+                      >
+                        Cashback Up To ₹ {cashback}
+                      </Text>
+                      <Icon name="md-information-circle" sixe={10} />
+                    </TouchableOpacity>
+                  ) : (
+                    <View />
+                  )}
+                  {quantity ? (
+                    <QuantityPlusMinus
+                      quantity={quantity}
+                      onMinusPress={() => {
+                        changeSkuItemQuantityInList(
+                          item.activeSkuMeasurementId,
+                          quantity - 1
+                        );
+                      }}
+                      onPlusPress={() => {
+                        changeSkuItemQuantityInList(
+                          item.activeSkuMeasurementId,
+                          quantity + 1
+                        );
+                      }}
+                    />
+                  ) : (
+                    <TouchableOpacity
+                      onPress={addActiveSkuToList}
+                      style={{
+                        marginTop: 6,
+                        height: 20,
+                        backgroundColor: colors.pinkishOrange,
+                        borderRadius: 10,
+                        maxWidth: 70,
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <Text style={{ color: "#fff", marginTop: -3 }}>Add</Text>
+                    </TouchableOpacity>
+                  )}
+                  {/* {isLoading && (
+                    <View
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        left: 0,
+                        backgroundColor: "rgba(255,255,255,0.5)",
+                        alignItems: "center",
+                        justifyContent: "center"
+                      }}
+                    >
+                      <ActivityIndicator size="small" />
+                    </View>
+                  )} */}
+                </View>
+              ) : (
+                <View />
+              )}
+            </View>
+            {/* {showBtn ? (
               <Button
                 textStyle={{ fontSize: 14 }}
                 style={{ height: 35, width: 75, marginTop: 10 }}
@@ -238,13 +376,24 @@ export default class SkuItemOffer extends React.Component {
                 style={{
                   fontSize: 10,
                   color: "#33c600",
-                  marginTop: 8,
+                  marginTop: 5,
                   marginLeft: 6
                 }}
               >
                 Added to Your Shopping List
               </Text>
-            )}
+            )} */}
+            <Text
+              style={{
+                fontSize: 10,
+                color: "#444444",
+                bottom: 5,
+                right: 5,
+                position: "absolute"
+              }}
+            >
+              Delivery In: 45 Mins*
+            </Text>
           </View>
         </View>
         <Modal

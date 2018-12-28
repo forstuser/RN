@@ -149,7 +149,7 @@ class ItemSelector extends React.Component {
               <View collapsable={false} style={styles.option}>
                 <View collapsable={false} style={styles.optionIconContainer}>
                   <Image
-                    style={[styles.optionIcon, { height: 30 }]}
+                    style={[styles.optionIcon]}
                     resizeMode="contain"
                     source={require("../images/categories/others.png")}
                   />
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     height: 70,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 35,
+    borderRadius: 40,
     borderWidth: 1,
     borderColor: colors.lighterText,
     overflow: "hidden",
@@ -198,11 +198,11 @@ const styles = StyleSheet.create({
     borderColor: colors.mainBlue
   },
   optionIcon: {
-    width: 50,
-    height: 50,
-    opacity: 1,
-    // borderRadius: 40,
-    overflow: "hidden"
+    width: 100,
+    height: 100,
+    // opacity: 1,
+    borderRadius: 40
+    // overflow: "hidden"
   },
   selectedOptionIcon: {
     opacity: 1
