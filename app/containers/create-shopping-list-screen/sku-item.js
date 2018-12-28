@@ -413,7 +413,7 @@ export default class SkuItem extends React.Component {
           ) : (
             <View />
           )}
-          {cashback ? (
+          {cashback && cashback > 0 ? (
             <TouchableOpacity
               onPress={this.showCashbackDetailsModal}
               style={{ flexDirection: "row", alignItems: "center" }}

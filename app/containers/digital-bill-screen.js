@@ -310,21 +310,24 @@ class DigitalBillScreen extends Component {
                       </View>
                     ) : null}
 
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        marginTop: 7
-                      }}
-                    >
-                      <Text weight="Medium" style={{ fontSize: 12 }}>
-                        BinBill Cashback :
-                      </Text>
-                      <Text weight="Medium" style={{ fontSize: 12 }}>
-                        ₹ {digitalBillData.cash_back}
-                      </Text>
-                    </View>
+                    {digitalBillData.cash_back &&
+                    digitalBillData.cash_back > 0 ? (
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          marginTop: 7
+                        }}
+                      >
+                        <Text weight="Medium" style={{ fontSize: 12 }}>
+                          BinBill Cashback :
+                        </Text>
+                        <Text weight="Medium" style={{ fontSize: 12 }}>
+                          ₹ {digitalBillData.cash_back}
+                        </Text>
+                      </View>
+                    ) : null}
                   </View>
                   <Text style={{ fontSize: 12, marginHorizontal: 14 }}>
                     Total Quantity : {digitalBillData.total_quantity}

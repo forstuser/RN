@@ -440,7 +440,7 @@ class ShoppingListItem extends React.Component {
                   ) : null}
                 </View>
                 <View style={{ flexDirection: "row", marginTop: 5 }}>
-                  {cashback ? (
+                  {cashback && cashback > 0 ? (
                     <Text
                       weight="Medium"
                       style={{
