@@ -171,8 +171,9 @@ class SelectSellerScreen extends Component {
             </View>
             <View style={{ marginTop: 20 }}>
               <Text style={styles.showText}>
-                Share your Location to automatically add Grocery Stores in your
-                Neighbourhood for Easy Grocery Shopping & Instant Cashback
+                Share your Location to automatically Add Grocery Stores in your
+                Neighbourhood for Easy Grocery Shopping, Exciting Offers &
+                Instant Cashback.
               </Text>
             </View>
           </View>
@@ -340,7 +341,7 @@ class SelectSellerScreen extends Component {
               >
                 <Text weight="Bold">Hurray!</Text> We have added your
                 Neighbourhood Grocery Stores in ‘My Seller’ section to help you
-                Shop & Earn Cashback.
+                Shop, Avail Offers & Earn Cashback!
               </Text>
               <View
                 style={{

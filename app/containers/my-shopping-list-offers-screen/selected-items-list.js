@@ -236,6 +236,7 @@ export default class SelectedItemsList extends React.Component {
                 >
                   <View style={{ flex: 1 }}>
                     {cashback &&
+                    cashback > 0 &&
                     (!item.offer_discount ||
                       item.offer_discount <= 0 ||
                       item.offer_type != 1) ? (
@@ -249,6 +250,7 @@ export default class SelectedItemsList extends React.Component {
                         You get cashback ₹ {cashback.toFixed(2)}
                       </Text>
                     ) : cashback &&
+                      cashback > 0 &&
                       item.offer_discount &&
                       item.offer_discount > 0 &&
                       item.offer_type == 1 ? (

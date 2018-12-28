@@ -938,7 +938,7 @@ class ShoppingListScreen extends React.Component {
           isVisible={isVisibleCashbackModal}
           title="Shop & Earn Paytm Cashback"
           style={{
-            height: 400,
+            height: 420,
             ...defaultStyles.card
           }}
           onClosePress={this.closeCashbackModal}
@@ -987,7 +987,7 @@ class ShoppingListScreen extends React.Component {
                   />
                 </View>
                 <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
-                  Create Shopping List
+                  Select any Added Store/Seller in ‘My Seller’ to Order
                 </Text>
               </View>
               <View style={{ padding: 5, flexDirection: "row" }}>
@@ -1001,7 +1001,7 @@ class ShoppingListScreen extends React.Component {
                   />
                 </View>
                 <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
-                  Shop with your List anywhere
+                  Add the selected Seller’s Offers in your Shopping List
                 </Text>
               </View>
               <View style={{ padding: 5, flexDirection: "row" }}>
@@ -1015,7 +1015,7 @@ class ShoppingListScreen extends React.Component {
                   />
                 </View>
                 <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
-                  Upload valid Bill & Get Cashback
+                  Place an Order, Pay on Delivery & Earn Cashback
                 </Text>
               </View>
             </View>
@@ -1042,7 +1042,7 @@ class ShoppingListScreen extends React.Component {
                   />
                 </View>
                 <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
-                  Add Seller/Store in My Seller section
+                  Create your Shopping List
                 </Text>
               </View>
               <View style={{ padding: 5, flexDirection: "row" }}>
@@ -1056,7 +1056,7 @@ class ShoppingListScreen extends React.Component {
                   />
                 </View>
                 <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
-                  Order Online from any added BinBill Store
+                  Shop with your List in any Store
                 </Text>
               </View>
               <View style={{ padding: 5, flexDirection: "row" }}>
@@ -1070,7 +1070,7 @@ class ShoppingListScreen extends React.Component {
                   />
                 </View>
                 <Text weight="Light" style={{ marginLeft: 5, fontSize: 14 }}>
-                  Pay for your Order & Earn Cashback
+                  Upload Valid GST Bill & Earn Cashback
                 </Text>
               </View>
             </View>

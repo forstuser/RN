@@ -31,10 +31,11 @@ export default {
   //app intro screen
   app_intro_1_header: `A Home Maker's Companion`,
   app_intro_1_title: `Shop & Earn`,
-  app_intro_1_desc: `Easy Solution to your On demand Grocery Needs - just create your Shopping List, Shop, Earn Cashback, & Bonus Cashback on purchase from our list of branded items.`,
+  app_intro_1_desc: `Easy Solution to your On Demand Grocery Needs. Just create your Shopping List, Shop, Avail Offers, Discounts & Earn Cashback.`,
   app_intro_2_header: `A Home Maker's Companion`,
   app_intro_2_title: `Kirana Connect`,
-  app_intro_2_desc: `Get Faster Home Delivery, Attractive Discounts & Snapshot of available items with your local kirana shops through online orders.`,
+  app_intro_2_desc: `Get Faster Home Delivery, Attractive Offers & Discounts along with a 
+  Snapshot of available items with your Kirana shops before your Shop.`,
   app_intro_3_header: `A Home Maker's Companion`,
   app_intro_3_title: `Home Services`,
   app_intro_3_desc: `Get On-Demand Home Services like domestic help, cleaner, carpenter, plumber etc. from reliable neighbourhood shops through our App`,
@@ -757,7 +758,7 @@ export default {
     "Discover amazing facts & tips related to brands and lifestyle, to fill you with awe! ",
   ehome_tip:
     "Check your private and secure eHome for your saved Bills, Expenses & Documents.",
-  deals_tip: "Check out your Seller's Offers here to Save More.",
+  deals_tip: "Check out your Seller’s Offers to Save More & Earn Cashback!",
   attendance_tip:
     // "Plan your Day for tasks to be done, clothes to be worn and dishes to be cooked. Track attendance & payouts for all your household services too!",
     "Track attendance & payouts for all your household services!",

@@ -332,9 +332,8 @@ class MySellersScreen extends React.Component {
                       color: colors.secondaryText
                     }}
                   >
-                    Add your Neighbourhood Sellers (GROCERY/FMCG) for better
-                    response in terms of online orders, faster home delivery and
-                    attractive offers
+                    Add your Neighbourhood Grocery Sellers/Stores for Online
+                    Orders, Faster Home Delivery, Exciting Offers & Cashback!
                   </Text>
                   <Button
                     onPress={() =>
@@ -430,7 +429,7 @@ class MySellersScreen extends React.Component {
                       resizeMode="contain"
                     />
                     <Text weight="Medium" style={styles.bottomButtonText}>
-                      Home Delivery
+                      Order Now & Get Home Delivery
                     </Text>
                   </TouchableOpacity>
                 );
@@ -447,7 +446,7 @@ class MySellersScreen extends React.Component {
                       resizeMode="contain"
                     />
                     <Text weight="Medium" style={styles.bottomButtonText}>
-                      Collect at Store
+                      Order Now & Collect at Store
                     </Text>
                   </TouchableOpacity>
                 );
@@ -831,7 +830,7 @@ class MySellersScreen extends React.Component {
                   <View
                     style={{
                       flexDirection: "row",
-                      height: 55,
+                      height: 65,
                       backgroundColor: "#d9d9d9",
                       paddingTop: 1,
                       borderBottomLeftRadius: 10,
@@ -1007,6 +1006,7 @@ class MySellersScreen extends React.Component {
 
 const styles = StyleSheet.create({
   bottomButton: {
+    padding: 2,
     //flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",

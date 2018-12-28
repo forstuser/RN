@@ -314,7 +314,12 @@ export default class SearchBar extends React.Component {
         // );
       }
     }
-    console.log("filteredCategories: ", filteredCategories);
+    if (filteredCategories.length > 0) {
+      filteredCategories = filteredCategories.filter(
+        categorySkuCount => parseFloat(categorySkuCount.sku_counts) > 0
+      );
+    }
+    console.log("filteredCategories_________________: ", filteredCategories);
     // console.log(
     //   "filteredMainCategories___________________: ",
     //   filteredMainCategories
