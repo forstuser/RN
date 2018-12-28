@@ -938,7 +938,7 @@ class ShoppingListScreen extends React.Component {
           isVisible={isVisibleCashbackModal}
           title="Shop & Earn Paytm Cashback"
           style={{
-            height: 400,
+            height: 420,
             ...defaultStyles.card
           }}
           onClosePress={this.closeCashbackModal}
