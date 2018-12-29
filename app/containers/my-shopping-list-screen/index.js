@@ -68,6 +68,7 @@ class MyShoppingList extends React.Component {
     this.didFocusSubscription = this.props.navigation.addListener(
       "didFocus",
       () => {
+        this.checkHomeDeliveryStatus();
         const wishList = this.props.navigation.getParam("wishList", []);
         const sellersFromNav = this.props.navigation.getParam("sellers", []);
         this.setState({ wishList, sellersFromNav });
@@ -75,6 +76,26 @@ class MyShoppingList extends React.Component {
       }
     );
   }
+
+  checkHomeDeliveryStatus = async () => {
+    const selectedSeller = this.props.navigation.getParam("selectedSeller", []);
+    let sellerId = selectedSeller.id || 0;
+    console.log("selectedSeller is ", selectedSeller);
+    const collectAtStoreFlag = this.props.navigation.getParam(
+      "collectAtStoreFlag"
+    );
+    console.log("collect store flag in my shopping list", collectAtStoreFlag);
+    let res;
+    try {
+      res = await getHomeDeliveryStatus(sellerId);
+      console.log("Home Delivery Status in DID MOUNT: ", res);
+      this.setState({ collectAtStore: !res.home_delivery });
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      console.log("finally");
+    }
+  };
 
   onPlaceOrder = async () => {
     Analytics.logEvent(Analytics.EVENTS.MY_SHOPPING_LIST_PLACE_ORDER);

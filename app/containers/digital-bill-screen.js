@@ -262,32 +262,67 @@ class DigitalBillScreen extends Component {
 
                       <Text weight="Medium" style={{ fontSize: 12 }}>
                         ₹{" "}
-                        {parseFloat(
-                          digitalBillData.before_discount_amount
-                        ).toFixed(2)}
+                        {digitalBillData.delivery_charges &&
+                        digitalBillData.delivery_charges > 0
+                          ? (
+                              parseFloat(
+                                digitalBillData.before_discount_amount
+                              ) - parseFloat(digitalBillData.delivery_charges)
+                            ).toFixed(2)
+                          : parseFloat(
+                              digitalBillData.before_discount_amount
+                            ).toFixed(2)}
                       </Text>
                     </View>
                     {digitalBillData &&
-                    digitalBillData.seller_discount &&
-                    digitalBillData.seller_discount > 0 ? (
+                    digitalBillData.delivery_charges &&
+                    digitalBillData.delivery_charges > 0 ? (
+                      <View
+                        style={{
+                          marginTop: 5,
+                          flexDirection: "row",
+                          justifyContent: "space-between"
+                        }}
+                      >
+                        <Text weight="Medium" style={{ fontSize: 12 }}>
+                          Home Delivery Charges
+                        </Text>
+                        <Text weight="Medium" style={{ fontSize: 12 }}>
+                          ₹{" "}
+                          {parseFloat(digitalBillData.delivery_charges).toFixed(
+                            2
+                          )}
+                        </Text>
+                      </View>
+                    ) : null}
+                    {(digitalBillData &&
+                      digitalBillData.seller_discount &&
+                      digitalBillData.seller_discount > 0) ||
+                    (digitalBillData &&
+                      digitalBillData.delivery_charges &&
+                      digitalBillData.delivery_charges > 0) ? (
                       <View>
-                        <View
-                          style={{
-                            marginTop: 5,
-                            flexDirection: "row",
-                            justifyContent: "space-between"
-                          }}
-                        >
-                          <Text weight="Medium" style={{ fontSize: 12 }}>
-                            Seller Discount
-                          </Text>
-                          <Text weight="Medium" style={{ fontSize: 12 }}>
-                            ₹{" "}
-                            {parseFloat(
-                              digitalBillData.seller_discount
-                            ).toFixed(2)}
-                          </Text>
-                        </View>
+                        {digitalBillData &&
+                        digitalBillData.seller_discount &&
+                        digitalBillData.seller_discount > 0 ? (
+                          <View
+                            style={{
+                              marginTop: 5,
+                              flexDirection: "row",
+                              justifyContent: "space-between"
+                            }}
+                          >
+                            <Text weight="Medium" style={{ fontSize: 12 }}>
+                              Seller Discount
+                            </Text>
+                            <Text weight="Medium" style={{ fontSize: 12 }}>
+                              ₹{" "}
+                              {parseFloat(
+                                digitalBillData.seller_discount
+                              ).toFixed(2)}
+                            </Text>
+                          </View>
+                        ) : null}
                         <View
                           style={{
                             marginTop: 5,
@@ -298,14 +333,25 @@ class DigitalBillScreen extends Component {
                           <Text weight="Medium" style={{ fontSize: 12 }}>
                             Paid Amount
                           </Text>
-                          <Text weight="Medium" style={{ fontSize: 12 }}>
-                            ₹{" "}
-                            {(
-                              parseFloat(
+                          {digitalBillData &&
+                          digitalBillData.seller_discount &&
+                          digitalBillData.seller_discount > 0 ? (
+                            <Text weight="Medium" style={{ fontSize: 12 }}>
+                              ₹{" "}
+                              {(
+                                parseFloat(
+                                  digitalBillData.before_discount_amount
+                                ) - parseFloat(digitalBillData.seller_discount)
+                              ).toFixed(2)}
+                            </Text>
+                          ) : (
+                            <Text weight="Medium" style={{ fontSize: 12 }}>
+                              ₹{" "}
+                              {parseFloat(
                                 digitalBillData.before_discount_amount
-                              ) - parseFloat(digitalBillData.seller_discount)
-                            ).toFixed(2)}
-                          </Text>
+                              ).toFixed(2)}
+                            </Text>
+                          )}
                         </View>
                       </View>
                     ) : null}
