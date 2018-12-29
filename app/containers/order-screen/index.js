@@ -64,7 +64,7 @@ import Modal1 from "../../components/modal";
 import Modal from "react-native-modal";
 import HeaderBackBtn from "../../components/header-nav-back-btn";
 import RadioBox from "../../components/radiobox";
-import { colors } from "../../theme";
+import { colors, defaultStyles } from "../../theme";
 
 let deviceWidth = Dimensions.get("window").width;
 //let webViewLoadCount = 1;
@@ -101,7 +101,8 @@ class OrderScreen extends React.Component {
     deleteOrderId: 0,
     deleteItemId: 0,
     deleteSellerId: 0,
-    deliveryChargeRules: []
+    deliveryChargeRules: [],
+    showDeliveryChargesModal: false
     //orderIdWebView: "",
     //orderAmountWebView: ""
   };
@@ -750,7 +751,10 @@ class OrderScreen extends React.Component {
   };
 
   showModalDeliveryCharge = () => {
-    alert("Modal");
+    this.setState({ showDeliveryChargesModal: true });
+  };
+  hideDeliveryChargesModal = () => {
+    this.setState({ showDeliveryChargesModal: false });
   };
 
   render() {
@@ -792,12 +796,14 @@ class OrderScreen extends React.Component {
     }
 
     let deliveryCharges = {},
-      chargesDelivery = 0;
+      chargesDelivery = 0,
+      deliveryChargeRulesSeller = [];
     if (
       order &&
       order.seller_delivery_rules &&
       order.seller_delivery_rules.length > 0
     ) {
+      deliveryChargeRulesSeller = order.seller_delivery_rules;
       console.log(
         "Delivery Charges Rules in Order____________",
         order.seller_delivery_rules
@@ -1541,6 +1547,61 @@ class OrderScreen extends React.Component {
             </View>
           </View>
         </Modal>
+        <Modal1
+          isVisible={this.state.showDeliveryChargesModal}
+          title="Home Delivery Charges"
+          style={{
+            height: 210,
+            ...defaultStyles.card
+          }}
+          onClosePress={this.hideDeliveryChargesModal}
+        >
+          <FlatList
+            contentContainerStyle={{
+              backgroundColor: "#fff"
+            }}
+            data={deliveryChargeRulesSeller}
+            ItemSeparatorComponent={() => (
+              <View style={{ height: 1, backgroundColor: "#eee" }} />
+            )}
+            keyExtractor={(item, index) => item.id + "" + index}
+            renderItem={({ item, index }) => {
+              return (
+                <View>
+                  <View
+                    style={{
+                      padding: 10,
+                      paddingLeft: 15,
+                      paddingRight: 20,
+                      height: 40,
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center"
+                    }}
+                  >
+                    {index == 0 ? (
+                      <Text style={{ fontSize: 12 }}>
+                        Order Amount less than {item.maximum_order_value}
+                      </Text>
+                    ) : index == deliveryChargeRulesSeller.length - 1 ? (
+                      <Text style={{ fontSize: 12 }}>
+                        Order Amount {item.minimum_order_value} and above
+                      </Text>
+                    ) : (
+                      <Text style={{ fontSize: 12 }}>
+                        Order Amount between {item.minimum_order_value} and{" "}
+                        {item.maximum_order_value}
+                      </Text>
+                    )}
+                    <Text style={{ fontSize: 12 }}>
+                      ₹ {item.delivery_charges}
+                    </Text>
+                  </View>
+                </View>
+              );
+            }}
+          />
+        </Modal1>
 
         <LoadingOverlay visible={isLoading} />
       </View>
