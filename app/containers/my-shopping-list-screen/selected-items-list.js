@@ -15,12 +15,17 @@ import { API_BASE_URL } from "../../api";
 import QuantityPlusMinus from "../../components/quantity-plus-minus";
 
 export default class SelectedItemsList extends React.Component {
+  showModalDeliveryCharge = () => {
+    alert("Modal");
+  };
   render() {
     const {
       measurementTypes,
       selectedItems,
       changeIndexQuantity,
-      skuItemIdsCurrentlyModifying
+      skuItemIdsCurrentlyModifying,
+      deliveryChargeRules,
+      selectedSeller
     } = this.props;
 
     console.log("Items in My Shopping List_______________:", selectedItems);
@@ -29,6 +34,23 @@ export default class SelectedItemsList extends React.Component {
       console.log("item", item);
       totalAmount += item.sku_measurement.mrp;
     });
+    let deliveryCharges = {},
+      chargesDelivery = 0;
+    if (deliveryChargeRules.length > 0) {
+      deliveryCharges = deliveryChargeRules.find(
+        item =>
+          totalAmount > item.minimum_order_value &&
+          totalAmount <= item.maximum_order_value
+      );
+    }
+    if (!deliveryCharges || this.props.collectAtStore == true) {
+      chargesDelivery = 0;
+    } else {
+      chargesDelivery = deliveryCharges.delivery_charges;
+    }
+
+    console.log("Delivery Charges__________", chargesDelivery);
+
     return (
       <FlatList
         contentContainerStyle={{
@@ -300,21 +322,67 @@ export default class SelectedItemsList extends React.Component {
           );
         }}
         ListFooterComponent={() => (
-          <View
-            style={{
-              flexDirection: "row",
-              height: 42,
-              borderTopWidth: 1,
-              borderBottomWidth: 1,
-              borderColor: "#eee",
-              marginHorizontal: 20,
-              alignItems: "center"
-            }}
-          >
-            <Text weight="Medium" style={{ flex: 1 }}>
-              Total Amount
-            </Text>
-            <Text weight="Medium">Rs. {totalAmount}</Text>
+          <View>
+            <View
+              style={{
+                flexDirection: "row",
+                height: 42,
+                borderTopWidth: 1,
+                borderColor: "#eee",
+                marginHorizontal: 20,
+                alignItems: "center"
+              }}
+            >
+              <Text weight="Medium" style={{ flex: 1 }}>
+                Total Amount
+              </Text>
+              <Text weight="Medium">
+                Rs. {parseFloat(totalAmount).toFixed(2)}
+              </Text>
+            </View>
+            {chargesDelivery > 0 && this.props.collectAtStore == false ? (
+              <View
+                style={{
+                  flexDirection: "row",
+                  height: 30,
+                  marginHorizontal: 20,
+                  borderBottomWidth: 1,
+                  borderColor: "#eee",
+                  alignItems: "center",
+                  marginTop: -10
+                }}
+              >
+                <Text style={{ flex: 1, fontSize: 12, color: "#777" }}>
+                  Home Delivery Charges{" "}
+                  <Icon
+                    name="md-information-circle"
+                    sixe={10}
+                    onPress={this.showModalDeliveryCharge}
+                  />
+                </Text>
+
+                <Text style={{ fontSize: 12, color: "#777" }}>
+                  Rs. {parseFloat(chargesDelivery).toFixed(2)}
+                </Text>
+              </View>
+            ) : null}
+            {chargesDelivery > 0 && this.props.collectAtStore == false ? (
+              <View
+                style={{
+                  flexDirection: "row",
+                  height: 42,
+                  marginHorizontal: 20,
+                  alignItems: "center"
+                }}
+              >
+                <Text weight="Medium" style={{ flex: 1 }}>
+                  Payable Amount
+                </Text>
+                <Text weight="Medium">
+                  Rs. {parseFloat(totalAmount + chargesDelivery).toFixed(2)}
+                </Text>
+              </View>
+            ) : null}
           </View>
         )}
       />

@@ -100,7 +100,8 @@ class OrderScreen extends React.Component {
     isDeletingItems: false,
     deleteOrderId: 0,
     deleteItemId: 0,
-    deleteSellerId: 0
+    deleteSellerId: 0,
+    deliveryChargeRules: []
     //orderIdWebView: "",
     //orderAmountWebView: ""
   };
@@ -202,7 +203,10 @@ class OrderScreen extends React.Component {
     try {
       const res = await getOrderDetails({ orderId });
       console.log("final order", res);
-      this.setState({ order: res.result });
+      this.setState({
+        order: res.result,
+        deliveryChargeRules: order.seller_delivery_rules
+      });
     } catch (error) {
       this.setState({ error });
     } finally {
@@ -745,6 +749,10 @@ class OrderScreen extends React.Component {
     console.log("PENDING PAYMENT STATUS CHECK");
   };
 
+  showModalDeliveryCharge = () => {
+    alert("Modal");
+  };
+
   render() {
     const { userLocation } = this.props;
 
@@ -762,14 +770,15 @@ class OrderScreen extends React.Component {
       showTextInput,
       writtenReason,
       showSellerDiscount,
-      isDeletingItems
+      isDeletingItems,
+      deliveryChargeRules
     } = this.state;
     console.log("ORDER***********************", order);
     console.log("cancel reasons: ", cancelReasons);
 
-    if (error) {
-      return <ErrorOverlay error={error} onRetryPress={this.getOrderDetails} />;
-    }
+    // if (error) {
+    //   return <ErrorOverlay error={error} onRetryPress={this.getOrderDetails} />;
+    // }
 
     let totalAmount = 0;
     let discount = 0;
@@ -781,6 +790,35 @@ class OrderScreen extends React.Component {
         return item.selling_price ? total + Number(item.selling_price) : total;
       }, 0);
     }
+
+    let deliveryCharges = {},
+      chargesDelivery = 0;
+    if (
+      order &&
+      order.seller_delivery_rules &&
+      order.seller_delivery_rules.length > 0
+    ) {
+      console.log(
+        "Delivery Charges Rules in Order____________",
+        order.seller_delivery_rules
+      );
+      deliveryCharges = order.seller_delivery_rules.find(
+        item =>
+          totalAmount > item.minimum_order_value &&
+          totalAmount <= item.maximum_order_value
+      );
+    }
+    if (order && (!deliveryCharges || order.collect_at_store == true)) {
+      chargesDelivery = 0;
+    } else {
+      chargesDelivery = deliveryCharges.delivery_charges;
+    }
+
+    console.log(
+      "Delivery Charges Object in Order____________",
+      deliveryCharges
+    );
+    console.log("Delivery Charges in Order____________", chargesDelivery);
 
     let sellerRatings = 0;
     let sellerReviewText = "";
@@ -980,10 +1018,11 @@ class OrderScreen extends React.Component {
               }}
               ListFooterComponent={() => (
                 <View>
-                  {order &&
-                  order.seller_discount &&
-                  order.seller_discount > 0 &&
-                  showSellerDiscount ? (
+                  {(order &&
+                    order.seller_discount &&
+                    order.seller_discount > 0 &&
+                    showSellerDiscount) ||
+                  (order && chargesDelivery > 0) ? (
                     <View>
                       {order.order_type == ORDER_TYPES.FMCG &&
                       totalAmount > 0 ? (
@@ -1012,6 +1051,35 @@ class OrderScreen extends React.Component {
                           </Text>
                         </View>
                       ) : null}
+                      {chargesDelivery > 0 &&
+                      order.collect_at_store == false ? (
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            height: 30,
+                            marginHorizontal: 20,
+                            //borderBottomWidth: 1,
+                            borderColor: "#eee",
+                            alignItems: "center",
+                            marginTop: -10
+                          }}
+                        >
+                          <Text
+                            style={{ flex: 1, fontSize: 12, color: "#777" }}
+                          >
+                            Home Delivery Charges{" "}
+                            <Icon
+                              name="md-information-circle"
+                              sixe={10}
+                              onPress={this.showModalDeliveryCharge}
+                            />
+                          </Text>
+
+                          <Text style={{ fontSize: 12, color: "#777" }}>
+                            Rs. {parseFloat(chargesDelivery).toFixed(2)}
+                          </Text>
+                        </View>
+                      ) : null}
                       {order.order_type == ORDER_TYPES.FMCG &&
                       order.seller_discount &&
                       order.seller_discount > 0 ? (
@@ -1028,11 +1096,12 @@ class OrderScreen extends React.Component {
                           }}
                         >
                           <Text
-                            style={{ flex: 1, color: "#777", fontSize: 12 }}
+                            weight="Medium"
+                            style={{ flex: 1, fontSize: 12 }}
                           >
                             Seller Discount
                           </Text>
-                          <Text style={{ color: "#777", fontSize: 12 }}>
+                          <Text weight="Medium" style={{ fontSize: 12 }}>
                             Rs. {parseFloat(order.seller_discount).toFixed(2)}
                           </Text>
                         </View>
@@ -1057,9 +1126,11 @@ class OrderScreen extends React.Component {
                       </Text>
                       <Text weight="Medium">
                         Rs.{" "}
-                        {showSellerDiscount && order.seller_discount > 0
+                        {(showSellerDiscount && order.seller_discount > 0) ||
+                        chargesDelivery > 0
                           ? (
-                              parseFloat(totalAmount) -
+                              parseFloat(totalAmount) +
+                              parseFloat(chargesDelivery) -
                               parseFloat(order.seller_discount)
                             ).toFixed(2)
                           : parseFloat(totalAmount).toFixed(2)}

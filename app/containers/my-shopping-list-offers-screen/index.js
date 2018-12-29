@@ -56,7 +56,8 @@ class MyShoppingList extends React.Component {
     selectedSeller: null,
     showLoader: false,
     sellerIsLogout: false,
-    collectAtStore: false
+    collectAtStore: false,
+    sellersFromNav: []
   };
 
   componentDidMount() {
@@ -64,7 +65,8 @@ class MyShoppingList extends React.Component {
       "didFocus",
       () => {
         const wishList = this.props.navigation.getParam("wishList", []);
-        this.setState({ wishList });
+        const sellersFromNav = this.props.navigation.getParam("categories", []);
+        this.setState({ wishList, sellersFromNav });
         this.getMySellers();
       }
     );
@@ -248,11 +250,28 @@ class MyShoppingList extends React.Component {
       description,
       btnText,
       sellerIsLogout,
-      collectAtStore
+      collectAtStore,
+      sellersFromNav
     } = this.state;
 
     const selectedSeller = this.props.navigation.getParam("selectedSeller", []);
     console.log("selectedSellers in Shopping List__________: ", selectedSeller);
+
+    let deliveryChargeRulesSeller = [];
+    if (sellersFromNav.length > 0) {
+      deliveryChargeRulesSeller = sellersFromNav.find(
+        seller => seller.id == selectedSeller.id
+      );
+    }
+    console.log(
+      "DeliveryChargeRulesSeller____________",
+      deliveryChargeRulesSeller
+    );
+    let deliveryChargeRules =
+      deliveryChargeRulesSeller.seller_delivery_rules || [];
+
+    console.log("DeliveryChargeRules____________", deliveryChargeRules);
+
     return (
       <View style={{ flex: 1, backgroundColor: "#fff", paddingTop: 5 }}>
         {wishList.length == 0 ? (
@@ -297,6 +316,8 @@ class MyShoppingList extends React.Component {
               selectedItems={wishList}
               skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
               changeIndexQuantity={this.changeIndexQuantity}
+              deliveryChargeRules={deliveryChargeRules}
+              collectAtStore={collectAtStore}
             />
           </View>
         )}

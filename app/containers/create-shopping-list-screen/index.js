@@ -226,6 +226,7 @@ class ShoppingListScreen extends React.Component {
     this.setState({ isLoading: true, referenceDataError: null });
     try {
       const res = await getSkuReferenceData();
+      console.log("Reference Data:___________", res);
       let measurementTypes = {};
       res.result.measurement_types.forEach(measurementType => {
         measurementTypes[measurementType.id] = measurementType;
@@ -829,7 +830,8 @@ class ShoppingListScreen extends React.Component {
                   wishList,
                   changeIndexQuantity: this.changeIndexQuantity,
                   selectedSeller: selectedSeller,
-                  collectAtStoreFlag: collectAtStoreFlag
+                  collectAtStoreFlag: collectAtStoreFlag,
+                  sellers
                 });
               }}
             >
@@ -938,7 +940,7 @@ class ShoppingListScreen extends React.Component {
           isVisible={isVisibleCashbackModal}
           title="Shop & Earn Paytm Cashback"
           style={{
-            height: 420,
+            height: 440,
             ...defaultStyles.card
           }}
           onClosePress={this.closeCashbackModal}
@@ -1076,7 +1078,7 @@ class ShoppingListScreen extends React.Component {
             </View>
             <TouchableOpacity
               onPress={this.toggleNeverShowCashbackModal}
-              style={{ flexDirection: "row", padding: 15, marginTop: 10 }}
+              style={{ flexDirection: "row", padding: 15, marginTop: 0 }}
             >
               <CheckBox isChecked={neverShowCashbackModal} />
               <Text

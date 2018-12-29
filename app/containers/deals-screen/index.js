@@ -79,7 +79,9 @@ class DealsScreen extends Component {
       categoriesInFilter: [],
 
       checkedBrands: [],
-      checkedCategories: []
+      checkedCategories: [],
+
+      deliveryChargeRules: []
     };
   }
   componentDidMount() {
@@ -256,6 +258,9 @@ class DealsScreen extends Component {
       this.setState({
         emptyMessage: result1.message
       });
+      if (result1.seller_delivery_rules) {
+        this.setState({ deliveryChargeRules: result1.seller_delivery_rules });
+      }
       let resCategories = result1.result;
       const categories = resCategories.map(seller => ({
         ...seller,
@@ -442,6 +447,9 @@ class DealsScreen extends Component {
       checkedBrands: [],
       checkedCategories: []
     });
+    if (category.seller_delivery_rules) {
+      this.setState({ deliveryChargeRules: category.seller_delivery_rules });
+    }
     this.fetchWishlist();
     const finalTitle = category.name
       .split(" ")
@@ -614,7 +622,8 @@ class DealsScreen extends Component {
                     wishList,
                     selectedSeller,
                     collectAtStoreFlag: collectAtStoreFlag,
-                    changeIndexQuantity: this.changeIndexQuantity
+                    changeIndexQuantity: this.changeIndexQuantity,
+                    categories
                   }
                 );
               }}
