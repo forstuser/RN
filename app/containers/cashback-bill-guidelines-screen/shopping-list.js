@@ -12,6 +12,7 @@ import image2 from "../../images/bill-guideline/10.png";
 import image3 from "../../images/bill-guideline/11.png";
 import image4 from "../../images/bill-guideline/12.png";
 import image5 from "../../images/bill-guideline/13.png";
+import image6 from "../../images/bill-guideline/14.png";
 
 export default class ShoppingList extends React.Component {
   constructor(props) {
@@ -29,11 +30,11 @@ export default class ShoppingList extends React.Component {
           imageUrl: image2,
           heading: `Shopping with a list is Systematic and Less Time consuming`
         },
-        // {
-        //   id: 3,
-        //   imageUrl: image3,
-        //   heading: `Can be shared with your Family or a Seller for order & additional benefits`
-        // },
+        {
+          id: 3,
+          imageUrl: image3,
+          heading: `Can be shared with your Family or a Seller for order & additional benefits`
+        },
         {
           id: 4,
           imageUrl: image4,
@@ -42,6 +43,11 @@ export default class ShoppingList extends React.Component {
         {
           id: 5,
           imageUrl: image5,
+          heading: `Before a Store visit, if you create your Shopping List & add that Store’s Offers, you will get additional Cashback.`
+        },
+        {
+          id: 6,
+          imageUrl: image6,
           heading: `Cashback Claim Approval is smoother & faster with a Shopping List`
         }
       ]
