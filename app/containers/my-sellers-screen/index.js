@@ -90,13 +90,32 @@ class MySellersScreen extends React.Component {
   };
 
   getMySellers = async () => {
+    const sellerIdFromNotification = this.props.navigation.getParam(
+      "sellerId",
+      null
+    );
+    console.log("idddddddddddddddd", sellerIdFromNotification);
+    this.props.navigation.setParams({
+      sellerId: null
+    });
     this.setState({
       isLoadingMySellers: true,
       error: null
     });
     try {
       const res = await getMySellers();
-      this.setState({ mySellers: res.result });
+      this.setState({ mySellers: res.result }, () => {
+        if (sellerIdFromNotification) {
+          const sellerPoints = res.result.find(
+            seller => seller.id == sellerIdFromNotification
+          );
+          console.log("Seller Points_____:", sellerPoints);
+          this.props.navigation.navigate(
+            SCREENS.MY_SELLERS_POINTS_TRANSACTIONS_SCREEN,
+            { seller: sellerPoints }
+          );
+        }
+      });
     } catch (error) {
       this.setState({ error });
     } finally {

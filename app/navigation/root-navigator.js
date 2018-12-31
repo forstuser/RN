@@ -259,6 +259,18 @@ handleDeeplink = url => {
 
   const params = {};
   switch (pathParts[1].toLowerCase()) {
+    case "loyalty":
+      screenToOpen = SCREENS.MY_SELLERS_SCREEN;
+      params.sellerId = pathParts[2];
+      break;
+    case "loyalty-1":
+      screenToOpen = SCREENS.MY_SELLERS_SCREEN;
+      params.sellerId = pathParts[2];
+      break;
+    case "loyalty-2":
+      screenToOpen = SCREENS.MY_SELLERS_SCREEN;
+      params.sellerId = pathParts[2];
+      break;
     case "shop-earn":
       screenToOpen = SCREENS.CREATE_SHOPPING_LIST_SCREEN;
       break;
