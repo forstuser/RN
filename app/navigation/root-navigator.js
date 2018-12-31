@@ -266,6 +266,20 @@ handleDeeplink = url => {
       screenToOpen = SCREENS.DEALS_SCREEN;
       params.defaultSellerIdFromNotifications = pathParts[2];
       break;
+    case "shop-earn-1":
+      screenToOpen = SCREENS.CREATE_SHOPPING_LIST_SCREEN;
+      break;
+    case "offers-1":
+      screenToOpen = SCREENS.DEALS_SCREEN;
+      params.defaultSellerIdFromNotifications = pathParts[2];
+      break;
+    case "shop-earn-2":
+      screenToOpen = SCREENS.CREATE_SHOPPING_LIST_SCREEN;
+      break;
+    case "offers-2":
+      screenToOpen = SCREENS.DEALS_SCREEN;
+      params.defaultSellerIdFromNotifications = pathParts[2];
+      break;
     case "add-product":
       screenToOpen = SCREENS.ADD_PRODUCT_SCREEN;
       break;

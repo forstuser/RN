@@ -40,7 +40,8 @@ export default class SelectedItemsList extends React.Component {
     let totalAmount = 0;
     selectedItems.map(item => {
       console.log("item", item);
-      totalAmount += item.sku_measurement.mrp;
+      totalAmount +=
+        parseFloat(item.sku_measurement.mrp) * parseFloat(item.quantity);
     });
     let deliveryCharges = {},
       chargesDelivery = 0;
