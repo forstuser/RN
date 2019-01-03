@@ -222,7 +222,6 @@ export default class SearchBar extends React.Component {
         });
       }
     };
-
     const filteredItems = items
       .filter(item => {
         if (searchTerm && searchTerm.length > 3) {

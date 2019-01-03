@@ -23,7 +23,8 @@ import {
   fetchOfferCategories,
   fetchCategoryOffers,
   getSellerOffers,
-  getOffers
+  getOffers,
+  addSkuFromOffersToWishlist
 } from "../../api";
 import { actions as uiActions } from "../../modules/ui";
 import { Text, Button, ScreenContainer } from "../../elements";
@@ -177,6 +178,16 @@ class DealsScreen extends Component {
       showFilter: true
     });
   };
+  changeSkuItemQuantityInList = async (skuMeasurementId, quantity) => {
+    const wishList = [...this.state.wishList];
+    const idxOfItem = wishList.findIndex(
+      listItem =>
+        listItem.sku_measurement &&
+        listItem.sku_measurement.id == skuMeasurementId
+    );
+
+    this.changeIndexQuantity(idxOfItem, quantity);
+  };
 
   changeIndexQuantity = async (index, quantity, callBack = () => null) => {
     const wishList = [...this.state.wishList];
@@ -220,6 +231,35 @@ class DealsScreen extends Component {
         skuItemIdsCurrentlyModifying.splice(idx, 1);
         this.setState({ skuItemIdsCurrentlyModifying });
         callBack({ wishList, skuItemIdsCurrentlyModifying });
+      }
+    }
+  };
+  addSkuItemToList = async item => {
+    const wishList = [...this.state.wishList];
+    if (wishList.length > 19) {
+      return this.limitModal.show();
+    }
+    if (
+      wishList.findIndex(listItem => {
+        if (listItem.id && item.id && listItem.id == item.id) {
+          if (listItem.sku_measurement) {
+            return listItem.sku_measurement.id == item.sku_measurement.id;
+          }
+        }
+        return false;
+      }) === -1
+    ) {
+      wishList.push(item);
+      console.log("parker", item);
+      this.setState({ wishList });
+      try {
+        await addSkuFromOffersToWishlist({
+          skuId: item.sku_id,
+          sellerId: item.seller_id,
+          skuMeasurementId: item.sku_measurement_id
+        });
+      } catch (e) {
+        console.log(e);
       }
     }
   };
@@ -541,7 +581,8 @@ class DealsScreen extends Component {
       brandsInFilter,
       categoriesInFilter,
       checkedBrands,
-      checkedCategories
+      checkedCategories,
+      skuItemIdsCurrentlyModifying
     } = this.state;
     console.log("Empty", emptyMessage);
     const collectAtStoreFlag = this.props.navigation.getParam(
@@ -715,6 +756,9 @@ class DealsScreen extends Component {
             extraQuantity={extraQuantity}
             generalOffers={generalOffers}
             onCategorySelect={this.onCategorySelect}
+            skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
+            addSkuItemToList={this.addSkuItemToList}
+            changeSkuItemQuantityInList={this.changeSkuItemQuantityInList}
           />
           // <AccessoriesTab
           //   accessoriesTabRef={ref => {

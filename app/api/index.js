@@ -2411,11 +2411,11 @@ export const deleteItemShoppingList = async (orderId, ItemId, sellerId) => {
   });
 };
 
-export const addSkuFromOffersToWishlist = async (
+export const addSkuFromOffersToWishlist = async ({
   skuId,
   sellerId,
   skuMeasurementId
-) => {
+}) => {
   return await apiRequest({
     method: "put",
     url: `/offer/sku/wishlist`,

@@ -60,11 +60,13 @@ export default class OffersTab extends React.Component {
     const { wishList, getWishList, selectedCategory } = this.props;
     return (
       <SingleNewProduct
+        measurementTypes={measurementTypes}
         key={index}
         item={item}
         wishList={wishList}
         selectedCategory={selectedCategory}
         getWishList={getWishList}
+        // isSearchDone={isSearchDone}
       />
     );
   };
@@ -72,14 +74,30 @@ export default class OffersTab extends React.Component {
   renderDiscountOffers = ({ item, index }) => {
     //const { selectedCategory } = this.state;
     console.log("index", index);
-    const { wishList, getWishList, selectedCategory } = this.props;
+    const {
+      wishList,
+      getWishList,
+      selectedCategory,
+      skuItemIdsCurrentlyModifying,
+      addSkuItemToList,
+      changeSkuItemQuantityInList,
+      selectActiveSkuMeasurementId,
+      isSearchDone
+    } = this.props;
+    console.log("itemxxxxxxxxxxxx", item);
+    // console.log("itemxxxxxxxxxxxx", this.props);
     return (
       <SkuItemOffer
         key={index}
         item={item}
         wishList={wishList}
         selectedCategory={selectedCategory}
+        isSearchDone={isSearchDone}
         getWishList={getWishList}
+        skuItemIdsCurrentlyModifying={skuItemIdsCurrentlyModifying}
+        addSkuItemToList={addSkuItemToList}
+        changeSkuItemQuantityInList={changeSkuItemQuantityInList}
+        selectActiveSkuMeasurementId={selectActiveSkuMeasurementId}
       />
     );
   };
@@ -137,6 +155,15 @@ export default class OffersTab extends React.Component {
       emptyMessage
     } = this.props;
     console.log("emptyMessage", emptyMessage);
+    selectActiveSkuMeasurementId = (item, skuMeasurementId) => {
+      const itemIdx = items.findIndex(listItem => listItem.id == item.id);
+      if (itemIdx > -1) {
+        updateItem(itemIdx, {
+          ...items[itemIdx],
+          activeSkuMeasurementId: skuMeasurementId
+        });
+      }
+    };
     return (
       <View style={{ flex: 1, backgroundColor: "#f7f7f7" }}>
         {this.state.showCategory ? (

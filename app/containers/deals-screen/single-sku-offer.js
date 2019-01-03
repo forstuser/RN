@@ -96,16 +96,35 @@ export default class SkuItemOffer extends React.Component {
     alert("more offers");
   };
   render() {
-    const { item, wishList, skuItemIdsCurrentlyModifying = [] } = this.props;
-    console.log("items", item);
-    const { showBtn, isClearItems } = this.state;
-    const itemsInWishList = wishList.filter(listItem => listItem.id == item.id);
-    const skuMeasurementsInWishList = itemsInWishList
-      .filter(itemInWishList => (itemInWishList.sku_measurement ? true : false))
-      .map(itemInWishList => itemInWishList.sku_measurement);
-    const skuMeasurementIdsInWishList = skuMeasurementsInWishList.map(
-      item => item.id
+    const {
+      item,
+      measurementTypes,
+      wishList = [],
+      isSearchDone,
+      skuItemIdsCurrentlyModifying = [],
+      addSkuItemToList = () => null,
+      changeSkuItemQuantityInList = (skuMeasurementId, quantity) => null,
+      selectActiveSkuMeasurementId = (item, skuMeasurementId) => null,
+      style = {}
+    } = this.props;
+
+    const {
+      isCashbackDetailsModalVisible,
+      isPriceDetailsModalVisible,
+      isClearItems
+    } = this.state;
+    console.log("wishlist", wishList);
+    console.log("item", item);
+    const itemsInWishList = wishList.filter(
+      listItem => listItem.id == item.sku_id
     );
+    console.log("items in wish list", itemsInWishList);
+    // const skuMeasurementsInWishList = itemsInWishList
+    //   .filter(itemInWishList => (itemInWishList.sku_measurement ? true : false))
+    //   .map(itemInWishList => itemInWishList.sku_measurement);
+    // const skuMeasurementIdsInWishList = skuMeasurementsInWishList.map(
+    //   item => item.id
+    // );
 
     activeSkuMeasurementFromWishList = skuMeasurementsInWishList.find(
       skuMeasurementInWishList =>
@@ -124,19 +143,59 @@ export default class SkuItemOffer extends React.Component {
       : null;
 
     const addActiveSkuToList = () => {
+      Analytics.logEvent(Analytics.EVENTS.ADD_SKU_SHOPPING_LIST);
       const selectedItem = { ...item };
-      // selectedItem.sku_measurement = selectedItem.sku_measurements.find(
-      //   skuMeasurement => skuMeasurement.id == item.activeSkuMeasurementId
-      // );
+      console.log("1", selectedItem);
+      selectedItem.sku_measurement = selectedItem.sku_measurement;
+      console.log("2", selectedItem);
       selectedItem.quantity = 1;
       delete selectedItem.sku_measurements;
       delete selectedItem.activeSkuMeasurementId;
-      this.addItemToShoppingList(selectedItem);
+      addSkuItemToList(selectedItem);
     };
+    let mrp = "";
+    // let cashback = 0;
+    let measurementIdImage = null;
+    // if (item.sku_measurements) {
+    //   const skuMeasurement =
+    //     item.sku_measurements[item.sku_measurements.length - 1];
+    //   if (skuMeasurement) {
+    //     cashback = (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
+    //   }
+    // }
+    // if (cashback > 10) {
+    //   cashback = 10;
+    // }
+    let isLoading = false;
 
+    if (item.sku_measurements) {
+      measurementIdImage = item.sku_measurements[0].id;
+    }
+    if (item.sku_measurements && item.activeSkuMeasurementId) {
+      const skuMeasurement = item.sku_measurements.find(
+        skuMeasurement => skuMeasurement.id == item.activeSkuMeasurementId
+      );
+      measurementIdImage = skuMeasurement.id;
+      mrp = skuMeasurement.mrp;
+      if (mrp > 0) {
+        mrp = mrp.toFixed(2);
+      }
+      // if (skuMeasurement && skuMeasurement.cashback_percent) {
+      //   cashback = (skuMeasurement.mrp * skuMeasurement.cashback_percent) / 100;
+      // }
+      // if (cashback > 10) {
+      //   cashback = 10;
+      // }
+
+      if (skuItemIdsCurrentlyModifying.includes(item.activeSkuMeasurementId)) {
+        isLoading = true;
+        console.log("isLoading: ", isLoading);
+      } else {
+        isLoading = false;
+      }
+    }
     let price = 0;
     let cashback = 0;
-    let isLoading = false;
     price = parseFloat(
       parseFloat(item.mrp) *
         parseFloat(1 - parseFloat(item.offer_discount) / 100)
@@ -144,16 +203,7 @@ export default class SkuItemOffer extends React.Component {
     cashback = parseFloat(
       parseFloat(price) * parseFloat(item.cashback_percent / 100)
     ).toFixed(2);
-    if (cashback > 10) {
-      cashback = 10;
-    }
-    if (skuItemIdsCurrentlyModifying.includes(item.activeSkuMeasurementId)) {
-      isLoading = true;
-      console.log("isLoading: ", isLoading);
-    } else {
-      isLoading = false;
-    }
-    console.log("cashback is ", cashback);
+
     return (
       <View
         style={[
@@ -172,7 +222,7 @@ export default class SkuItemOffer extends React.Component {
             flexDirection: "row"
           }}
         >
-          <View style={{ marginLeft: 5 }}>
+          <View>
             <Image
               style={{
                 width: 80,
@@ -185,21 +235,24 @@ export default class SkuItemOffer extends React.Component {
               source={{
                 uri:
                   API_BASE_URL +
-                  `/skus/${item.sku_id}/measurements/${
-                    item.sku_measurement_id
-                  }/images`
+                  `/skus/${item.id}/measurements/${measurementIdImage}/images`
               }}
             />
           </View>
-          <View style={{ flex: 1, marginLeft: 10, paddingRight: 10 }}>
+          <View
+            style={{
+              flexDirection: "column"
+              // flex: 1
+            }}
+          >
             <Text
               weight="Medium"
               style={{
                 marginLeft: 5,
-                fontSize: 14,
+                fontSize: 12,
                 flex: 1,
-                marginRight: 10,
-                flexWrap: "wrap"
+                marginRight: 10
+                // flexWrap: "wrap"
               }}
             >
               {item.sku_title}
@@ -207,8 +260,8 @@ export default class SkuItemOffer extends React.Component {
             <Text
               style={{
                 marginLeft: 5,
-                fontSize: 12,
-                flex: 1
+                fontSize: 10
+                // flex: 1
               }}
             >
               ({item.measurement_value}
@@ -217,25 +270,27 @@ export default class SkuItemOffer extends React.Component {
             <Text
               style={{
                 marginLeft: 5,
-                fontSize: 16,
+                fontSize: 14,
                 flex: 1,
                 marginRight: 10,
                 marginTop: 5
               }}
             >
               Price: ₹ {price}{" "}
-              <Text style={{ color: colors.success }}>
+              <Text style={{ color: colors.mainBlue }}>
                 ({item.offer_discount}% off)
               </Text>
             </Text>
             <Text
               style={{
                 marginLeft: 5,
-                fontSize: 14,
+                fontSize: 11,
                 flex: 1,
                 marginRight: 10,
                 textDecorationLine: "line-through",
-                textDecorationColor: "#000"
+                textDecorationColor: "#000",
+                color: colors.secondaryText,
+                marginTop: 5
               }}
             >
               MRP: ₹ {item.mrp}
@@ -243,7 +298,7 @@ export default class SkuItemOffer extends React.Component {
             <Text
               weight="Light"
               style={{
-                //fontStyle: "italic",
+                fontStyle: "italic",
                 marginLeft: 5,
                 fontSize: 10,
                 flex: 1,
@@ -253,16 +308,28 @@ export default class SkuItemOffer extends React.Component {
             >
               *Offer valid till stocks last
             </Text>
-            {/* <Text
-              style={{
-                fontSize: 10,
-                color: colors.mainBlue,
-                marginTop: 5,
-                marginLeft: 6
-              }}
-            >
-              Cashback Up To ₹ {cashback}
-            </Text> */}
+            {cashback && cashback > 0 ? (
+              <TouchableOpacity
+                onPress={this.showCashbackDetailsModal}
+                style={{ flexDirection: "row", alignItems: "center" }}
+              >
+                <Text
+                  weight="Medium"
+                  style={{
+                    fontSize: 10,
+                    color: colors.mainBlue,
+                    marginRight: 3,
+                    marginLeft: 5,
+                    marginTop: 5
+                  }}
+                >
+                  Cashback Up To ₹ {cashback}
+                </Text>
+                <Icon name="md-information-circle" sixe={10} />
+              </TouchableOpacity>
+            ) : (
+              <View />
+            )}
             <TouchableOpacity onPress={() => this.moreOffers(item)}>
               <Text
                 style={{
@@ -270,6 +337,7 @@ export default class SkuItemOffer extends React.Component {
                   color: colors.pinkishOrange,
                   marginTop: 5,
                   marginLeft: 5,
+                  fontStyle: "italic",
                   textDecorationLine: "underline",
                   textDecorationColor: colors.pinkishOrange
                 }}
@@ -279,38 +347,15 @@ export default class SkuItemOffer extends React.Component {
             </TouchableOpacity>
             <View
               style={{
-                flexDirection: "column",
-                // backgroundColor: "green",
-                // justifyContent: "flex-start",
-                // alignItems: "center",
-                flex: 1,
-                marginTop: cashback || item.activeSkuMeasurementId ? 6 : 0
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: cashback || item.activeSkuMeasurementId ? 10 : 0
               }}
             >
               {item ? (
                 <View>
-                  {cashback ? (
-                    <TouchableOpacity
-                      onPress={this.showCashbackDetailsModal}
-                      style={{ flexDirection: "row", alignItems: "center" }}
-                    >
-                      <Text
-                        weight="Medium"
-                        style={{
-                          fontSize: 10,
-                          color: colors.mainBlue,
-                          // marginTop: 5,
-                          marginLeft: 6
-                        }}
-                      >
-                        Cashback Up To ₹ {cashback}
-                      </Text>
-                      <Icon name="md-information-circle" sixe={10} />
-                    </TouchableOpacity>
-                  ) : (
-                    <View />
-                  )}
-                  {quantity ? (
+                  {activeSkuMeasurementFromWishList && quantity ? (
                     <QuantityPlusMinus
                       quantity={quantity}
                       onMinusPress={() => {
@@ -330,11 +375,10 @@ export default class SkuItemOffer extends React.Component {
                     <TouchableOpacity
                       onPress={addActiveSkuToList}
                       style={{
-                        marginTop: 6,
                         height: 20,
                         backgroundColor: colors.pinkishOrange,
                         borderRadius: 10,
-                        maxWidth: 70,
+                        minWidth: 50,
                         alignItems: "center",
                         justifyContent: "center"
                       }}
@@ -342,7 +386,7 @@ export default class SkuItemOffer extends React.Component {
                       <Text style={{ color: "#fff", marginTop: -3 }}>Add</Text>
                     </TouchableOpacity>
                   )}
-                  {/* {isLoading && (
+                  {isLoading && (
                     <View
                       style={{
                         position: "absolute",
@@ -357,44 +401,115 @@ export default class SkuItemOffer extends React.Component {
                     >
                       <ActivityIndicator size="small" />
                     </View>
-                  )} */}
+                  )}
                 </View>
               ) : (
                 <View />
               )}
             </View>
-            {/* {showBtn ? (
-              <Button
-                textStyle={{ fontSize: 14 }}
-                style={{ height: 35, width: 75, marginTop: 10 }}
-                onPress={() => this.addItemToShoppingList(item)}
-                text="Add"
-                color="secondary"
+          </View>
+
+          {itemsInWishList.length > 0 ? (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                height: 15
+              }}
+            >
+              <View
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: 3,
+                  backgroundColor: "#33c600",
+                  marginTop: 2
+                }}
               />
-            ) : (
               <Text
+                weight="Medium"
                 style={{
                   fontSize: 10,
                   color: "#33c600",
-                  marginTop: 5,
-                  marginLeft: 6
+                  marginLeft: 3
                 }}
               >
-                Added to Your Shopping List
+                In list
               </Text>
-            )} */}
-            <Text
-              style={{
-                fontSize: 10,
-                color: "#444444",
-                bottom: 5,
-                right: 5,
-                position: "absolute"
-              }}
-            >
-              Delivery In: 45 Mins*
-            </Text>
-          </View>
+            </View>
+          ) : (
+            <View />
+          )}
+          {/* <ScrollView
+            horizontal={true}
+            style={{ marginVertical: 10 }}
+            showsHorizontalScrollIndicator={false}
+          >
+            {item.sku_measurements &&
+              item.sku_measurements.map(skuMeasurement => {
+                const isSkuInWishList = wishList.some(
+                  listItem =>
+                    listItem.sku_measurement &&
+                    listItem.sku_measurement.id == skuMeasurement.id
+                );
+                return (
+                  <TouchableOpacity
+                    onPress={() =>
+                      selectActiveSkuMeasurementId(item, skuMeasurement.id)
+                    }
+                    style={[
+                      {
+                        height: 20,
+                        backgroundColor: "#fff",
+                        borderColor: colors.pinkishOrange,
+                        borderWidth: 1,
+                        borderRadius: 10,
+                        paddingHorizontal: 7,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginRight: 5,
+                        flexDirection: "row"
+                      },
+                      skuMeasurement.id == item.activeSkuMeasurementId
+                        ? { backgroundColor: colors.pinkishOrange }
+                        : {}
+                    ]}
+                  >
+                    {isSkuInWishList ? (
+                      <View
+                        style={{
+                          width: 6,
+                          height: 6,
+                          borderRadius: 3,
+                          backgroundColor: colors.success,
+                          marginTop: 0,
+                          marginRight: 2
+                        }}
+                      />
+                    ) : null}
+                    <Text
+                      weight="Medium"
+                      style={[
+                        { color: colors.secondaryText, fontSize: 12 },
+                        skuMeasurement.id == item.activeSkuMeasurementId
+                          ? { color: "#fff" }
+                          : {}
+                      ]}
+                    >
+                      {skuMeasurement.pack_numbers === 0
+                        ? skuMeasurement.measurement_value +
+                          measurementTypes[skuMeasurement.measurement_type]
+                            .acronym
+                        : skuMeasurement.measurement_value +
+                          measurementTypes[skuMeasurement.measurement_type]
+                            .acronym +
+                          " x " +
+                          skuMeasurement.pack_numbers}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+          </ScrollView> */}
         </View>
         <Modal
           isVisible={isClearItems}

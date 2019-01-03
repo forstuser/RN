@@ -65,18 +65,23 @@ export default class SkuItem extends React.Component {
     } = this.state;
 
     const itemsInWishList = wishList.filter(listItem => listItem.id == item.id);
+    console.log("itemsinWishlist", itemsInWishList);
     const skuMeasurementsInWishList = itemsInWishList
       .filter(itemInWishList => (itemInWishList.sku_measurement ? true : false))
       .map(itemInWishList => itemInWishList.sku_measurement);
+    console.log("skuMeasurementsInWishList", skuMeasurementsInWishList);
     const skuMeasurementIdsInWishList = skuMeasurementsInWishList.map(
       item => item.id
     );
-
+    console.log("skuMeasurementIdsInWishList", skuMeasurementIdsInWishList);
     activeSkuMeasurementFromWishList = skuMeasurementsInWishList.find(
       skuMeasurementInWishList =>
         skuMeasurementInWishList.id == item.activeSkuMeasurementId
     );
-
+    console.log(
+      "activeSkuMeasurementFromWishList",
+      activeSkuMeasurementFromWishList
+    );
     const activeItemInWishList = itemsInWishList.find(
       itemInWishList =>
         itemInWishList.sku_measurement.id == item.activeSkuMeasurementId
@@ -144,14 +149,6 @@ export default class SkuItem extends React.Component {
         isLoading = false;
       }
     }
-
-    //console.log("measurementIdImage__________", measurementIdImage);
-    // console.log(
-    //   "Image URLs_____________:",
-    //   API_BASE_URL +
-    //     `/skus/${item.id}/measurements/${measurementIdImage}/images
-    // `
-    // );
     return (
       <View
         style={[
@@ -171,29 +168,14 @@ export default class SkuItem extends React.Component {
             flexDirection: "row"
           }}
         >
-          <View
-            style={
-              {
-                // width: 80,
-                // height: 80,
-                // backgroundColor: "grey",
-                // alignSelf: "flex-start",
-                // justifyContent: "flex-start",
-                // alignContent: "flex-start"
-              }
-            }
-          >
+          <View>
             <Image
               style={{
-                // padding: 5,
-                // backgroundColor: "grey",
                 width: 80,
                 height: 80,
                 justifyContent: "flex-start",
                 alignSelf: "flex-start",
                 alignContent: "flex-start"
-                // borderWidth: 1,
-                // borderColor: "#e0e0e0"
               }}
               resizeMode="contain"
               source={{
@@ -201,7 +183,6 @@ export default class SkuItem extends React.Component {
                   API_BASE_URL +
                   `/skus/${item.id}/measurements/${measurementIdImage}/images`
               }}
-              //source={require("../../images/binbill_logo.png")}
             />
           </View>
           <Text
@@ -211,7 +192,6 @@ export default class SkuItem extends React.Component {
               fontSize: 12,
               flex: 1,
               marginRight: 10
-              //marginTop: 10
             }}
           >
             {item.title}
@@ -256,9 +236,6 @@ export default class SkuItem extends React.Component {
               alignSelf: "flex-start",
               borderRadius: 3,
               marginTop: 10
-              // position: "absolute",
-              // top: 70,
-              // left: 95
             }}
           >
             <Text
