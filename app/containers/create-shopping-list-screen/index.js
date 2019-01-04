@@ -344,6 +344,7 @@ class ShoppingListScreen extends React.Component {
               });
             }
           );
+          console.log("response in categories", this.state.categories);
           console.log("response in main categories", filteredMainCategories);
           if (this.state.pastItems && this.state.pastItems.length > 0) {
             this.setState(
@@ -452,7 +453,7 @@ class ShoppingListScreen extends React.Component {
   updateStateCategoryId = categoryId => {
     let selectedCategoryIds = [...this.state.selectedCategoryIds];
     if (selectedCategoryIds.includes(categoryId)) {
-      selectedCategoryIds = [];
+      selectedCategoryIds = [categoryId];
     } else {
       selectedCategoryIds = [categoryId];
     }
@@ -628,7 +629,6 @@ class ShoppingListScreen extends React.Component {
 
   clearSearchTerm = () => {
     this.updateSearchTerm("");
-    // this.loadReferenceData();
   };
 
   loadItemsFirstPage = () => {
@@ -640,8 +640,6 @@ class ShoppingListScreen extends React.Component {
   loadItems = async (offset = 0) => {
     const { items } = this.state;
     this.setState({
-      // isSearching: true,
-      // isSearchDone: false,
       searchError: null
     });
     const {
@@ -651,7 +649,6 @@ class ShoppingListScreen extends React.Component {
       selectedBrands,
       selectedSeller
     } = this.state;
-    console.log("pap", selectedBrands);
     try {
       const data = {
         mainCategoryId: activeMainCategoryId ? activeMainCategoryId : undefined,
@@ -662,7 +659,6 @@ class ShoppingListScreen extends React.Component {
         offset: items.length
       };
       const res = await getSkuItems(data);
-      //console.log("Sellers list in shop and earn: ", res.seller_list);
       if (res.result.sku_items.length === 0) {
         this.setState({ endhasReachedFlag: true });
       }
@@ -772,10 +768,6 @@ class ShoppingListScreen extends React.Component {
               }}
               onValueChange={(itemValue, itemIndex) => {
                 this.setState({ selectedSeller: itemValue });
-                console.log(
-                  "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-                  this.state
-                );
                 this.setSelectedSellers([itemValue]);
               }}
             >

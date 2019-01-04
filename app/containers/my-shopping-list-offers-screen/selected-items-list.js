@@ -32,13 +32,15 @@ export default class SelectedItemsList extends React.Component {
       skuItemIdsCurrentlyModifying,
       deliveryChargeRules
     } = this.props;
-
-    console.log("Items in My Shopping List_______________:", selectedItems);
     let totalAmount = 0;
+    let price = 0;
     selectedItems.map(item => {
-      console.log("item", item);
-      totalAmount +=
-        parseFloat(item.sku_measurement.mrp) * parseFloat(item.quantity);
+      price = parseFloat(
+        parseFloat(item.sku_measurement.mrp) *
+          parseFloat(1 - parseFloat(item.offer_discount) / 100)
+      ).toFixed(2);
+
+      totalAmount += parseFloat(price) * parseFloat(item.quantity);
     });
     let deliveryCharges = {},
       chargesDelivery = 0;

@@ -72,7 +72,6 @@ export default class OffersTab extends React.Component {
 
   renderDiscountOffers = ({ item, index }) => {
     //const { selectedCategory } = this.state;
-    console.log("index", index);
     const { wishList, getWishList, selectedCategory, navigation } = this.props;
     return (
       <SkuItemOffer

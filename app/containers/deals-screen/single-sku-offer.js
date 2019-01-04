@@ -276,7 +276,8 @@ export default class SkuItemOffer extends React.Component {
                     textDecorationColor: colors.pinkishOrange
                   }}
                 >
-                  {item.other_sellers_offer_count} More Offers
+                  {item.other_sellers_offer_count} More Offers from Other
+                  Sellers
                 </Text>
               </TouchableOpacity>
             ) : (

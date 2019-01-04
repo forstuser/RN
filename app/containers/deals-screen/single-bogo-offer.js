@@ -141,12 +141,25 @@ export default class BogoOffer extends React.Component {
             />
           </View>
           <View style={{ flex: 1, marginLeft: 10, paddingRight: 10 }}>
+            <Text
+              weight="Medium"
+              style={{
+                marginLeft: 5,
+                fontSize: 14,
+                flex: 1,
+                marginRight: 10,
+                flexWrap: "wrap"
+              }}
+            >
+              {item.sku_title}
+            </Text>
             {item.title ? (
               <Text
                 weight="Medium"
                 style={{
                   marginLeft: 5,
                   fontSize: 14,
+                  color: colors.pinkishOrange,
                   flex: 1,
                   marginRight: 10,
                   flexWrap: "wrap"
@@ -159,6 +172,7 @@ export default class BogoOffer extends React.Component {
                 weight="Medium"
                 style={{
                   marginLeft: 5,
+                  color: colors.pinkishOrange,
                   fontSize: 14,
                   flex: 1,
                   marginRight: 10,
@@ -190,8 +204,18 @@ export default class BogoOffer extends React.Component {
             >
               MRP: ₹ {item.mrp}
             </Text>
-            <Text style={{ fontSize: 12, marginLeft: 5, marginTop: 5 }}>
-              Expires on: {moment(item.end_date).format("DD MMM, YYYY")}
+            <Text
+              weight="Light"
+              style={{
+                fontStyle: "italic",
+                marginLeft: 5,
+                fontSize: 10,
+                flex: 1,
+                marginRight: 10,
+                marginTop: 5
+              }}
+            >
+              *Offer valid till stocks last
             </Text>
             {/* <TouchableOpacity onPress={() => this.onViewDetails(item)}>
               <Text

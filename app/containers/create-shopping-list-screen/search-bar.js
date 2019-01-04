@@ -289,7 +289,7 @@ export default class SearchBar extends React.Component {
         filteredCategories = activeMainCategory.categories;
       } else {
         // console.log("sellerMainCategories in search bar", sellerMainCategories);
-        // console.log("activeMainCategory in search bar", activeMainCategory);
+        console.log("activeMainCategory in search bar", activeMainCategory);
         const activeMainCategoryFromSellersMainCategories =
           sellerMainCategories.find(
             mainCategory => mainCategory.id == activeMainCategory.id
