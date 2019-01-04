@@ -102,7 +102,6 @@ export default class SingleNewProduct extends React.Component {
   render() {
     const { item, wishList } = this.props;
     const { showBtn, isClearItems } = this.state;
-    console.log("Wishlist_____", wishList);
 
     return (
       <View

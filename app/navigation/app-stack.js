@@ -99,6 +99,7 @@ import LoaderScreen from "../containers/create-shopping-list-screen/loader";
 import PendingPaymentStatusScreen from "../containers/order-screen/pending-status-screen";
 import ShoppingListOffersScreen from "../containers/my-shopping-list-offers-screen";
 import ShareLocationOnBoardingScreen from "../containers/user-on-boarding-screen/share-location-screen";
+import MoreOffers from "../containers/deals-screen/more-offers";
 
 const BottomTabStack = createBottomTabNavigator(
   {
@@ -164,7 +165,7 @@ const BottomTabStack = createBottomTabNavigator(
     // },
   },
   {
-    initialRouteName: SCREENS.CREATE_SHOPPING_LIST_SCREEN,
+    initialRouteName: SCREENS.DEALS_SCREEN,
     tabBarComponent: CustomTabBar,
     tabBarPosition: "bottom",
     backBehavior: "none",
@@ -273,7 +274,8 @@ const StackNavigator = createStackNavigator(
     [SCREENS.CASHBACK_BILL_GUIDELINES_SCREEN]: CashbackBillGuidelines,
     [SCREENS.SHOP_AND_EARN_SHOPPING_LIST]: ShopAndEarnShoppingList,
     [SCREENS.CASHFREE_PAYMENT_STATUS_SCREEN]: CashFreePaymentStatusScreen,
-    [SCREENS.SHARE_LOCATION_ONBOARDING_SCREEN]: ShareLocationOnBoardingScreen
+    [SCREENS.SHARE_LOCATION_ONBOARDING_SCREEN]: ShareLocationOnBoardingScreen,
+    [SCREENS.MORE_OFFERS_SCREEN]: MoreOffers
   },
   {
     initialRouteName: "DrawerNavigator"

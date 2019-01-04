@@ -2347,18 +2347,22 @@ export const getSellerOffers = async () => {
   });
 };
 
-export const getOffers = async (
+export const getOffers = async ({
   sellerId,
   offerType,
   checkedBrandIds,
-  checkedCategoryIds
-) => {
+  checkedCategoryIds,
+  skuId,
+  skuMeasurementId
+}) => {
   return await apiRequest({
     method: "get",
     url: `/sellers/${sellerId}/offer/${offerType}/list`,
     queryParams: {
-      sub_category_ids: checkedCategoryIds.toString(),
-      brand_ids: checkedBrandIds.toString()
+      sub_category_ids: checkedCategoryIds,
+      brand_ids: checkedBrandIds,
+      sku_id: skuId,
+      sku_measurement_id: skuMeasurementId
     }
   });
 };

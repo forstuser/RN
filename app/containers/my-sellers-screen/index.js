@@ -94,7 +94,6 @@ class MySellersScreen extends React.Component {
       "sellerId",
       null
     );
-    console.log("idddddddddddddddd", sellerIdFromNotification);
     this.props.navigation.setParams({
       sellerId: null
     });

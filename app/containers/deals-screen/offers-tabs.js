@@ -57,7 +57,7 @@ export default class OffersTab extends React.Component {
 
   renderNewProducts = ({ item, index }) => {
     //const { selectedCategory } = this.state;
-    const { wishList, getWishList, selectedCategory } = this.props;
+    const { wishList, getWishList, selectedCategory, navigation } = this.props;
     return (
       <SingleNewProduct
         key={index}
@@ -65,6 +65,7 @@ export default class OffersTab extends React.Component {
         wishList={wishList}
         selectedCategory={selectedCategory}
         getWishList={getWishList}
+        navigation={navigation}
       />
     );
   };
@@ -72,7 +73,7 @@ export default class OffersTab extends React.Component {
   renderDiscountOffers = ({ item, index }) => {
     //const { selectedCategory } = this.state;
     console.log("index", index);
-    const { wishList, getWishList, selectedCategory } = this.props;
+    const { wishList, getWishList, selectedCategory, navigation } = this.props;
     return (
       <SkuItemOffer
         key={index}
@@ -80,13 +81,14 @@ export default class OffersTab extends React.Component {
         wishList={wishList}
         selectedCategory={selectedCategory}
         getWishList={getWishList}
+        navigation={navigation}
       />
     );
   };
 
   renderBogoOffers = ({ item, index }) => {
     //const { selectedCategory } = this.state;
-    const { wishList, getWishList, selectedCategory } = this.props;
+    const { wishList, getWishList, selectedCategory, navigation } = this.props;
     return (
       <SingleBogoOffer
         key={index}
@@ -94,13 +96,14 @@ export default class OffersTab extends React.Component {
         wishList={wishList}
         selectedCategory={selectedCategory}
         getWishList={getWishList}
+        navigation={navigation}
       />
     );
   };
 
   renderExtraQuantityOffers = ({ item, index }) => {
     //const { selectedCategory } = this.state;
-    const { wishList, getWishList, selectedCategory } = this.props;
+    const { wishList, getWishList, selectedCategory, navigation } = this.props;
     return (
       <SingleExtraQuantityOffer
         key={index}
@@ -108,6 +111,7 @@ export default class OffersTab extends React.Component {
         wishList={wishList}
         selectedCategory={selectedCategory}
         getWishList={getWishList}
+        navigation={navigation}
       />
     );
   };

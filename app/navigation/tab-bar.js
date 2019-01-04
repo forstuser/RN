@@ -87,7 +87,6 @@ export default class CustomTabBar extends React.Component {
     );
   };
   render() {
-    console.log("tabbar props: ", this.props);
     const { navigation } = this.props;
     const tabBarButtons = navigation.state.routes.map(this.renderTabBarButton);
     return (

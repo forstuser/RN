@@ -21,6 +21,7 @@ import {
   clearWishList,
   addSkuFromOffersToWishlist
 } from "../../api";
+import { SCREENS } from "../../constants";
 
 export default class SkuItemOffer extends React.Component {
   state = {
@@ -29,7 +30,7 @@ export default class SkuItemOffer extends React.Component {
   };
 
   componentWillMount() {
-    const { wishList, item } = this.props;
+    const { wishList, item, moreOffer } = this.props;
     if (
       wishList.filter(
         wishlist =>
@@ -41,22 +42,17 @@ export default class SkuItemOffer extends React.Component {
   }
 
   addItem = async item => {
-    //console.log("SKU ID", item.sku_id);
-    //console.log("SELLER ID", item.seller_id);
-    //console.log("SKU MEASUREMENT ID", item.sku_measurement_id);
     try {
       const res = await addSkuFromOffersToWishlist(
         item.sku_id,
         item.seller_id,
         item.sku_measurement_id
       );
-      //console.log("Response of add SKU from offers to wishlist", res);
     } catch (error) {
       console.log(error);
     } finally {
       this.props.getWishList();
       this.setState({ showBtn: false });
-      //console.log("Item added");
     }
   };
 
@@ -99,16 +95,38 @@ export default class SkuItemOffer extends React.Component {
   onViewDetails = item => {
     alert("View Details");
   };
+  moreOffers = item => {
+    const {
+      wishList,
+      getWishList,
+      selectedSeller,
+      navigation,
+      selectedCategory
+    } = this.props;
+    this.props.navigation.navigate(SCREENS.MORE_OFFERS_SCREEN, {
+      item: item,
+      wishList: wishList,
+      getWishList: getWishList,
+      selectedSeller: selectedSeller,
+      navigation: navigation,
+      selectedCategory: selectedCategory
+    });
+  };
   render() {
     const { item, wishList } = this.props;
     const { showBtn, isClearItems } = this.state;
-    console.log("Wishlist_____", wishList);
     let price = 0;
     price = parseFloat(
       parseFloat(item.mrp) *
         parseFloat(1 - parseFloat(item.offer_discount) / 100)
     ).toFixed(2);
-
+    let cashback = 0;
+    cashback = parseFloat(
+      parseFloat(price) * parseFloat(item.cashback_percent / 100)
+    ).toFixed(2);
+    if (cashback > 10) {
+      cashback = 10;
+    }
     return (
       <View
         style={[
@@ -147,6 +165,21 @@ export default class SkuItemOffer extends React.Component {
             />
           </View>
           <View style={{ flex: 1, marginLeft: 10, paddingRight: 10 }}>
+            {this.props.moreOffer ? (
+              <Text
+                weight="Medium"
+                style={{
+                  marginLeft: 5,
+                  fontSize: 11,
+                  flex: 1,
+                  color: colors.pinkishOrange,
+                  marginRight: 10,
+                  flexWrap: "wrap"
+                }}
+              >
+                {item.seller_name}
+              </Text>
+            ) : null}
             <Text
               weight="Medium"
               style={{
@@ -179,7 +212,7 @@ export default class SkuItemOffer extends React.Component {
               }}
             >
               Price: ₹ {price}{" "}
-              <Text style={{ color: colors.success }}>
+              <Text style={{ color: colors.mainBlue }}>
                 ({item.offer_discount}% off)
               </Text>
             </Text>
@@ -198,7 +231,7 @@ export default class SkuItemOffer extends React.Component {
             <Text
               weight="Light"
               style={{
-                //fontStyle: "italic",
+                fontStyle: "italic",
                 marginLeft: 5,
                 fontSize: 10,
                 flex: 1,
@@ -208,23 +241,47 @@ export default class SkuItemOffer extends React.Component {
             >
               *Offer valid till stocks last
             </Text>
-            <Text style={{ fontSize: 12, marginLeft: 5, marginTop: 5 }}>
-              Expires on: {moment(item.end_date).format("DD MMM, YYYY")}
-            </Text>
-            {/* <TouchableOpacity onPress={() => this.onViewDetails(item)}>
-              <Text
-                style={{
-                  fontSize: 13,
-                  color: colors.pinkishOrange,
-                  marginTop: 7,
-                  marginLeft: 5,
-                  textDecorationLine: "underline",
-                  textDecorationColor: colors.pinkishOrange
-                }}
+            {cashback && cashback > 0 ? (
+              <TouchableOpacity
+                onPress={this.showCashbackDetailsModal}
+                style={{ flexDirection: "row", alignItems: "center" }}
               >
-                View Details
-              </Text>
-            </TouchableOpacity> */}
+                <Text
+                  weight="Medium"
+                  style={{
+                    fontSize: 10,
+                    color: colors.mainBlue,
+                    marginRight: 3,
+                    marginLeft: 5,
+                    marginTop: 5
+                  }}
+                >
+                  Cashback Up To ₹ {cashback}
+                </Text>
+                <Icon name="md-information-circle" sixe={10} />
+              </TouchableOpacity>
+            ) : (
+              <View />
+            )}
+            {!this.props.moreOffer && item.other_sellers_offer_count > 0 ? (
+              <TouchableOpacity onPress={() => this.moreOffers(item)}>
+                <Text
+                  style={{
+                    fontSize: 10,
+                    color: colors.pinkishOrange,
+                    marginTop: 5,
+                    marginLeft: 5,
+                    fontStyle: "italic",
+                    textDecorationLine: "underline",
+                    textDecorationColor: colors.pinkishOrange
+                  }}
+                >
+                  {item.other_sellers_offer_count} More Offers
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity />
+            )}
             {showBtn ? (
               <Button
                 textStyle={{ fontSize: 14 }}

@@ -338,12 +338,12 @@ class DealsScreen extends Component {
       checkedCategory => checkedCategory.id
     );
     try {
-      const res = await getOffers(
-        selectedCategory.id,
-        0,
-        checkedBrandIds,
-        checkedCategoryIds
-      );
+      const res = await getOffers({
+        sellerId: selectedCategory.id,
+        offerType: 0,
+        checkedBrandIds: checkedBrandIds,
+        checkedCategoryIds: checkedCategoryIds
+      });
       this.setState({ newProducts: res.result });
       //console.log("RESULT IN OFFER FETCH API: ", res);
     } catch (error) {
@@ -360,12 +360,12 @@ class DealsScreen extends Component {
       checkedCategory => checkedCategory.id
     );
     try {
-      const res = await getOffers(
-        selectedCategory.id,
-        1,
-        checkedBrandIds,
-        checkedCategoryIds
-      );
+      const res = await getOffers({
+        sellerId: selectedCategory.id,
+        offerType: 1,
+        checkedBrandIds: checkedBrandIds,
+        checkedCategoryIds: checkedCategoryIds
+      });
       this.setState({ discountOffers: res.result });
       //console.log("RESULT IN OFFER FETCH API: ", res);
     } catch (error) {
@@ -382,12 +382,12 @@ class DealsScreen extends Component {
       checkedCategory => checkedCategory.id
     );
     try {
-      const res = await getOffers(
-        selectedCategory.id,
-        2,
-        checkedBrandIds,
-        checkedCategoryIds
-      );
+      const res = await getOffers({
+        sellerId: selectedCategory.id,
+        offerType: 2,
+        checkedBrandIds: checkedBrandIds,
+        checkedCategoryIds: checkedCategoryIds
+      });
       this.setState({ bogo: res.result });
       //console.log("RESULT IN OFFER FETCH API: ", res);
     } catch (error) {
@@ -404,12 +404,12 @@ class DealsScreen extends Component {
       checkedCategory => checkedCategory.id
     );
     try {
-      const res = await getOffers(
-        selectedCategory.id,
-        3,
-        checkedBrandIds,
-        checkedCategoryIds
-      );
+      const res = await getOffers({
+        sellerId: selectedCategory.id,
+        offerType: 3,
+        checkedBrandIds: checkedBrandIds,
+        checkedCategoryIds: checkedCategoryIds
+      });
       this.setState({ extraQuantity: res.result });
       //console.log("RESULT IN OFFER FETCH API: ", res);
     } catch (error) {
@@ -426,12 +426,12 @@ class DealsScreen extends Component {
       checkedCategory => checkedCategory.id
     );
     try {
-      const res = await getOffers(
-        selectedCategory.id,
-        4,
-        checkedBrandIds,
-        checkedCategoryIds
-      );
+      const res = await getOffers({
+        sellerId: selectedCategory.id,
+        offerType: 4,
+        checkedBrandIds: checkedBrandIds,
+        checkedCategoryIds: checkedCategoryIds
+      });
       this.setState({ generalOffers: res.result });
       //console.log("RESULT IN OFFER FETCH API: ", res);
     } catch (error) {
